@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resume Agent · 이력서 관리 시안 (JAMS 2.0 정렬)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  /* ══ JAMS 2.0 실측 토큰 · get_variable_defs(Pcgnb 3833:101194) ══ */
+  --color-brand-500:#1b55f6;
+  --color-text-primary:#1a1a1e;
+  --color-text-secondary:#3e434b;
+  --color-icon-primary:#292c32;
+  --color-icon-tertiary:#afb5be;
+  --color-icon-brand:#083ccc;
+  --color-border-tertiary:#e6e8ea;
+  --color-bg-interactive-secondary:#e6e8ea;
+  --typography-gray400:#afb5be;
+  --bg-base:#fff;
+  --radius-sm:10px;
+  --unit-2:2px;  --unit-4:4px;  --unit-6:6px;  --unit-8:8px;
+  --unit-10:10px;--unit-12:12px;--unit-16:16px;--unit-18:18px;
+  --unit-20:20px;--unit-32:32px;--unit-999:999px;
+
+  /* 화면 배경 · JAMS semantic 미대응 (18:10 실측값 유지) */
+  --page-bg:#f2f4f7;
+  /* 브랜드 연배경 · Primitive Color/Blue/50 확인 필요 */
+  --brand-tint:#f0f5ff;
+
+  /* ══ AI 전용 · 대응 토큰 없음 · 확장 후보 ══ */
+  --ai-cyan:#00a9c0; --ai-tint:#f6f8ff; --ai-border:#dce3fb; --ai-dark:#2a2f5c;
+  --ai-grad:linear-gradient(90deg,#e9e7ff,#dff6f8 48%,#e8f7f4);
+}
+*{box-sizing:border-box}
+html{background:var(--page-bg)}
+body{margin:0;background:var(--page-bg);color:var(--color-text-primary);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",system-ui,sans-serif;
+  font-size:15px;line-height:22px;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p{margin:0}
+img{display:block}
+:focus-visible{outline:3px solid rgba(27,85,246,.28);outline-offset:2px}
+
+/* ══ JAMS 2.0 타이포 스케일 ══ */
+.ty-h2 {font-size:28px;font-weight:700;line-height:36px}
+.ty-h4 {font-size:20px;font-weight:700;line-height:28px}
+.ty-h5 {font-size:18px;font-weight:700;line-height:26px}
+.ty-b2 {font-size:16px;font-weight:400;line-height:24px}
+.ty-b2b{font-size:16px;font-weight:700;line-height:24px}
+.ty-b3 {font-size:15px;font-weight:400;line-height:22px}
+.ty-b4m{font-size:14px;font-weight:500;line-height:20px}
+.ty-b4s{font-size:14px;font-weight:600;line-height:20px}
+.ty-b4b{font-size:14px;font-weight:700;line-height:20px}
+.ty-c1 {font-size:13px;font-weight:500;line-height:18px}
+.ty-c2 {font-size:12px;font-weight:700;line-height:18px}
+
+/* ══ 상단 컨트롤 ══ */
+.bar{position:sticky;top:0;z-index:200;background:#14161c;color:#fff;
+  padding:var(--unit-10) var(--unit-20);display:flex;align-items:center;gap:var(--unit-12);flex-wrap:wrap}
+.bar__label{font-size:11.5px;font-weight:700;color:#8f96a6;letter-spacing:.04em}
+.tabs{display:flex;gap:4px;background:#22252e;border-radius:var(--radius-sm);padding:4px}
+.tabs button{padding:var(--unit-6) var(--unit-16);border-radius:var(--unit-8);
+  font-size:13px;font-weight:600;color:#a8aebd;transition:background .16s,color .16s;white-space:nowrap}
+.tabs button.is-on{background:#fff;color:#14161c}
+.bar__desc{font-size:13px;color:#a8aebd;flex:1;min-width:200px}
+.bar__sep{width:1px;height:22px;background:#3a3f4c}
+
+/* ══════════ JAMS 2.0 · PC GNB ══════════ */
+.gnb{background:var(--bg-base);display:flex;flex-direction:column;align-items:center}
+.gnb__inner{width:1280px}
+.gnb__top{height:81px;padding-top:var(--unit-6);display:flex;gap:var(--unit-20);align-items:flex-start}
+.gnb__left{flex:1 0 0;height:70px;min-width:0;display:flex;align-items:center;gap:var(--unit-20)}
+.gnb__logo,.gnb__logo img{width:133px;height:22px;flex:none}
+.search{width:440px;height:44px;flex:none;background:var(--bg-base);
+  border:1.5px solid var(--color-bg-interactive-secondary);border-radius:var(--unit-999);
+  display:flex;align-items:center}
+.search__in{flex:1 0 0;min-width:0;height:100%;display:flex;align-items:center;gap:var(--unit-8);
+  padding-left:var(--unit-20);padding-right:var(--unit-12)}
+.search__loc{display:flex;align-items:center;gap:var(--unit-4);flex:none}
+.search__area{display:flex;align-items:center;gap:var(--unit-2)}
+.search__area img{width:14px;height:14px}
+.search__caret{width:18px;height:18px}
+.search__ph{flex:1 0 0;min-width:0;color:var(--typography-gray400)}
+.search__btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex:none}
+.search__btn img{width:22px;height:22px}
+.gnb__util{height:70px;display:flex;align-items:center;gap:var(--unit-18);flex:none}
+.gnb__utilgrp{display:flex;align-items:center;gap:var(--unit-12)}
+.icobtn{width:36px;padding:var(--unit-6);display:flex;align-items:center;justify-content:center;flex:none}
+.icobtn img{width:24px;height:24px}
+.gnb__me{display:flex;align-items:center;gap:var(--unit-4)}
+.gnb__me-in{display:flex;align-items:center;gap:var(--unit-2)}
+.gnb__name{max-width:125px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gnb__caret{width:14px;height:14px}
+.gnb__menus{padding:var(--unit-16) 0}
+.gnb__menulist{display:flex;align-items:center;gap:var(--unit-32);padding:0 var(--unit-4)}
+.gnb__menu{white-space:nowrap}
+.gnb__sep{height:1px;width:100%;background:var(--color-border-tertiary)}
+
+/* ══════════ 이력서 관리 · JAMS 2.0 스케일 재정렬 ══════════ */
+.page{width:1280px;margin:0 auto;padding:var(--unit-32) 0 60px;
+  display:flex;gap:var(--unit-20);align-items:flex-start}
+
+.lnb{width:190px;flex:none;background:var(--bg-base);
+  border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);overflow:hidden}
+.lnb__home{padding:var(--unit-20)}
+.lnb__g{padding:var(--unit-20);border-top:1px solid var(--color-border-tertiary)}
+.lnb__t{margin-bottom:var(--unit-12)}
+.lnb__i{color:var(--color-text-secondary);padding:var(--unit-4) 0}
+.lnb__i.is-on{color:var(--color-brand-500);font-weight:700}
+
+.panel{flex:1 0 0;min-width:0;background:var(--bg-base);
+  border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
+  padding:var(--unit-32);animation:fade .2s ease}
+@keyframes fade{from{opacity:.55}}
+
+/* 타이틀 */
+.head{display:flex;align-items:center;gap:var(--unit-12);margin-bottom:var(--unit-20);position:relative}
+.head__div{width:1px;height:24px;background:var(--color-border-tertiary)}
+.head__sub{color:var(--typography-gray400)}
+.head__btns{margin-left:auto;display:flex;gap:var(--unit-8)}
+.tooltip{position:absolute;right:0;top:-46px;height:32px;padding:0 var(--unit-12);
+  background:var(--color-text-primary);border-radius:var(--radius-sm);color:#fff;
+  font-size:12px;font-weight:500;line-height:32px}
+.tooltip__tail{position:absolute;right:20px;top:32px;width:14px;height:9px}
+.hbtn{height:40px;padding:0 var(--unit-16);border:1px solid var(--color-bg-interactive-secondary);
+  border-radius:var(--radius-sm);color:var(--color-text-secondary);
+  transition:background .15s,border-color .15s;white-space:nowrap}
+.hbtn--accent{border-color:var(--color-brand-500);color:var(--color-brand-500)}
+.hbtn:hover{background:#f7f8fa}
+
+/* 인포 스트립 · BannerAlert */
+.strip{background:var(--brand-tint);border:1px solid #e0eaff;border-radius:var(--radius-sm);
+  padding:var(--unit-16) var(--unit-20);display:flex;align-items:center;gap:var(--unit-12)}
+.strip img.strip__ico{width:16px;height:16px;flex:none}
+.strip__tx{flex:1;min-width:0}
+.strip__link{display:flex;align-items:center;gap:var(--unit-2);flex:none}
+.strip__link b{text-decoration:underline;text-underline-position:from-font}
+.strip__link img{width:20px;height:20px}
+.strip__more{display:flex;align-items:center;gap:var(--unit-2);flex:none;color:var(--color-text-secondary)}
+.strip__more img{width:20px;height:20px;transform:rotate(180deg)}
+
+/* 배너 */
+.banner-img{margin-top:var(--unit-16);height:100px;overflow:hidden;
+  border-radius:var(--radius-sm);cursor:pointer}
+.banner-img img{width:100%;height:100px;object-fit:cover}
+
+/* 리스트 */
+.listhead{margin-top:var(--unit-32);padding:var(--unit-12) var(--unit-16);
+  background:var(--page-bg);border-top:1px solid #9aa2b2;
+  border-radius:var(--unit-4) var(--unit-4) 0 0;
+  display:flex;color:var(--color-text-secondary)}
+.listhead span:first-child{flex:1;text-align:center}
+.listhead span:last-child{width:190px;text-align:center}
+
+.line{height:1px;background:var(--color-border-tertiary)}
+.item{display:flex;align-items:center;gap:var(--unit-20);padding:var(--unit-20) var(--unit-16)}
+.item__b{flex:1;min-width:0}
+.item__propose{color:var(--color-text-secondary);margin-bottom:var(--unit-8)}
+.item__propose b{font-weight:700;color:var(--color-text-primary)}
+.item__t{display:flex;align-items:center;gap:var(--unit-8);flex-wrap:wrap;min-height:24px}
+.item__name--link{color:var(--color-brand-500)}
+.item__date{margin-top:var(--unit-8);color:var(--typography-gray400)}
+.item__a{display:flex;gap:var(--unit-8);align-items:center;flex:none}
+
+/* 행 액션 · JAMS button */
+.rbtn{height:40px;padding:0 var(--unit-16);border:1px solid var(--color-bg-interactive-secondary);
+  border-radius:var(--radius-sm);background:var(--bg-base);color:var(--color-text-primary);
+  white-space:nowrap;transition:background .15s,border-color .15s}
+.rbtn:hover{background:#f7f8fa}
+.rbtn--ai{background:var(--ai-tint);border-color:var(--ai-border);color:var(--ai-dark)}
+.rbtn--ai:hover{background:#eef2ff}
+.rbtn--dots{width:44px;padding:0;display:flex;align-items:center;justify-content:center}
+.rbtn--dots img{width:13px;height:3px}
+
+/* 배지 · Tag */
+.badge{height:24px;padding:0 var(--unit-8);border-radius:var(--unit-4);
+  border:1px solid #a6c2ff;background:var(--brand-tint);color:var(--color-brand-500);
+  white-space:nowrap;flex:none;display:inline-flex;align-items:center}
+.badge--warn{border-color:#ffc98a;background:#fff6ec;color:#c2570a}
+.badge--ai{border-color:var(--ai-border);background:var(--ai-tint);color:var(--ai-dark);gap:var(--unit-4)}
+.badge__dot{width:5px;height:5px;border-radius:50%;background:var(--ai-cyan)}
+
+/* 강조상품 */
+.promo{margin-top:var(--unit-12);background:#f6f7fb;border-radius:var(--radius-sm);
+  padding:var(--unit-12) var(--unit-20);display:flex;align-items:center;gap:var(--unit-12)}
+.promo img{width:20px;height:20px;flex:none}
+.promo__tx{flex:1;min-width:0}
+
+/* TIP */
+.tip{margin-top:var(--unit-20);background:#f9f9f9;border-radius:var(--radius-sm);
+  padding:var(--unit-20);color:var(--typography-gray400);display:flex;gap:var(--unit-8)}
+.tip i{width:3px;height:3px;border-radius:50%;background:var(--typography-gray400);
+  margin-top:8px;flex:none;display:block}
+.tip b{color:var(--color-text-secondary);font-weight:500}
+
+/* ══ AI 확장 ══ */
+.aicard{margin-top:var(--unit-16);border:1px solid var(--ai-border);border-radius:var(--radius-sm);
+  background:var(--ai-grad);padding:var(--unit-20);position:relative;cursor:pointer;
+  transition:box-shadow .18s,transform .18s}
+.aicard:hover{box-shadow:0 8px 24px rgba(18,32,54,.1);transform:translateY(-1px)}
+.aicard__b{background:#fff;border:1px solid var(--ai-border);border-radius:var(--unit-999);
+  padding:var(--unit-4) var(--unit-10);color:var(--ai-dark);
+  display:inline-flex;align-items:center;gap:var(--unit-4);margin-bottom:var(--unit-10)}
+.aicard__dot{width:6px;height:6px;border-radius:50%;background:var(--ai-cyan)}
+.aicard h2{color:#1a1c33}
+.aicard p{margin-top:var(--unit-6);color:#4a4f70}
+.aicard__steps{display:flex;align-items:center;gap:var(--unit-6);margin-top:var(--unit-16);flex-wrap:wrap}
+.aicard__s{background:rgba(255,255,255,.82);border-radius:var(--unit-999);
+  padding:var(--unit-6) var(--unit-12);color:#3d4266;display:flex;align-items:center;gap:var(--unit-6)}
+.aicard__s i{width:18px;height:18px;border-radius:50%;background:var(--ai-dark);color:#fff;
+  font-size:11px;font-weight:700;font-style:normal;display:grid;place-items:center}
+.aicard__ar{color:#a6acc9}
+.aicard__cta{position:absolute;right:var(--unit-20);bottom:var(--unit-20);height:40px;
+  padding:0 var(--unit-20);background:var(--color-brand-500);color:#fff;
+  border-radius:var(--radius-sm);line-height:40px}
+.hint{margin-top:var(--unit-8);color:var(--color-text-secondary)}
+.hint b{color:var(--ai-dark);font-weight:700}
+
+.tracker{margin-top:var(--unit-12);border:1px solid var(--ai-border);border-radius:var(--radius-sm);
+  background:var(--ai-tint);padding:var(--unit-16) var(--unit-20);
+  display:flex;align-items:center;gap:var(--unit-16)}
+.tracker__s{width:32px;height:32px;border-radius:50%;flex:none;
+  border:3px solid #dfe6ff;border-top-color:var(--ai-cyan);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tracker__b{flex:1;min-width:0}
+.tracker__b h3{color:var(--ai-dark)}
+.tracker__b p{color:var(--color-text-secondary);margin-top:var(--unit-2)}
+
+.progress{margin-top:var(--unit-12);max-width:460px}
+.progress__bar{height:6px;border-radius:var(--unit-999);background:var(--color-border-tertiary);overflow:hidden}
+.progress__fill{display:block;height:100%;border-radius:var(--unit-999);
+  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-cyan));width:62%}
+.progress__t{margin-top:var(--unit-8);color:var(--color-text-secondary)}
+.progress__t b{color:var(--ai-dark);font-weight:700}
+
+/* ══════════ 매핑표 ══════════ */
+.map{width:1280px;margin:var(--unit-32) auto 80px}
+.map__head p{margin-top:var(--unit-8);color:var(--color-text-secondary)}
+.map__meta{margin:var(--unit-16) 0 var(--unit-20);display:flex;gap:var(--unit-8);flex-wrap:wrap}
+.chip{background:#fff;border:1px solid var(--color-border-tertiary);border-radius:var(--unit-999);
+  padding:var(--unit-6) var(--unit-12);color:var(--color-text-secondary)}
+.chip b{color:var(--color-text-primary);font-weight:700}
+.chip--warn{border-color:#ffc98a;background:#fff6ec;color:#c2570a}
+.sec{background:#fff;border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
+  margin-bottom:var(--unit-16);overflow:hidden}
+.sec__h{padding:var(--unit-16) var(--unit-20);border-bottom:1px solid var(--color-border-tertiary);
+  display:flex;align-items:center;gap:var(--unit-10)}
+.sec__h span{color:var(--color-text-secondary);font-size:13px;font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.55}
+th{background:#f7f8fa;text-align:left;padding:var(--unit-10) var(--unit-16);font-weight:600;
+  color:var(--color-text-secondary);border-bottom:1px solid var(--color-border-tertiary);white-space:nowrap}
+td{padding:var(--unit-12) var(--unit-16);border-bottom:1px solid var(--color-border-tertiary);vertical-align:top}
+tr:last-child td{border-bottom:0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#f7f8fa;
+  border:1px solid var(--color-border-tertiary);border-radius:var(--unit-4);padding:2px 6px;
+  color:var(--color-text-primary);white-space:nowrap}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;border:1px solid rgba(0,0,0,.1);
+  vertical-align:-2px;margin-right:5px}
+.st{border-radius:var(--unit-4);padding:3px 8px;font-size:11.5px;font-weight:700;
+  white-space:nowrap;display:inline-block}
+.st--ok{background:#ebf8f2;color:#00875a}
+.st--ext{background:#fff6ec;color:#c2570a}
+.st--none{background:#fdecec;color:#d93030}
+.st--chk{background:#eef1f6;color:#6a6a6a}
+.note{background:#fff;border:1px solid var(--color-border-tertiary);border-left:3px solid #c2570a;
+  border-radius:var(--radius-sm);padding:var(--unit-16) var(--unit-20);
+  color:var(--color-text-secondary);margin-bottom:var(--unit-16);font-size:13.5px;line-height:1.7}
+.note b{color:var(--color-text-primary)}
+.note ul{margin:0;padding:0;list-style:none}
+.note li{padding-left:var(--unit-12);position:relative;margin-top:var(--unit-4)}
+.note li:before{content:"";position:absolute;left:0;top:11px;width:5px;height:1px;background:var(--typography-gray400)}
+
+/* ══ 뷰/트랙 제어 ══ */
+[data-view="map"] .v-design,[data-view="design"] .v-map{display:none}
+.t-a,.t-b,.t-c,.t-ac,.t-bc{display:none}
+[data-track="a"] .t-a,[data-track="b"] .t-b,[data-track="c"] .t-c,
+[data-track="a"] .t-ac,[data-track="c"] .t-ac,
+[data-track="b"] .t-bc,[data-track="c"] .t-bc{display:revert}
+[data-track="a"] .tracker.t-a{display:flex}
+[data-track="a"] .badge.t-a{display:inline-flex}
+</style>
+</head>
+<body data-view="design" data-track="a">
+
+<div class="bar">
+  <span class="bar__label">VIEW</span>
+  <div class="tabs" id="viewTabs">
+    <button class="is-on" data-view="design">시안</button>
+    <button data-view="map">JAMS 2.0 매핑표</button>
+  </div>
+  <span class="bar__sep v-design"></span>
+  <span class="bar__label v-design">TRACK</span>
+  <div class="tabs v-design" id="trackTabs">
+    <button class="is-on" data-track="a">A · 전면 강조</button>
+    <button data-track="b">B · 은근한 서포트</button>
+    <button data-track="c">C · 진입만 강조</button>
+  </div>
+  <p class="bar__desc" id="desc">AI를 독립 기능으로 드러냄. 전용 색·배지·4단계를 목록에서부터 노출.</p>
+</div>
+
+<!-- ═══════════ 시안 ═══════════ -->
+<div class="v-design">
+
+<header class="gnb">
+  <div class="gnb__inner">
+    <div class="gnb__top">
+      <div class="gnb__left">
+        <a class="gnb__logo" href="#"><img src="assets-jk/logo-jk.svg" alt="JOBKOREA" width="133" height="22"></a>
+        <div class="search">
+          <div class="search__in">
+            <div class="search__loc">
+              <div class="search__area">
+                <img src="assets-jk/sys-pin.svg" alt="" width="14" height="14">
+                <span class="ty-b4s">지역 전체</span>
+              </div>
+              <img class="search__caret" src="assets-jk/sys-arrowdown18.svg" alt="" width="18" height="18">
+            </div>
+            <div class="search__ph ty-b3">JOB 검색</div>
+            <span class="search__btn"><img src="assets-jk/sys-search.svg" alt="검색" width="22" height="22"></span>
+          </div>
+        </div>
+      </div>
+      <div class="gnb__util">
+        <div class="gnb__utilgrp">
+          <span class="icobtn"><img src="assets-jk/sys-alram.svg" alt="알림" width="24" height="24"></span>
+          <div class="gnb__me">
+            <div class="gnb__me-in">
+              <span class="icobtn"><img src="assets-jk/sys-my.svg" alt="" width="24" height="24"></span>
+              <span class="gnb__name ty-b2">김잡코</span>
+            </div>
+            <img class="gnb__caret" src="assets-jk/sys-arrowdown14.svg" alt="" width="14" height="14">
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="gnb__menus"><div class="gnb__menulist">
+      <a class="gnb__menu ty-h5" href="#">JOB 찾기</a>
+      <a class="gnb__menu ty-h5" href="#">합격축하금</a>
+      <a class="gnb__menu ty-h5" href="#">공채정보</a>
+      <a class="gnb__menu ty-h5" href="#">신입·인턴</a>
+      <a class="gnb__menu ty-h5" href="#">기업·연봉</a>
+      <a class="gnb__menu ty-h5" href="#">취업전략</a>
+      <a class="gnb__menu ty-h5" href="#">취업톡톡</a>
+    </div></nav>
+  </div>
+  <div class="gnb__sep"></div>
+</header>
+
+<div class="page">
+  <aside class="lnb">
+    <div class="lnb__home ty-h5">개인회원 홈</div>
+    <div class="lnb__g"><p class="lnb__t ty-h5">이력서 관리</p>
+      <p class="lnb__i ty-c1">이력서 등록</p><p class="lnb__i ty-c1 is-on">이력서 현황</p>
+      <p class="lnb__i ty-c1">첨부파일 관리</p><p class="lnb__i ty-c1">이력서 열람제한 설정</p>
+      <p class="lnb__i ty-c1">강조노출 상품신청</p></div>
+    <div class="lnb__g"><p class="lnb__t ty-h5">입사지원·제안 관리</p>
+      <p class="lnb__i ty-c1">입사지원 현황</p><p class="lnb__i ty-c1">취업활동 증명서</p>
+      <p class="lnb__i ty-c1">받은 포지션 제안</p><p class="lnb__i ty-c1">헤드헌팅 채용상담</p></div>
+    <div class="lnb__g"><p class="lnb__t ty-h5">AI추천</p>
+      <p class="lnb__i ty-c1">새로운 추천공고</p><p class="lnb__i ty-c1">확인한 추천공고</p></div>
+    <div class="lnb__g"><p class="lnb__t ty-h5">역량테스트(MICT)</p></div>
+    <div class="lnb__g"><p class="lnb__t ty-h5">스크랩/관심기업</p>
+      <p class="lnb__i ty-c1">스크랩 공고</p><p class="lnb__i ty-c1">관심기업/헤드헌터</p><p class="lnb__i ty-c1">MY 알림</p></div>
+    <div class="lnb__g"><p class="lnb__t ty-h5">회원정보 관리</p>
+      <p class="lnb__i ty-c1">회원정보 수정</p><p class="lnb__i ty-c1">비밀번호 변경</p><p class="lnb__i ty-c1">메일·문자 설정</p></div>
+  </aside>
+
+  <main class="panel">
+    <div class="head">
+      <h1 class="ty-h2">이력서 관리</h1>
+      <span class="head__div"></span>
+      <span class="head__sub ty-h4">첨부파일 관리</span>
+      <div class="tooltip">쉽고 빠른 이력서 등록을 원한다면?
+        <img class="tooltip__tail" src="assets-jk/ico-tip.svg" alt="" width="14" height="9"></div>
+      <div class="head__btns">
+        <button class="hbtn hbtn--accent ty-b4s">파일로 추가</button>
+        <button class="hbtn ty-b4s">이력서 등록</button>
+      </div>
+    </div>
+
+    <div class="strip">
+      <img class="strip__ico" src="assets-jk/ico-doc.svg" alt="" width="16" height="16">
+      <span class="strip__tx ty-b4m t-a">포지션 제안 받는 중입니다. AI로 경력을 최신화하고 제안 받을 확률을 높여보세요!</span>
+      <span class="strip__tx ty-b4m t-bc">포지션 제안 받는 중입니다. 경력 불러오기로 빠르게 업데이트하고 제안 받을 확률을 높여보세요!</span>
+      <a class="strip__link ty-b4b" href="#">
+        <b class="t-a">AI로 최신화</b><b class="t-bc">경력 업데이트</b>
+        <img src="assets-jk/ico-arrow.svg" alt="" width="20" height="20">
+      </a>
+      <span class="strip__more ty-b4m"><span>상세보기</span>
+        <img src="assets-jk/ico-chevron.svg" alt="" width="20" height="20"></span>
+    </div>
+
+    <!-- A · C : AI 진입 카드 -->
+    <section class="aicard t-ac" role="button" tabindex="0">
+      <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 이력서 작성</span>
+      <h2 class="ty-h4">가지고 있는 자료로 이력서를 만들어 드릴게요</h2>
+      <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 연결하면 AI가 초안을 만들고, 확인한 내용만 저장합니다.</p>
+      <div class="aicard__steps ty-c1">
+        <span class="aicard__s"><i>1</i>자료 연결</span><span class="aicard__ar">›</span>
+        <span class="aicard__s"><i>2</i>초안 생성</span><span class="aicard__ar">›</span>
+        <span class="aicard__s"><i>3</i>AI 기반 검토</span><span class="aicard__ar">›</span>
+        <span class="aicard__s"><i>4</i>검토·저장</span>
+      </div>
+      <span class="aicard__cta ty-b4b">시작하기</span>
+    </section>
+
+    <!-- B : 기존 배너 -->
+    <div class="banner-img t-b"><img src="assets-jk/banner_health.png" alt="내 모든 경력을 한 번에 모아보고 싶다면? 경력 불러오기"></div>
+
+    <p class="hint ty-c1 t-b">기존 배너의 목적지만 Resume Agent로 변경 · <b>새 진입점을 추가하지 않음</b></p>
+    <p class="hint ty-c1 t-c">진입은 A · 목록과 진행 표시는 B · <b>AI 노출을 진입 구간으로만 한정</b></p>
+
+    <!-- A : 진행 트래커 -->
+    <section class="tracker t-a">
+      <span class="tracker__s" aria-hidden="true"></span>
+      <div class="tracker__b">
+        <h3 class="ty-b4b">AI가 이력서 초안을 만들고 있어요</h3>
+        <p class="ty-c1">2단계 초안 생성 · 연결한 자료 3개 정리 중 · 다른 메뉴를 이용해도 계속 진행됩니다</p>
+      </div>
+      <button class="rbtn rbtn--ai ty-b4b">진행 상태 보기</button>
+    </section>
+
+    <div class="listhead ty-b4m"><span>이력서 제목</span><span>이력서 관리</span></div>
+    <div class="line"></div>
+
+    <!-- 1 · 기본이력서 -->
+    <article class="item">
+      <div class="item__b">
+        <p class="item__propose ty-c1">포지션 제안 <b>ON</b> (2026.05.15 10:30~)</p>
+        <p class="item__t">
+          <span class="badge ty-c2">기본이력서</span>
+          <span class="item__name item__name--link ty-b2b">다양한 경험을 토대로 회사에 핵심 인력이 되겠습니다. -185654</span>
+        </p>
+        <p class="item__date ty-c1">2026.05.21</p>
+        <div class="promo">
+          <img src="assets-jk/ico-doc.svg" alt="" width="20" height="20">
+          <span class="promo__tx ty-b4b">강조 상품을 이용한 회원은 더 많은 채용 제안을 받고 있습니다.</span>
+          <span class="ty-b4b">이력서 강조상품 신청 ›</span>
+        </div>
+      </div>
+      <div class="item__a">
+        <button class="rbtn rbtn--ai ty-b4b t-a">AI로 다듬기</button>
+        <button class="rbtn ty-b4b">수정</button>
+        <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+      </div>
+    </article>
+    <div class="line"></div>
+
+    <!-- 2 · AI 작성 완료 -->
+    <article class="item">
+      <div class="item__b">
+        <p class="item__t">
+          <span class="badge badge--ai ty-c2 t-a"><span class="badge__dot"></span>AI 작성 · 검토 완료</span>
+          <span class="item__name ty-b2">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
+        </p>
+        <p class="item__date ty-c1 t-a">2026.08.28 업데이트 · AI가 다듬은 내용 6개 반영 · 근거 자료 3건</p>
+        <p class="item__date ty-c1 t-bc">2026.08.28 업데이트 · 경력 3개 · 학력 1개</p>
+      </div>
+      <div class="item__a">
+        <button class="rbtn rbtn--ai ty-b4b t-a">변경 내용 보기</button>
+        <button class="rbtn ty-b4b">수정</button>
+        <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+      </div>
+    </article>
+    <div class="line"></div>
+
+    <!-- 3 · AI 진행 중 -->
+    <article class="item">
+      <div class="item__b">
+        <p class="item__t">
+          <span class="badge badge--ai ty-c2 t-a"><span class="badge__dot"></span>AI 생성 중</span>
+          <span class="item__name ty-b2">2026 상반기 이력서</span>
+        </p>
+        <p class="item__date ty-c1">2026.05.21</p>
+        <div class="progress t-bc">
+          <div class="progress__bar"><span class="progress__fill"></span></div>
+          <p class="progress__t ty-c1"><b>연결한 자료로 이력서를 정리하고 있어요</b> · 잠시 후 알려드릴게요</p>
+        </div>
+      </div>
+      <div class="item__a">
+        <button class="rbtn rbtn--ai ty-b4b t-a">진행 상태</button>
+        <button class="rbtn ty-b4b t-bc">진행 상태</button>
+        <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+      </div>
+    </article>
+    <div class="line"></div>
+
+    <!-- 4 · 미완성 -->
+    <article class="item">
+      <div class="item__b">
+        <p class="item__t">
+          <span class="badge badge--warn ty-c2">미완성</span>
+          <span class="item__name ty-b2">이력서가 아직 완성되지 않았습니다.</span>
+        </p>
+        <p class="item__date ty-c1">2023.04.24 등록중</p>
+      </div>
+      <div class="item__a">
+        <button class="rbtn rbtn--ai ty-b4b t-a">AI로 완성하기</button>
+        <button class="rbtn rbtn--ai ty-b4b t-bc">빠르게 채우기</button>
+        <button class="rbtn ty-b4b">완성하기</button>
+        <button class="rbtn ty-b4b">삭제</button>
+      </div>
+    </article>
+    <div class="line"></div>
+
+    <!-- 5 -->
+    <article class="item">
+      <div class="item__b">
+        <p class="item__t"><span class="item__name ty-b2">함께 일하고 싶은 동료 길동입니다.</span></p>
+        <p class="item__date ty-c1">2026.05.06</p>
+      </div>
+      <div class="item__a">
+        <button class="rbtn rbtn--ai ty-b4b t-a">AI로 다듬기</button>
+        <button class="rbtn ty-b4b">수정</button>
+        <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+      </div>
+    </article>
+    <div class="line"></div>
+
+    <!-- 6 -->
+    <article class="item">
+      <div class="item__b">
+        <p class="item__t"><span class="item__name ty-b2">회사의 발전을 이끌어갈 복리후생 분야의 전문가입니다.</span></p>
+        <p class="item__date ty-c1">2026.05.06</p>
+      </div>
+      <div class="item__a">
+        <button class="rbtn rbtn--ai ty-b4b t-a">AI로 다듬기</button>
+        <button class="rbtn ty-b4b">수정</button>
+        <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+      </div>
+    </article>
+    <div class="line"></div>
+
+    <div class="tip ty-c1">
+      <i></i>
+      <p>입사지원을 한 후 해당 이력서의 내용을 수정해도 <b>이전에 지원한 이력서의 내용은 바뀌지 않으므로</b> 회사마다 이력서 내용을 다르게 지원할 수 있습니다.</p>
+    </div>
+  </main>
+</div>
+</div><!-- /v-design -->
+
+
+<!-- ═══════════ 매핑표 ═══════════ -->
+<div class="v-map map">
+  <div class="map__head">
+    <h1 class="ty-h2">이력서 관리 · JAMS 2.0 정렬 결과</h1>
+    <p class="ty-b4m">2026-09-01 Figma MCP 실측. 토큰값은 <code>get_variable_defs(Pcgnb 3833:101194)</code> 로 조회한 실제 해석값이며, 컴포넌트·스타일명은 <code>design_systems/JAMS 2.0/</code> 에서 확인한 이름입니다.</p>
+    <div class="map__meta ty-c1">
+      <span class="chip">본문 폭 1200 → <b>1280px</b></span>
+      <span class="chip">타이포 <b>JAMS 스케일 전환</b></span>
+      <span class="chip">radius <b>--radius-sm 10</b></span>
+      <span class="chip">간격 <b>--unit-* 만 사용</b></span>
+      <span class="chip chip--warn">XDS 라이브러리 미존재</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>가장 큰 발견 · 브랜드 컬러가 이미 일치합니다</b>
+    <ul>
+      <li>JAMS 2.0 <code>color-brand-500</code> = <span class="sw" style="background:#1b55f6"></span><b>#1b55f6</b></li>
+      <li>career-agent 프로토타입의 <code>--primary</code> 도 동일한 <b>#1b55f6</b> 입니다. 우연이 아니라 이미 JAMS 브랜드 컬러를 쓰고 있었습니다.</li>
+      <li>반면 이력서 관리 화면(18:10)은 <code>#002aff</code> · <code>#0057ff</code> 를 섞어 쓰고 있어 <b>둘 다 JAMS 토큰이 아닙니다.</b> 이번 정렬에서 brand-500으로 통일했습니다.</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <b>주의 · 레거시 라이브러리 구분</b>
+    <ul>
+      <li><code>Text_PC/*</code> 스타일은 <b>JK.DSG - from old</b> 소속입니다. JAMS 2.0의 GNB조차 <code>Text_PC/H5 18 Bold</code> 를 아직 참조합니다.</li>
+      <li><code>Color/text/*</code> 시맨틱 변수는 <b>JAMS 2.0 아님_삭제예정</b> 소속입니다. 사용하면 안 됩니다.</li>
+      <li>현행 JAMS 2.0 토큰은 <code>color-*</code> · <code>unit-*</code> · <code>radius-*</code> · <code>Typography/*</code> 네이밍입니다. 이 시안은 이 네이밍만 씁니다.</li>
+    </ul>
+  </div>
+
+  <section class="sec">
+    <div class="sec__h"><h2 class="ty-h5">타이포 재정렬</h2><span>36px·26px는 JAMS 스케일 밖이었음</span></div>
+    <table>
+      <thead><tr><th style="width:22%">요소</th><th style="width:18%">18:10 원본</th><th style="width:28%">JAMS 2.0 적용</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>이력서 관리 (h1)</td><td>36px / 400</td><td><code>Typography/H2 28 bold</code></td><td>36px는 스케일에 없음. H1 32도 있으나 페이지 제목 위계상 H2</td></tr>
+        <tr><td>첨부파일 관리</td><td>26px / 400 #999</td><td><code>Typography/H4 20 bold</code> + <code>gray400</code></td><td>원본 비율 36:26 ≈ 28:20 유지</td></tr>
+        <tr><td>LNB 제목</td><td>18px / 700</td><td><code>Typography/H5 18 bold</code></td><td>그대로 일치</td></tr>
+        <tr><td>LNB 항목</td><td>13px</td><td><code>Typography/C1 13 medium</code></td><td></td></tr>
+        <tr><td>이력서 제목</td><td>16px / 400</td><td><code>Typography/B2 16 regular</code></td><td>기본이력서만 <code>B2 16 bold</code></td></tr>
+        <tr><td>날짜 · 보조</td><td>12px #9e9e9e</td><td><code>C1 13 medium</code> + <code>gray400</code></td><td>12px regular은 JAMS에 없음 (C2는 bold만)</td></tr>
+        <tr><td>행 액션 버튼</td><td>14px / 700</td><td><code>Typography/B4 14 bold</code></td><td>그대로 일치</td></tr>
+        <tr><td>타이틀 버튼</td><td>12px / 400</td><td><code>B4 14 semibold</code></td><td>12→14 상향. 스케일 준수</td></tr>
+        <tr><td>인포 스트립</td><td>14px / 400</td><td><code>B4 14 medium</code> · 링크 <code>B4 14 bold</code></td><td></td></tr>
+        <tr><td>배지</td><td>12px / 400</td><td><code>Typography/C2 12 bold</code></td><td>JAMS의 12px는 bold만 존재</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec">
+    <div class="sec__h"><h2 class="ty-h5">컬러 재정렬</h2><span>하드코딩 hex를 토큰으로 치환</span></div>
+    <table>
+      <thead><tr><th style="width:20%">용도</th><th style="width:22%">18:10 원본</th><th style="width:32%">JAMS 2.0 토큰</th><th>값</th></tr></thead>
+      <tbody>
+        <tr><td>본문 텍스트</td><td><code>#171717</code></td><td><code>color-text-primary</code></td><td><span class="sw" style="background:#1a1a1e"></span>#1a1a1e</td></tr>
+        <tr><td>보조 텍스트</td><td><code>#333</code> <code>#666</code></td><td><code>color-text-secondary</code></td><td><span class="sw" style="background:#3e434b"></span>#3e434b</td></tr>
+        <tr><td>흐린 텍스트</td><td><code>#9e9e9e</code> <code>#999</code></td><td><code>Typography/gray400</code></td><td><span class="sw" style="background:#afb5be"></span>#afb5be</td></tr>
+        <tr><td>브랜드 · 링크</td><td><code>#002aff</code> <code>#0057ff</code></td><td><code>color-brand-500</code></td><td><span class="sw" style="background:#1b55f6"></span>#1b55f6</td></tr>
+        <tr><td>테두리 · 구분선</td><td><code>#d2d2d2</code> <code>#dce1eb</code></td><td><code>color-border-tertiary</code></td><td><span class="sw" style="background:#e6e8ea"></span>#e6e8ea</td></tr>
+        <tr><td>버튼 테두리</td><td><code>#d2d2d2</code></td><td><code>color-bg-interactive-secondary</code></td><td><span class="sw" style="background:#e6e8ea"></span>#e6e8ea</td></tr>
+        <tr><td>아이콘</td><td>—</td><td><code>color-icon-primary</code> / <code>tertiary</code></td><td><span class="sw" style="background:#292c32"></span>#292c32 · <span class="sw" style="background:#afb5be"></span>#afb5be</td></tr>
+        <tr><td>페이지 배경</td><td><code>#f2f4f7</code></td><td><span class="st st--chk">미대응</span></td><td>semantic bg 토큰 조회 필요</td></tr>
+        <tr><td>브랜드 연배경</td><td><code>#f0f5ff</code></td><td><span class="st st--chk">확인</span> <code>Color/Blue/50</code> 후보</td><td>Primitive 값 조회 필요</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec">
+    <div class="sec__h"><h2 class="ty-h5">간격 · 형태</h2></div>
+    <table>
+      <thead><tr><th style="width:22%">항목</th><th style="width:20%">18:10 원본</th><th style="width:28%">JAMS 2.0 적용</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>본문 폭</td><td>1200px (패널 1000)</td><td><b>1280px</b></td><td>GNB와 통일. LNB 190 + <code>unit-20</code> + 1070</td></tr>
+        <tr><td>패널 안쪽 여백</td><td>39px</td><td><code>--unit-32</code></td><td>39는 unit 스케일 밖</td></tr>
+        <tr><td>행 여백</td><td>16~21px</td><td><code>--unit-20</code> / <code>--unit-16</code></td><td></td></tr>
+        <tr><td>요소 간격</td><td>7·8·12px 혼재</td><td><code>--unit-8</code> · <code>--unit-12</code></td><td>7px 제거</td></tr>
+        <tr><td>버튼 radius</td><td>0 (행) · 4 (타이틀)</td><td><code>--radius-sm 10</code></td><td><b>각진 버튼 → 라운드.</b> 가장 큰 인상 변화</td></tr>
+        <tr><td>카드 · 패널 radius</td><td>0</td><td><code>--radius-sm 10</code></td><td></td></tr>
+        <tr><td>배지 radius</td><td>4</td><td><code>--unit-4</code> 유지</td><td><span class="st st--chk">확인</span> radius-xs 존재 여부 미확인</td></tr>
+        <tr><td>검색창 radius</td><td>사각</td><td><code>--unit-999</code></td><td>pill</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec">
+    <div class="sec__h"><h2 class="ty-h5">컴포넌트 매핑</h2><span>JAMS 2.0 실제 이름</span></div>
+    <table>
+      <thead><tr><th style="width:24%">화면 요소</th><th style="width:30%">JAMS 2.0</th><th style="width:12%">상태</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>GNB 전체</td><td><code>Pcgnb</code> variant=login sticky</td><td><span class="st st--ok">적용</span></td><td>로고·검색·아이콘 실제 SVG</td></tr>
+        <tr><td>타이틀 버튼</td><td><code>button</code></td><td><span class="st st--ok">매핑</span></td><td>h40 · radius-sm</td></tr>
+        <tr><td>행 액션 버튼</td><td><code>button</code></td><td><span class="st st--ok">매핑</span></td><td>h40 · B4 14 bold</td></tr>
+        <tr><td>··· 더보기</td><td><code>ButtonIcononly</code></td><td><span class="st st--ok">매핑</span></td><td>44×40</td></tr>
+        <tr><td>기본이력서 · 미완성</td><td><code>Tag</code> / <code>TagColor</code></td><td><span class="st st--ok">매핑</span></td><td>h24 · C2 12 bold</td></tr>
+        <tr><td>포지션 제안 스트립</td><td><code>BannerAlert</code></td><td><span class="st st--ok">매핑</span></td><td></td></tr>
+        <tr><td>툴팁</td><td><code>TooltipBox</code></td><td><span class="st st--ok">매핑</span></td><td>bg를 <code>color-text-primary</code>로</td></tr>
+        <tr><td>토스트</td><td><code>Toast</code> / <code>snackbar</code></td><td><span class="st st--ok">매핑</span></td><td></td></tr>
+        <tr><td>AI 버튼 · 배지</td><td><code>button</code> · <code>Tag</code> + AI variant</td><td><span class="st st--ext">확장</span></td><td>geometry 동일, 배색만 확장</td></tr>
+        <tr><td>AI 진입 카드</td><td>—</td><td><span class="st st--none">신규</span></td><td></td></tr>
+        <tr><td>4단계 스텝바 · 진행률</td><td><code>Indicator</code> 후보</td><td><span class="st st--chk">확인</span></td><td>단계형 지원 여부 미확인</td></tr>
+        <tr><td>변경 전후 비교 (Diff)</td><td>—</td><td><span class="st st--none">신규</span></td><td><b>R1-06 핵심.</b> 시스템에 없음</td></tr>
+        <tr><td>LNB · 우측 레일</td><td>—</td><td><span class="st st--chk">확인</span></td><td><code>04_개인서비스_PC</code> 조회 필요</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec">
+    <div class="sec__h"><h2 class="ty-h5">AI 확장 토큰</h2><span>어느 시스템에도 대응 없음</span></div>
+    <table>
+      <thead><tr><th style="width:24%">용도</th><th style="width:26%">현재 값</th><th style="width:12%">상태</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>AI 강조 배경</td><td><span class="sw" style="background:#f6f8ff"></span><code>--ai-tint #f6f8ff</code></td><td><span class="st st--none">신규</span></td><td rowspan="4">AI 구간을 시각적으로 구분하는 유일한 장치.<br>Product Vision의 &ldquo;AI 노출은 이력서 작성 화면 안으로 한정&rdquo; 원칙을 집행하므로,<br>XDS 확정 여부와 무관하게 <b>지금 확장 토큰으로 정의</b>해야 함.</td></tr>
+        <tr><td>AI 포인트</td><td><span class="sw" style="background:#00a9c0"></span><code>--ai-cyan #00a9c0</code></td><td><span class="st st--none">신규</span></td></tr>
+        <tr><td>AI 테두리</td><td><span class="sw" style="background:#dce3fb"></span><code>--ai-border #dce3fb</code></td><td><span class="st st--none">신규</span></td></tr>
+        <tr><td>AI 텍스트</td><td><span class="sw" style="background:#2a2f5c"></span><code>--ai-dark #2a2f5c</code></td><td><span class="st st--none">신규</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sec">
+    <div class="sec__h"><h2 class="ty-h5">트랙별 적용 비용</h2></div>
+    <table>
+      <thead><tr><th style="width:26%">항목</th><th>A · 전면 강조</th><th>B · 은근한 서포트</th><th>C · 진입만 강조</th></tr></thead>
+      <tbody>
+        <tr><td>AI 토큰 사용 지점</td><td>8곳</td><td>3곳</td><td>4곳</td></tr>
+        <tr><td>신규 컴포넌트</td><td>진입 카드 · 스피너 · 트래커 · AI 배지 2종</td><td>진행률 바</td><td>진입 카드 · 진행률 바</td></tr>
+        <tr><td>확장 variant</td><td><code>button</code> · <code>Tag</code></td><td><code>button</code></td><td><code>button</code></td></tr>
+        <tr><td>기존 배너 처리</td><td>AI 카드로 교체</td><td>그대로 재사용</td><td>AI 카드로 교체</td></tr>
+        <tr><td>Vision 원칙 정합</td><td><span class="st st--ext">주의</span></td><td><span class="st st--ok">부합</span></td><td><span class="st st--ok">부합</span></td></tr>
+        <tr><td>A/B 노출 인지</td><td><span class="st st--ok">뚜렷</span></td><td><span class="st st--none">약함</span></td><td><span class="st st--ok">뚜렷</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<script>
+const DESC={
+  a:'AI를 독립 기능으로 드러냄. 전용 색·배지·4단계를 목록에서부터 노출.',
+  b:'AI라는 말을 쓰지 않고 결과로 말함. 기존 배너를 재사용해 진입점을 늘리지 않음.',
+  c:'진입 카드에서만 AI를 밝히고, 목록과 진행 표시는 조용하게 유지. A와 B의 절충.'
+};
+function bind(id,attr,after){
+  const w=document.getElementById(id);
+  w.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    document.body.dataset[attr]=b.dataset[attr];
+    w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));
+    if(after) after(b.dataset[attr]);
+  });
+}
+bind('viewTabs','view');
+bind('trackTabs','track',v=>document.getElementById('desc').textContent=DESC[v]);
+document.addEventListener('keydown',e=>{
+  if(document.body.dataset.view!=='design') return;
+  const o=['a','b','c'], i=o.indexOf(document.body.dataset.track);
+  if(e.key==='ArrowRight') document.querySelector(`[data-track="${o[(i+1)%3]}"]`).click();
+  if(e.key==='ArrowLeft')  document.querySelector(`[data-track="${o[(i+2)%3]}"]`).click();
+});
+</script>
+</body>
+</html>
