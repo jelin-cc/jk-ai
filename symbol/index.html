@@ -3,361 +3,373 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Resume Agent · AI 심볼 모션 탐색</title>
+<title>Resume Agent · AI 심볼</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
-  --color-brand-500:#1b55f6;
-  --color-text-primary:#1a1a1e;
-  --color-text-secondary:#3e434b;
-  --color-border-tertiary:#e6e8ea;
-  --gray400:#afb5be;
-  --page-bg:#f2f4f7;
-  --ai-cyan:#00a9c0; --ai-tint:#f6f8ff; --ai-border:#dce3fb; --ai-dark:#2a2f5c;
-  --radius-sm:10px;
-  --u4:4px;--u6:6px;--u8:8px;--u12:12px;--u16:16px;--u20:20px;--u24:24px;--u32:32px;
+  --brand:#1b55f6; --brand-deep:#123ec9; --brand-lift:#5b8cff;
+  --cyan:#00c2d6; --violet:#7b6cf6; --ink:#12141a;
+  --tx:#12141a; --tx2:#454b57; --tx3:#8b93a3; --tx4:#b7bdc9;
+  --bg:#fbfcfd; --card:#fff; --ln:#edeff3;
+  --r-lg:28px; --r-md:20px; --r-sm:14px;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--page-bg);color:var(--color-text-primary);
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);
   font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",system-ui,sans-serif;
-  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.2px}
 h1,h2,h3,h4,p{margin:0}
-ul,ol{margin:0;padding:0;list-style:none}
+ul{margin:0;padding:0;list-style:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
-:focus-visible{outline:3px solid rgba(27,85,246,.28);outline-offset:2px}
+:focus-visible{outline:3px solid rgba(27,85,246,.3);outline-offset:3px}
+svg{display:block}
 
-/* ══ 상단 ══ */
-.top{background:#14161c;color:#fff;padding:var(--u16) var(--u24);
-  display:flex;align-items:center;gap:var(--u16);flex-wrap:wrap;position:sticky;top:0;z-index:50}
-.top h1{font-size:15px;font-weight:700}
-.top p{font-size:12.5px;color:#8f96a6;flex:1;min-width:180px}
-.seg{display:flex;gap:4px;background:#22252e;border-radius:10px;padding:4px}
-.seg button{padding:6px 13px;border-radius:7px;font-size:12.5px;font-weight:600;color:#a8aebd;
-  transition:background .16s,color .16s;white-space:nowrap}
-.seg button.is-on{background:#fff;color:#14161c}
-.seg__label{font-size:10.5px;font-weight:700;color:#6b7280;letter-spacing:.05em;align-self:center}
+/* ── 상단 ── */
+.top{position:sticky;top:0;z-index:60;
+  background:rgba(251,252,253,.82);backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--ln);padding:14px 28px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top__t{font-size:15px;font-weight:700;letter-spacing:-.3px}
+.top__t span{color:var(--tx3);font-weight:500}
+.seg{margin-left:auto;display:flex;gap:3px;background:#eef0f4;border-radius:12px;padding:3px}
+.seg button{padding:7px 14px;border-radius:9px;font-size:13px;font-weight:600;color:var(--tx2);
+  transition:.18s cubic-bezier(.4,0,.2,1);white-space:nowrap}
+.seg button.is-on{background:#fff;color:var(--tx);box-shadow:0 1px 3px rgba(18,20,26,.1)}
 
-.wrap{max-width:1180px;margin:0 auto;padding:var(--u32) var(--u24) 96px}
-.lead{margin-bottom:var(--u32)}
-.lead h2{font-size:24px;font-weight:700;letter-spacing:-.5px}
-.lead p{margin-top:var(--u8);color:var(--color-text-secondary);font-size:15px}
-.lead code{background:#fff;border:1px solid var(--color-border-tertiary);border-radius:6px;
-  padding:2px 7px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px 120px}
 
-/* ══ 후보 카드 ══ */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--u16)}
-.cand{background:#fff;border:1px solid var(--color-border-tertiary);border-radius:18px;
-  overflow:hidden;transition:border-color .18s,box-shadow .18s}
-.cand.is-pick{border-color:var(--color-brand-500);box-shadow:0 0 0 3px rgba(27,85,246,.1)}
-.cand__h{padding:var(--u20) var(--u20) 0;display:flex;align-items:flex-start;gap:var(--u8)}
-.cand__h h3{flex:1;font-size:17px;font-weight:700}
-.cand__h small{display:block;margin-top:3px;font-size:12.5px;color:var(--gray400);font-weight:500}
-.pick{height:26px;padding:0 var(--u10,10px);border-radius:999px;font-size:11.5px;font-weight:700;
-  border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);
-  display:inline-flex;align-items:center;gap:4px;flex:none;transition:.15s}
-.cand.is-pick .pick{background:var(--color-brand-500);border-color:var(--color-brand-500);color:#fff}
+/* ── 히어로 ── */
+.hero{padding:80px 0 64px;text-align:center;position:relative}
+.hero__glow{position:absolute;left:50%;top:40px;width:520px;height:340px;translate:-50% 0;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(91,140,255,.28),rgba(0,194,214,.14) 45%,transparent 72%);
+  filter:blur(24px);pointer-events:none}
+.hero__stage{position:relative;width:200px;height:200px;margin:0 auto 36px;display:grid;place-items:center}
+.hero h1{position:relative;font-size:38px;font-weight:700;letter-spacing:-1.4px;line-height:1.28}
+.hero h1 em{font-style:normal;
+  background:linear-gradient(96deg,var(--brand) 0%,var(--violet) 46%,var(--cyan) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{position:relative;margin-top:16px;font-size:17px;color:var(--tx2);letter-spacing:-.3px}
 
-.stage{margin:var(--u20);height:210px;border-radius:14px;background:var(--page-bg);
-  display:grid;place-items:center;position:relative;overflow:hidden}
-.stage::after{content:attr(data-state);position:absolute;left:12px;top:10px;font-size:11px;
-  font-weight:700;color:var(--gray400);letter-spacing:.04em;text-transform:uppercase}
+/* ── 후보 ── */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cand{position:relative;background:var(--card);border:1px solid var(--ln);border-radius:var(--r-lg);
+  padding:28px 24px 24px;cursor:pointer;overflow:hidden;
+  transition:transform .3s cubic-bezier(.34,1.3,.5,1),box-shadow .3s,border-color .25s}
+.cand::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(150deg,rgba(91,140,255,.1),rgba(0,194,214,.06) 55%,transparent 78%);
+  opacity:0;transition:opacity .3s}
+.cand:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(18,32,54,.1)}
+.cand.is-pick{border-color:transparent;box-shadow:0 0 0 2px var(--brand),0 20px 48px rgba(27,85,246,.18)}
+.cand.is-pick::after{opacity:1}
 
-.cand__desc{padding:0 var(--u20) var(--u20);color:var(--color-text-secondary);font-size:13.5px;line-height:20px}
-.cand__meta{border-top:1px solid var(--color-border-tertiary);padding:var(--u16) var(--u20);
-  display:flex;flex-direction:column;gap:var(--u6)}
-.cand__meta div{display:flex;gap:var(--u8);font-size:12.5px;align-items:flex-start}
-.cand__meta b{flex:none;width:58px;color:var(--gray400);font-weight:600}
-.cand__meta span{flex:1;color:var(--color-text-secondary)}
+.cand__stage{height:196px;display:grid;place-items:center;position:relative}
+.cand__stage::before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;
+  background:radial-gradient(circle,rgba(91,140,255,.2),rgba(0,194,214,.09) 50%,transparent 70%);
+  filter:blur(14px);opacity:0;transition:opacity .35s}
+.cand.is-pick .cand__stage::before,.cand:hover .cand__stage::before{opacity:1}
 
-/* ══ 심볼 공통 ══ */
-.sym{display:block}
-.sym .core{fill:var(--ai-dark)}
-.sym .arc{fill:none;stroke:var(--color-brand-500);stroke-linecap:round}
-.sym .arc2{stroke:var(--ai-cyan)}
-.sym .sheet{fill:none;stroke:var(--color-brand-500);stroke-linejoin:round;stroke-linecap:round}
-.sym .ring{fill:none;stroke:var(--ai-border);}
-.sym .ringA{stroke:var(--color-brand-500)}
+.cand__name{position:relative;display:flex;align-items:baseline;gap:8px;margin-top:4px}
+.cand__name h3{font-size:19px;font-weight:700;letter-spacing:-.5px}
+.cand__name small{font-size:12.5px;color:var(--tx4);font-weight:600;letter-spacing:.02em}
+.cand__d{position:relative;margin-top:10px;font-size:14px;color:var(--tx2);line-height:1.6;min-height:66px}
+.cand__d b{color:var(--tx);font-weight:700}
+.cand__tags{position:relative;margin-top:16px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{height:26px;padding:0 10px;border-radius:8px;background:#f3f5f8;color:var(--tx2);
+  font-size:12px;font-weight:600;display:inline-flex;align-items:center}
+.tag--good{background:rgba(0,194,214,.12);color:#00707f}
+.tag--warn{background:rgba(255,149,0,.13);color:#b5620a}
 
-/* A · Orbit ─────────────────────────── */
-@keyframes orbitSpin{to{transform:rotate(360deg)}}
-@keyframes orbitBreath{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.06);opacity:1}}
-@keyframes corePulse{0%,100%{r:7}50%{r:8.4}}
-.symA .g-arc{transform-origin:32px 32px;animation:orbitSpin var(--dur,7s) linear infinite}
-.symA .g-arc2{transform-origin:32px 32px;animation:orbitSpin calc(var(--dur,7s)*1.6) linear infinite reverse}
-.symA .core{animation:corePulse calc(var(--dur,7s)*.55) ease-in-out infinite}
+/* ── 레벨 ── */
+.sec{margin-top:88px}
+.sec__head{text-align:center;margin-bottom:36px}
+.sec__head h2{font-size:28px;font-weight:700;letter-spacing:-.9px}
+.sec__head p{margin-top:10px;color:var(--tx2);font-size:16px}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.lv{background:var(--card);border:1px solid var(--ln);border-radius:var(--r-lg);padding:26px 24px;
+  display:flex;flex-direction:column}
+.lv__h{display:flex;align-items:center;gap:9px}
+.lv__b{height:24px;padding:0 9px;border-radius:8px;font-size:11.5px;font-weight:700;letter-spacing:.03em;
+  display:inline-flex;align-items:center;color:#fff}
+.lv1 .lv__b{background:#c3cad6}
+.lv2 .lv__b{background:linear-gradient(120deg,#00c2d6,#3ba7f0)}
+.lv3 .lv__b{background:linear-gradient(120deg,var(--brand),var(--violet))}
+.lv__h b{font-size:17px;font-weight:700;letter-spacing:-.4px}
+.lv>p{margin-top:10px;color:var(--tx2);font-size:13.5px;line-height:1.62}
+.lv__demo{margin-top:22px;padding-top:22px;border-top:1px solid var(--ln);
+  display:flex;flex-direction:column;gap:18px;flex:1}
+.row__l{font-size:11.5px;font-weight:700;color:var(--tx4);letter-spacing:.04em;margin-bottom:9px}
+.row__b{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
-/* B · Converge ──────────────────────── */
-@keyframes convA{0%,100%{transform:translate(-7px,-5px) rotate(-8deg)}45%{transform:translate(0,0) rotate(0)}}
-@keyframes convB{0%,100%{transform:translate(7px,-3px) rotate(7deg)}45%{transform:translate(0,0) rotate(0)}}
-@keyframes convGlow{0%,100%{opacity:.25}45%{opacity:1}}
-.symB .s1{transform-origin:32px 32px;animation:convA var(--dur,3.4s) cubic-bezier(.5,0,.2,1) infinite}
-.symB .s2{transform-origin:32px 32px;animation:convB var(--dur,3.4s) cubic-bezier(.5,0,.2,1) infinite}
-.symB .s3{animation:convGlow var(--dur,3.4s) ease-in-out infinite}
+.chip{height:26px;padding:0 9px;border-radius:8px;background:#f3f5f8;color:var(--tx2);
+  font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.chip--ai{background:linear-gradient(120deg,rgba(27,85,246,.09),rgba(0,194,214,.09));
+  color:#1b3a86;box-shadow:inset 0 0 0 1px rgba(27,85,246,.16)}
+.btn{height:44px;padding:0 18px;border-radius:var(--r-sm);font-size:14.5px;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(120deg,rgba(27,85,246,.07),rgba(0,194,214,.07));
+  color:#1b3a86;box-shadow:inset 0 0 0 1px rgba(27,85,246,.16);transition:.2s}
+.btn:hover{box-shadow:inset 0 0 0 1px rgba(27,85,246,.34)}
+.tile{width:60px;height:60px;border-radius:18px;background:#fff;display:grid;place-items:center;
+  box-shadow:0 4px 14px rgba(18,32,54,.09),inset 0 0 0 1px rgba(27,85,246,.1)}
+.bighero{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;position:relative;
+  background:#fff;box-shadow:0 12px 34px rgba(27,85,246,.2)}
+.bighero::before{content:"";position:absolute;inset:-14px;border-radius:50%;z-index:-1;
+  background:conic-gradient(from 200deg,rgba(27,85,246,.3),rgba(123,108,246,.3),rgba(0,194,214,.3),rgba(27,85,246,.3));
+  filter:blur(13px)}
 
-/* C · Focus ─────────────────────────── */
-@keyframes focusRing{0%{transform:scale(.55);opacity:0}25%{opacity:.9}100%{transform:scale(1.18);opacity:0}}
-@keyframes focusCore{0%,100%{opacity:.85}50%{opacity:1}}
-.symC .r1,.symC .r2,.symC .r3{transform-origin:32px 32px;
-  animation:focusRing var(--dur,3.6s) cubic-bezier(.3,0,.3,1) infinite}
-.symC .r2{animation-delay:calc(var(--dur,3.6s)*.33)}
-.symC .r3{animation-delay:calc(var(--dur,3.6s)*.66)}
-.symC .core{animation:focusCore calc(var(--dur,3.6s)*.5) ease-in-out infinite}
+/* ── 노트 ── */
+.note{margin-top:88px;border-radius:var(--r-lg);padding:34px 36px;color:#e7ebf4;
+  background:linear-gradient(140deg,#171a24,#1d2230 58%,#151b2c)}
+.note h3{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.4px}
+.note ul{margin-top:16px;display:flex;flex-direction:column;gap:12px}
+.note li{display:flex;gap:12px;font-size:14px;line-height:1.62;color:#b9c1d1}
+.note li b{color:#fff;font-weight:700}
+.note li i{flex:none;width:22px;height:22px;border-radius:7px;margin-top:2px;font-style:normal;
+  font-size:11px;font-weight:700;display:grid;place-items:center;
+  background:linear-gradient(120deg,var(--brand),var(--violet));color:#fff}
 
-/* 상태별 속도 */
-[data-state="idle"]    .sym{--dur:9s}
-[data-state="working"] .sym{--dur:2.2s}
-[data-state="done"]    .sym{--dur:0s}
-[data-state="done"] .sym *{animation:none !important}
-[data-state="done"] .symA .g-arc{transform:rotate(-32deg)}
-[data-state="done"] .symB .s1{transform:none}
-[data-state="done"] .symB .s2{transform:none}
-[data-state="done"] .symB .s3{opacity:1}
-[data-state="done"] .symC .r1{transform:scale(1);opacity:.9}
-[data-state="done"] .symC .r2,[data-state="done"] .symC .r3{opacity:0}
-body.is-paused .sym *{animation-play-state:paused !important}
+/* ══════════ 심볼 모션 ══════════ */
+.sym{overflow:visible}
+@keyframes sweep{to{transform:rotate(360deg)}}
+@keyframes drift{0%,100%{transform:rotate(0deg) scale(1)}50%{transform:rotate(14deg) scale(1.045)}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes shimmer{0%{transform:translateX(-90%)}55%,100%{transform:translateX(160%)}}
+@keyframes lobeSpin{to{transform:rotate(360deg)}}
+@keyframes glowPulse{0%,100%{opacity:.55}50%{opacity:.95}}
 
-/* ══ 레벨 적용 ══ */
-.sec{margin-top:var(--u32)}
-.sec__t{font-size:17px;font-weight:700;margin-bottom:var(--u4)}
-.sec__d{color:var(--color-text-secondary);font-size:13.5px;margin-bottom:var(--u16)}
-.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--u16)}
-.lvcard{background:#fff;border:1px solid var(--color-border-tertiary);border-radius:16px;padding:var(--u20)}
-.lvcard__h{display:flex;align-items:center;gap:var(--u8);margin-bottom:var(--u4)}
-.lvtag{height:20px;padding:0 7px;border-radius:6px;font-size:10.5px;font-weight:700;
-  display:inline-flex;align-items:center}
-.lv1{background:#eef1f6;color:#5c6473}
-.lv2{background:#e6f4f7;color:#00707f}
-.lv3{background:var(--color-brand-500);color:#fff}
-.lvcard__h b{font-size:15px;font-weight:700}
-.lvcard>p{color:var(--color-text-secondary);font-size:13px;line-height:19px}
-.lvdemo{margin-top:var(--u16);padding-top:var(--u16);border-top:1px dashed var(--color-border-tertiary);
-  display:flex;flex-direction:column;gap:var(--u12)}
+.symA .orbit{transform-origin:32px 32px;animation:sweep var(--d,8s) cubic-bezier(.42,0,.58,1) infinite}
+.symA .orbit2{transform-origin:32px 32px;animation:sweep calc(var(--d,8s)*1.7) linear infinite reverse}
+.symA .core{transform-origin:32px 32px;animation:breathe calc(var(--d,8s)*.5) ease-in-out infinite}
+.symA .halo{transform-origin:32px 32px;animation:glowPulse calc(var(--d,8s)*.5) ease-in-out infinite}
 
-/* 실사용 미리보기 */
-.pv{display:flex;align-items:center;gap:var(--u8);flex-wrap:wrap}
-.pv__label{width:100%;font-size:11.5px;font-weight:700;color:var(--gray400);letter-spacing:.03em}
-.chip{height:24px;padding:0 8px;border-radius:4px;border:1px solid var(--color-border-tertiary);
-  background:#fff;color:var(--color-text-secondary);font-size:12px;font-weight:500;
-  display:inline-flex;align-items:center;gap:5px}
-.chip--ai{border-color:var(--ai-border);background:var(--ai-tint);color:var(--ai-dark);font-weight:700}
-.btn{height:40px;padding:0 16px;border-radius:var(--radius-sm);border:1px solid var(--ai-border);
-  background:var(--ai-tint);color:var(--ai-dark);font-size:14px;font-weight:600;
-  display:inline-flex;align-items:center;gap:7px}
-.tile{width:56px;height:56px;border-radius:var(--radius-sm);background:#fff;
-  border:1px solid var(--ai-border);display:grid;place-items:center}
-.hero{width:88px;height:88px;border-radius:50%;background:#fff;
-  box-shadow:0 6px 20px rgba(27,85,246,.16);display:grid;place-items:center;position:relative}
-.hero::before{content:"";position:absolute;inset:-10px;border-radius:50%;
-  background:linear-gradient(90deg,#e9e7ff,#dff6f8 48%,#e8f7f4);opacity:.5;z-index:-1}
+.symB .lobe{transform-origin:32px 32px;animation:lobeSpin var(--d,8s) cubic-bezier(.45,0,.55,1) infinite}
+.symB .lobe2{animation-duration:calc(var(--d,8s)*1.35);animation-direction:reverse}
+.symB .lobe3{animation-duration:calc(var(--d,8s)*.82)}
+.symB .bcore{transform-origin:32px 32px;animation:breathe calc(var(--d,8s)*.46) ease-in-out infinite}
 
-.note{margin-top:var(--u32);background:#fff;border:1px solid var(--color-border-tertiary);
-  border-left:3px solid var(--color-brand-500);border-radius:var(--radius-sm);
-  padding:var(--u20);font-size:13.5px;line-height:21px;color:var(--color-text-secondary)}
-.note b{color:var(--color-text-primary)}
-.note li{padding-left:13px;position:relative;margin-top:5px}
-.note li::before{content:"";position:absolute;left:0;top:10px;width:5px;height:1px;background:var(--gray400)}
+.symC .plate{transform-origin:32px 32px;animation:drift calc(var(--d,8s)*.62) ease-in-out infinite}
+.symC .shine{animation:shimmer calc(var(--d,8s)*.55) cubic-bezier(.4,0,.2,1) infinite}
 
-@media(max-width:980px){.grid,.levels{grid-template-columns:1fr}}
+[data-state="idle"] .sym{--d:11s}
+[data-state="work"] .sym{--d:2.4s}
+[data-state="done"] .sym{--d:0s}
+[data-state="done"] .sym *{animation:none!important}
+[data-state="done"] .symA .orbit{transform:rotate(-38deg)}
+[data-state="done"] .symA .orbit2{transform:rotate(150deg)}
+[data-state="done"] .symC .shine{transform:translateX(160%)}
+body.pause .sym *{animation-play-state:paused!important}
+
+@media(max-width:980px){.grid,.levels{grid-template-columns:1fr}.hero h1{font-size:30px}}
 </style>
 </head>
 <body data-state="idle">
 
+<!-- 심볼 원본 정의 (defs 공유) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="gCore" cx="34%" cy="28%" r="78%">
+    <stop offset="0%" stop-color="#a9c6ff"/><stop offset="42%" stop-color="#2f6bff"/>
+    <stop offset="100%" stop-color="#0f37bd"/>
+  </radialGradient>
+  <linearGradient id="gTrail" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#00c2d6" stop-opacity="0"/>
+    <stop offset="42%" stop-color="#22b4ee" stop-opacity=".85"/>
+    <stop offset="100%" stop-color="#1b55f6"/>
+  </linearGradient>
+  <linearGradient id="gTrail2" x1="100%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#7b6cf6" stop-opacity="0"/>
+    <stop offset="55%" stop-color="#7b6cf6" stop-opacity=".7"/>
+    <stop offset="100%" stop-color="#00c2d6"/>
+  </linearGradient>
+  <radialGradient id="gHalo" cx="50%" cy="50%" r="50%">
+    <stop offset="55%" stop-color="#5b8cff" stop-opacity=".34"/>
+    <stop offset="100%" stop-color="#5b8cff" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="gL1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#1b55f6"/><stop offset="100%" stop-color="#7b6cf6"/></linearGradient>
+  <linearGradient id="gL2" x1="100%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#7b6cf6"/><stop offset="100%" stop-color="#00c2d6"/></linearGradient>
+  <linearGradient id="gL3" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#00c2d6"/><stop offset="100%" stop-color="#3b8cff"/></linearGradient>
+  <linearGradient id="gPlate" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#3b7bff"/><stop offset="52%" stop-color="#1b55f6"/>
+    <stop offset="100%" stop-color="#00a9c0"/>
+  </linearGradient>
+  <linearGradient id="gShine" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+    <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+    <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <clipPath id="cPlate"><path d="M32 5c19.2 0 27 7.8 27 27s-7.8 27-27 27S5 51.2 5 32 12.8 5 32 5Z"/></clipPath>
+</defs></svg>
+
 <div class="top">
-  <h1>AI 심볼 모션 탐색</h1>
-  <span class="seg__label">상태</span>
+  <span class="top__t">AI 심볼 <span>· Resume Agent</span></span>
   <div class="seg" id="stateSeg">
-    <button data-state="idle" class="is-on">대기 · L1</button>
-    <button data-state="working">작동 중 · L2·L3</button>
+    <button data-state="idle" class="is-on">대기</button>
+    <button data-state="work">작동 중</button>
     <button data-state="done">완료</button>
   </div>
-  <span class="seg__label">모션</span>
-  <div class="seg" id="playSeg">
-    <button data-play="on" class="is-on">재생</button>
+  <div class="seg" id="playSeg" style="margin-left:0">
+    <button data-play="on" class="is-on">모션</button>
     <button data-play="off">정지</button>
   </div>
-  <p>찾아 쓰는 AI가 아니라, 이미 나를 위해 작동하고 있는 Intelligence</p>
 </div>
 
 <div class="wrap">
 
-  <div class="lead">
-    <h2>같은 형태로 존재감만 조절되는 심볼</h2>
-    <p>AI Presence Level이 <code>L1 invisible</code> · <code>L2 Subtle</code> · <code>L3 Explicit</code> 세 단계이므로,
-       심볼은 <b>형태를 바꾸지 않고 강도만 달라져야</b> 합니다. 세 후보를 같은 조건에서 비교합니다.</p>
-  </div>
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__stage" id="heroStage"></div>
+    <h1>이미 나를 위해<br><em>작동하고 있는</em> Intelligence</h1>
+    <p>찾아 쓰는 AI가 아니라, 곁에서 계속 돌고 있는 존재</p>
+  </section>
 
-  <!-- ══ 후보 3안 ══ -->
-  <div class="grid">
+  <div class="grid" id="grid">
 
-    <!-- A · Orbit -->
-    <article class="cand is-pick" data-c="A">
-      <div class="cand__h">
-        <div><h3>A · 궤도</h3><small>Orbit</small></div>
-        <button class="pick">추천</button>
-      </div>
-      <div class="stage" data-state="idle">
-        <svg class="sym symA" width="96" height="96" viewBox="0 0 64 64" aria-hidden="true">
-          <g class="g-arc"><path class="arc" stroke-width="2.6" d="M32 8.5a23.5 23.5 0 0 1 20.35 11.75"/></g>
-          <g class="g-arc2"><path class="arc arc2" stroke-width="2.2" d="M46.6 49.4a17.8 17.8 0 0 1-24.4-3.6"/></g>
-          <circle class="core" cx="32" cy="32" r="7"/>
-        </svg>
-      </div>
-      <p class="cand__desc">점 하나와 그 주위를 도는 호. 무엇을 하는지가 아니라 <b>어떻게 존재하는지</b>를 그립니다.
-        곁에서 계속 돌고 있다는 상태 자체가 ambient의 정의와 일치합니다.</p>
-      <div class="cand__meta">
-        <div><b>L1</b><span>코어만. 호는 사라짐</span></div>
-        <div><b>L2</b><span>코어 + 호 1개, 느린 회전</span></div>
-        <div><b>L3</b><span>코어 + 호 2개, 회전 가속</span></div>
-        <div><b>16px</b><span>코어가 남아 식별 유지</span></div>
+    <article class="cand is-pick" data-c="A" tabindex="0">
+      <div class="cand__stage" data-slot="A" data-size="128"></div>
+      <div class="cand__name"><h3>궤도</h3><small>ORBIT</small></div>
+      <p class="cand__d">코어 주위를 도는 빛의 궤적. <b>무엇을 하는지가 아니라 어떻게 존재하는지</b>를 그립니다.
+        멈추지 않고 곁을 도는 상태 자체가 ambient의 정의입니다.</p>
+      <div class="cand__tags">
+        <span class="tag tag--good">12px 식별 우수</span>
+        <span class="tag">궤적 수로 레벨 조절</span>
       </div>
     </article>
 
-    <!-- B · Converge -->
-    <article class="cand" data-c="B">
-      <div class="cand__h">
-        <div><h3>B · 모임</h3><small>Converge</small></div>
-        <button class="pick">선택</button>
-      </div>
-      <div class="stage" data-state="idle">
-        <svg class="sym symB" width="96" height="96" viewBox="0 0 64 64" aria-hidden="true">
-          <rect class="sheet s1" x="17" y="16" width="22" height="28" rx="4" stroke-width="2.4"/>
-          <rect class="sheet s2" x="25" y="20" width="22" height="28" rx="4" stroke-width="2.4"/>
-          <rect class="sheet s3" x="21" y="18" width="22" height="28" rx="4" stroke-width="2.6"
-                fill="var(--ai-tint)" stroke="var(--ai-dark)"/>
-        </svg>
-      </div>
-      <p class="cand__desc">흩어진 자료가 하나로 모이는 형태. Source Intake라는 실제 동작을 그대로 은유해
-        <b>기능 설명력은 가장 높습니다.</b> 다만 AI라는 신호는 약합니다.</p>
-      <div class="cand__meta">
-        <div><b>L1</b><span>한 장만. 정지</span></div>
-        <div><b>L2</b><span>두 장이 천천히 겹침</span></div>
-        <div><b>L3</b><span>세 장이 빠르게 수렴</span></div>
-        <div><b>16px</b><span>겹침이 뭉개짐 · 불리</span></div>
+    <article class="cand" data-c="B" tabindex="0">
+      <div class="cand__stage" data-slot="B" data-size="128"></div>
+      <div class="cand__name"><h3>블룸</h3><small>BLOOM</small></div>
+      <p class="cand__d">세 갈래 빛이 겹쳐 피어나는 형태. 여러 자료가 하나로 <b>합쳐져 새로 만들어진다</b>는
+        Source Intake의 결과를 담습니다. 가장 따뜻합니다.</p>
+      <div class="cand__tags">
+        <span class="tag tag--good">브랜드감 강함</span>
+        <span class="tag tag--warn">작을수록 뭉침</span>
       </div>
     </article>
 
-    <!-- C · Focus -->
-    <article class="cand" data-c="C">
-      <div class="cand__h">
-        <div><h3>C · 초점</h3><small>Focus</small></div>
-        <button class="pick">선택</button>
-      </div>
-      <div class="stage" data-state="idle">
-        <svg class="sym symC" width="96" height="96" viewBox="0 0 64 64" aria-hidden="true">
-          <circle class="ring ringA r1" cx="32" cy="32" r="20" stroke-width="2.4"/>
-          <circle class="ring ringA r2" cx="32" cy="32" r="20" stroke-width="2"/>
-          <circle class="ring ringA r3" cx="32" cy="32" r="20" stroke-width="1.6"/>
-          <circle class="core" cx="32" cy="32" r="7"/>
-        </svg>
-      </div>
-      <p class="cand__desc">여러 겹 중 하나로 초점이 좁혀지는 형태.
-        <b>Surface What Matters</b>를 직접 시각화합니다. 다만 검색·탐색 아이콘으로 오독될 여지가 있습니다.</p>
-      <div class="cand__meta">
-        <div><b>L1</b><span>코어만</span></div>
-        <div><b>L2</b><span>링 1겹이 느리게 수렴</span></div>
-        <div><b>L3</b><span>링 3겹이 연속 수렴</span></div>
-        <div><b>16px</b><span>링 간격이 붙음 · 보통</span></div>
+    <article class="cand" data-c="C" tabindex="0">
+      <div class="cand__stage" data-slot="C" data-size="128"></div>
+      <div class="cand__name"><h3>플레이트</h3><small>PLATE</small></div>
+      <p class="cand__d">스퀘어클 면에 빛이 훑고 지나갑니다. <b>가장 조용하고 안정적</b>이라
+        아이콘 세트에 자연스럽게 섞입니다. 존재감은 가장 약합니다.</p>
+      <div class="cand__tags">
+        <span class="tag tag--good">아이콘셋 정합</span>
+        <span class="tag tag--warn">개성 약함</span>
       </div>
     </article>
   </div>
 
-  <!-- ══ 레벨 적용 ══ -->
   <section class="sec">
-    <div class="sec__t">선택한 심볼의 레벨별 적용</div>
-    <p class="sec__d">위에서 고른 안이 아래에 반영됩니다. 실제 배지·버튼·타일·히어로 크기로 확인하세요.</p>
+    <div class="sec__head">
+      <h2>존재감은 형태가 아니라 강도로</h2>
+      <p>선택한 심볼이 L1 → L3 로 갈수록 궤적과 발광만 늘어납니다. 형태는 그대로입니다.</p>
+    </div>
     <div class="levels">
 
-      <div class="lvcard">
-        <div class="lvcard__h"><span class="lvtag lv1">L1</span><b>invisible</b></div>
-        <p>존재감을 드러내지 않음. 목록 정렬, 자료 중복 정리처럼 사용자 판단에 영향이 없는 구간.</p>
-        <div class="lvdemo">
-          <div class="pv"><span class="pv__label">심볼 없음</span>
-            <span class="chip">2026.05.21 업데이트 · 경력 3개</span></div>
+      <div class="lv lv1">
+        <div class="lv__h"><span class="lv__b">L1</span><b>invisible</b></div>
+        <p>목록 정렬, 자료 중복 정리. 판단에 영향이 없으므로 심볼을 쓰지 않습니다.</p>
+        <div class="lv__demo">
+          <div><div class="row__l">표시 없음</div>
+            <div class="row__b"><span class="chip">2026.05.21 · 경력 3개</span></div></div>
         </div>
       </div>
 
-      <div class="lvcard">
-        <div class="lvcard__h"><span class="lvtag lv2">L2</span><b>Subtle</b></div>
-        <p>작은 signifier로 존재만 인지. 진입점, 보완 제안, 생성 진행 표시.</p>
-        <div class="lvdemo">
-          <div class="pv"><span class="pv__label">배지 · 12px</span>
-            <span class="chip chip--ai"><span data-slot="sym" data-size="12"></span>경력 불러오기</span></div>
-          <div class="pv"><span class="pv__label">버튼 · 18px</span>
-            <button class="btn"><span data-slot="sym" data-size="18"></span>빠르게 채우기</button></div>
-          <div class="pv"><span class="pv__label">진입 타일 · 26px</span>
-            <span class="tile"><span data-slot="sym" data-size="26"></span></span></div>
+      <div class="lv lv2">
+        <div class="lv__h"><span class="lv__b">L2</span><b>Subtle</b></div>
+        <p>진입점, 보완 제안, 생성 진행. 작은 signifier로 존재만 알립니다.</p>
+        <div class="lv__demo">
+          <div><div class="row__l">배지 14px</div>
+            <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="14"></span>경력 불러오기</span></div></div>
+          <div><div class="row__l">버튼 20px</div>
+            <div class="row__b"><button class="btn"><span data-slot="pick" data-size="20"></span>빠르게 채우기</button></div></div>
+          <div><div class="row__l">진입 타일 30px</div>
+            <div class="row__b"><span class="tile"><span data-slot="pick" data-size="30"></span></span></div></div>
         </div>
       </div>
 
-      <div class="lvcard">
-        <div class="lvcard__h"><span class="lvtag lv3">L3</span><b>Explicit</b></div>
-        <p>AI 개입을 명확히 표시. 문장 생성·수정, 분석 결과, 저장에 반영되는 판단.</p>
-        <div class="lvdemo">
-          <div class="pv"><span class="pv__label">상태 배지 · 14px</span>
-            <span class="chip chip--ai"><span data-slot="sym" data-size="14"></span>AI 작성 · 검토 완료</span></div>
-          <div class="pv"><span class="pv__label">분석 히어로 · 48px</span>
-            <span class="hero"><span data-slot="sym" data-size="48"></span></span></div>
+      <div class="lv lv3">
+        <div class="lv__h"><span class="lv__b">L3</span><b>Explicit</b></div>
+        <p>문장 생성·수정, 분석 결과. AI 개입을 분명히 드러냅니다.</p>
+        <div class="lv__demo">
+          <div><div class="row__l">상태 배지 16px</div>
+            <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="16"></span>AI 작성 · 검토 완료</span></div></div>
+          <div><div class="row__l">분석 히어로 60px</div>
+            <div class="row__b"><span class="bighero"><span data-slot="pick" data-size="60"></span></span></div></div>
         </div>
       </div>
     </div>
   </section>
 
   <div class="note">
-    <b>판단 기준</b>
+    <h3>고를 때 볼 것</h3>
     <ul>
-      <li><b>A 궤도</b> — 셋 중 유일하게 &lsquo;존재 방식&rsquo;을 그림. 원칙 문장이 존재 방식에 대한 것이라 정합. 16px에서도 코어가 남아 안전</li>
-      <li><b>B 모임</b> — 기능 설명력 1위지만 AI 신호가 약하고 작은 크기에서 겹침이 뭉개짐. Source Intake 전용 일러스트로는 유효</li>
-      <li><b>C 초점</b> — Surface What Matters를 직접 시각화. 다만 돋보기·검색으로 읽힐 위험. 잡코리아는 검색이 핵심 기능이라 충돌 소지</li>
-      <li><b>공통 제약</b> — ✨ 스파클은 &lsquo;AI 기능 버튼&rsquo;으로 읽혀 <b>찾아 쓰는 AI</b>가 되므로 배제. 로봇·말풍선은 &lsquo;대화형 에이전트가 아니다&rsquo;와 충돌</li>
+      <li><i>1</i><span><b>작은 크기에서 살아남는가.</b> L2 배지가 14px입니다. 궤도는 코어가 남아 버티고, 블룸은 세 갈래가 뭉쳐 얼룩이 됩니다.</span></li>
+      <li><i>2</i><span><b>형태를 안 바꾸고 강도만 조절되는가.</b> 궤도는 궤적 개수, 플레이트는 발광 세기로 조절됩니다. 블룸은 갈래를 줄이면 다른 형태가 됩니다.</span></li>
+      <li><i>3</i><span><b>검색 아이콘으로 오독되지 않는가.</b> 잡코리아는 검색이 핵심 기능이라 원형 링 계열은 위험합니다.</span></li>
+      <li><i>4</i><span><b>스파클은 배제.</b> 업계 공용어가 되어 &lsquo;AI 기능 버튼&rsquo;으로 읽힙니다. 찾아 쓰는 AI가 되어버려 원칙과 정면 충돌합니다.</span></li>
     </ul>
   </div>
 </div>
 
 <script>
-const SVG = {
-  A: s=>`<svg class="sym symA" width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true">
-      <g class="g-arc"><path class="arc" stroke-width="${(2.6*64/s<6?4.5:5.5)}" d="M32 8.5a23.5 23.5 0 0 1 20.35 11.75"/></g>
-      <g class="g-arc2"><path class="arc arc2" stroke-width="4.5" d="M46.6 49.4a17.8 17.8 0 0 1-24.4-3.6"/></g>
-      <circle class="core" cx="32" cy="32" r="9"/></svg>`,
-  B: s=>`<svg class="sym symB" width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true">
-      <rect class="sheet s1" x="17" y="16" width="22" height="28" rx="4" stroke-width="4"/>
-      <rect class="sheet s2" x="25" y="20" width="22" height="28" rx="4" stroke-width="4"/>
-      <rect class="sheet s3" x="21" y="18" width="22" height="28" rx="4" stroke-width="4"
-            fill="var(--ai-tint)" stroke="var(--ai-dark)"/></svg>`,
-  C: s=>`<svg class="sym symC" width="${s}" height="${s}" viewBox="0 0 64 64" aria-hidden="true">
-      <circle class="ring ringA r1" cx="32" cy="32" r="20" stroke-width="4"/>
-      <circle class="ring ringA r2" cx="32" cy="32" r="20" stroke-width="3.4"/>
-      <circle class="ring ringA r3" cx="32" cy="32" r="20" stroke-width="2.8"/>
-      <circle class="core" cx="32" cy="32" r="9"/></svg>`
-};
+const SYM={
+A:s=>`<svg class="sym symA" width="${s}" height="${s}" viewBox="0 0 64 64">
+  <circle class="halo" cx="32" cy="32" r="30" fill="url(#gHalo)"/>
+  <g class="orbit"><path d="M32 6.5A25.5 25.5 0 0 1 54.1 19.3" fill="none"
+     stroke="url(#gTrail)" stroke-width="5" stroke-linecap="round"/></g>
+  <g class="orbit2"><path d="M47.6 51.2A19.5 19.5 0 0 1 20.9 46" fill="none"
+     stroke="url(#gTrail2)" stroke-width="4" stroke-linecap="round"/></g>
+  <g class="core"><circle cx="32" cy="32" r="11.5" fill="url(#gCore)"/>
+    <ellipse cx="28.2" cy="27.6" rx="4.4" ry="3.1" fill="#fff" opacity=".42" transform="rotate(-28 28.2 27.6)"/>
+  </g></svg>`,
+B:s=>`<svg class="sym symB" width="${s}" height="${s}" viewBox="0 0 64 64">
+  <circle class="halo" cx="32" cy="32" r="30" fill="url(#gHalo)"/>
+  <g style="mix-blend-mode:multiply">
+    <g class="lobe lobe1"><ellipse cx="32" cy="23" rx="12" ry="17.5" fill="url(#gL1)" opacity=".82"/></g>
+    <g class="lobe lobe2"><ellipse cx="32" cy="23" rx="12" ry="17.5" fill="url(#gL2)" opacity=".8"
+       transform="rotate(120 32 32)"/></g>
+    <g class="lobe lobe3"><ellipse cx="32" cy="23" rx="12" ry="17.5" fill="url(#gL3)" opacity=".8"
+       transform="rotate(240 32 32)"/></g>
+  </g>
+  <g class="bcore"><circle cx="32" cy="32" r="6.6" fill="#fff" opacity=".92"/></g></svg>`,
+C:s=>`<svg class="sym symC" width="${s}" height="${s}" viewBox="0 0 64 64">
+  <circle class="halo" cx="32" cy="32" r="30" fill="url(#gHalo)"/>
+  <g class="plate">
+    <path d="M32 5c19.2 0 27 7.8 27 27s-7.8 27-27 27S5 51.2 5 32 12.8 5 32 5Z" fill="url(#gPlate)"/>
+    <g clip-path="url(#cPlate)">
+      <rect class="shine" x="-16" y="0" width="26" height="64" fill="url(#gShine)" transform="skewX(-16)"/>
+    </g>
+    <path d="M32 5c19.2 0 27 7.8 27 27s-7.8 27-27 27S5 51.2 5 32 12.8 5 32 5Z" fill="none"
+      stroke="#fff" stroke-opacity=".24" stroke-width="1.4"/>
+    <circle cx="32" cy="32" r="7" fill="#fff" opacity=".95"/>
+  </g></svg>`};
+
 let pick='A';
 function paint(){
-  document.querySelectorAll('[data-slot="sym"]').forEach(el=>{
-    el.innerHTML=SVG[pick](+el.dataset.size);
+  document.querySelectorAll('[data-slot]').forEach(el=>{
+    const k=el.dataset.slot==='pick'?pick:el.dataset.slot;
+    el.innerHTML=SYM[k](+el.dataset.size);
     el.style.display='inline-flex';
   });
-  document.querySelectorAll('.cand').forEach(c=>{
-    const on=c.dataset.c===pick;
-    c.classList.toggle('is-pick',on);
-    c.querySelector('.pick').textContent = on ? '선택됨' : '선택';
-  });
+  document.getElementById('heroStage').innerHTML=SYM[pick](168);
+  document.querySelectorAll('.cand').forEach(c=>c.classList.toggle('is-pick',c.dataset.c===pick));
 }
-document.querySelectorAll('.cand .pick').forEach(b=>{
-  b.addEventListener('click',()=>{pick=b.closest('.cand').dataset.c;paint();});
+document.getElementById('grid').addEventListener('click',e=>{
+  const c=e.target.closest('.cand'); if(c){pick=c.dataset.c;paint();}
+});
+document.getElementById('grid').addEventListener('keydown',e=>{
+  const c=e.target.closest('.cand');
+  if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pick=c.dataset.c;paint();}
 });
 function seg(id,fn){
   const w=document.getElementById(id);
-  w.addEventListener('click',e=>{
-    const b=e.target.closest('button'); if(!b) return;
-    w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));
-    fn(b);
-  });
+  w.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));fn(b);});
 }
-seg('stateSeg',b=>{
-  document.body.dataset.state=b.dataset.state;
-  document.querySelectorAll('.stage').forEach(s=>s.dataset.state=b.dataset.state);
-});
-seg('playSeg',b=>document.body.classList.toggle('is-paused',b.dataset.play==='off'));
+seg('stateSeg',b=>document.body.dataset.state=b.dataset.state);
+seg('playSeg',b=>document.body.classList.toggle('pause',b.dataset.play==='off'));
 paint();
 </script>
 </body>
