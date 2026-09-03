@@ -256,6 +256,24 @@ img{display:block}
   background:var(--color-brand-500);color:#fff;border-radius:var(--radius-sm);
   display:inline-flex;align-items:center;gap:var(--unit-6);transition:background .15s}
 .aicard:hover .aicard__cta{background:#1648d8}
+.aicard__prog{margin-top:var(--unit-12);height:5px;border-radius:999px;
+  background:rgba(27,85,246,.14);overflow:hidden;max-width:420px}
+.aicard__prog span{display:block;height:100%;border-radius:999px;width:46%;
+  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-cyan));
+  animation:progSlide 2.4s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes progSlide{0%{width:22%}50%{width:64%}100%{width:22%}}
+.aicard__cta--ghost{background:#fff;color:var(--color-brand-500);
+  box-shadow:inset 0 0 0 1px var(--ai-border)}
+.aicard:hover .aicard__cta--ghost{background:#f7f9ff}
+.aicard__lock{margin:8px 39px 0;color:#6a6a6a;display:flex;gap:6px}
+.aicard__lock b{color:var(--ai-dark);font-weight:700}
+/* 작업 상태별 표시 */
+.r-none,.r-busy{display:none}
+[data-run="none"] .r-none,[data-run="busy"] .r-busy{display:revert}
+[data-run="none"] .aicard__body.r-none,[data-run="busy"] .aicard__body.r-busy{display:block}
+[data-run="none"] .aicard__cta.r-none,[data-run="busy"] .aicard__cta.r-busy{display:inline-flex}
+[data-run="busy"] .aicard .jkm{--spin:3s;--morph:1.7s;--glow:1.1}
+[data-run="busy"] .rbtn--ai:not(.is-view){opacity:.45;pointer-events:none}
 .hint{margin:8px 39px 0;color:#6a6a6a}
 .hint b{color:var(--ai-dark);font-weight:700}
 
@@ -535,7 +553,7 @@ img{display:block}
   font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
 </style>
 </head>
-<body data-screen="manage" data-lv="off">
+<body data-screen="manage" data-lv="off" data-run="none">
 
 <div class="bar">
   <span class="bar__label">SCREEN</span>
@@ -549,6 +567,12 @@ img{display:block}
   <div class="tabs" id="lvTabs">
     <button data-lv="off" class="is-on">숨김</button>
     <button data-lv="on">레벨 표시</button>
+  </div>
+  <span class="bar__sep"></span>
+  <span class="bar__label">AI 작업</span>
+  <div class="tabs" id="runTabs">
+    <button data-run="none" class="is-on">없음</button>
+    <button data-run="busy">진행 중 1건</button>
   </div>
   <p class="bar__desc" id="desc">찾아 쓰는 AI가 아니라, 이미 나를 위해 작동하고 있는 Intelligence</p>
 </div>
@@ -629,27 +653,30 @@ img{display:block}
         <img src="assets-jk/ico-chevron.svg" alt="" width="24" height="24"></span>
     </div>
 
-    <!-- L2 Subtle · 작은 signifier로 존재를 인지시키고 행동을 유도 -->
-    <section class="aicard has-lv" role="button" tabindex="0" id="aiEntry"
-             aria-label="가지고 있는 자료로 이력서 채우기">
+    <!-- L2 Subtle · 진입점. 진행 중 작업이 있으면 같은 자리가 진행 카드로 바뀜 -->
+    <section class="aicard has-lv" role="button" tabindex="0" id="aiEntry">
       <span class="lv lv--2">L2</span>
       <span class="aicard__tile"><span class="jkm jkm--calm" style="--s:30px" data-mark></span></span>
-      <div class="aicard__body">
+
+      <div class="aicard__body r-none">
         <span class="aicard__b ty-c2"><span class="aicard__dot"></span>경력 불러오기</span>
         <h2 class="ty-h4">가지고 있는 자료로 이력서를 채워드릴게요</h2>
         <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 연결하면 초안까지 만들어 드려요. 직접 작성할 수도 있어요.</p>
       </div>
-      <span class="aicard__cta ty-b4s">시작하기</span>
-    </section>
-
-    <section class="tracker has-lv"><span class="lv lv--2">L2</span>
-      <span class="jkm jkm--work" style="--s:30px;margin:1px 4px 0 2px" data-mark aria-hidden="true"></span>
-      <div class="tracker__b">
-        <h3 class="ty-b4b">AI가 이력서 초안을 만들고 있어요</h3>
-        <p class="ty-c1">2단계 초안 생성 · 연결한 자료 3개 정리 중 · 다른 메뉴를 이용해도 계속 진행됩니다</p>
+      <div class="aicard__body r-busy">
+        <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 작업 진행 중</span>
+        <h2 class="ty-h4">AI가 이력서 초안을 만들고 있어요</h2>
+        <p class="ty-b4m">2단계 초안 생성 · 연결한 자료 3개 정리 중 · 다른 메뉴를 이용해도 계속 진행됩니다</p>
+        <div class="aicard__prog"><span></span></div>
       </div>
-      <button class="rbtn rbtn--ai">진행 상태 보기</button>
+
+      <span class="aicard__cta ty-b4s r-none">시작하기</span>
+      <span class="aicard__cta aicard__cta--ghost ty-b4s r-busy">이어보기</span>
     </section>
+    <p class="aicard__lock ty-c1 r-busy">
+      AI 이력서 작업은 <b>한 번에 하나만</b> 진행할 수 있어요. 진행 중인 작업을 마치면 새로 시작할 수 있습니다.
+    </p>
+
 
     <div class="lvnote">
       <b>AI Presence Level · 이 화면의 적용</b>
@@ -697,7 +724,7 @@ img{display:block}
           <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
         </div>
         <div class="item__a">
-          <button class="rbtn rbtn--ai">변경 내용 보기</button>
+          <button class="rbtn rbtn--ai is-view">변경 내용 보기</button>
           <button class="rbtn">수정</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
         </div>
@@ -899,7 +926,7 @@ function bind(id,attr){
     w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));
   });
 }
-bind('screenTabs','screen'); bind('lvTabs','lv');
+bind('screenTabs','screen'); bind('lvTabs','lv'); bind('runTabs','run');
 
 /* ══ JK 마크 · 서포터 ══
    r(θ)=R0+A·cos4θ 로 동일 점 개수의 두 형태를 만들어 d 를 보간 */
@@ -961,9 +988,9 @@ const modal=document.getElementById('consent'), go=document.getElementById('cons
 const openModal=()=>modal.classList.add('is-open');
 const closeModal=()=>modal.classList.remove('is-open');
 const aiEntry=document.getElementById('aiEntry');
-aiEntry.addEventListener('click',openModal);
+aiEntry.addEventListener('click',()=>{document.body.dataset.run==='busy'?goScreen('proc'):openModal();});
 aiEntry.addEventListener('keydown',e=>{
-  if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal();}
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();aiEntry.click();}
 });
 document.getElementById('consentX').addEventListener('click',closeModal);
 document.getElementById('consentNo').addEventListener('click',closeModal);
