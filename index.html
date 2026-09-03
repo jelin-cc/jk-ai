@@ -165,6 +165,7 @@ img{display:block}
 .item__name{font-size:16px;font-weight:400;color:var(--row-text);line-height:24px}
 .item__name--link{font-weight:700;color:var(--link-blue)}
 .item__date{margin-top:12px;font-size:12px;color:var(--row-date)}
+.item__date b{color:var(--ai-dark);font-weight:700}
 .item__a{display:flex;gap:8px;align-items:center;margin-right:20px;flex:none}
 
 /* 행 액션 버튼 = JAMS 2.0 button
@@ -191,6 +192,10 @@ img{display:block}
   white-space:nowrap;flex:none;display:inline-flex;align-items:center}
 .badge--warn{border-color:#ffc98a;background:#fff6ec;color:#c2570a}
 .badge--ai{border-color:var(--ai-border);background:var(--ai-tint);color:var(--ai-dark);gap:4px}
+/* Tier 1 · 되돌릴 수 있는 생성 단계 = 존재만 알리고 강조하지 않음 */
+.badge--soft{border-color:var(--color-border-tertiary);background:var(--bg-base);
+  color:var(--color-text-secondary);gap:4px;font-weight:500}
+.badge--soft .badge__dot{background:var(--typography-gray400)}
 .badge__dot{width:5px;height:5px;border-radius:50%;background:var(--ai-cyan)}
 
 /* 강조상품 · 18:3740 실측: bg #f6f7fb / h48 / radius 8 / 전체 폭 */
@@ -225,6 +230,15 @@ img{display:block}
 .aicard::before{content:"";position:absolute;inset:0;background:var(--ai-grad);opacity:.34;
   pointer-events:none}
 .aicard:hover{border-color:#b9c6f5;box-shadow:0 8px 24px rgba(18,32,54,.1);transform:translateY(-1px)}
+/* A · 영향 비례 : Tier 0 이므로 차분하게. 존재는 알리되 앞세우지 않음 */
+[data-track="quiet"] .aicard{border-color:var(--color-border-tertiary)}
+[data-track="quiet"] .aicard::before{opacity:.13}
+[data-track="quiet"] .aicard__tile{border-color:var(--color-border-tertiary)}
+[data-track="quiet"] .aicard__b{background:var(--bg-base);border-color:var(--color-border-tertiary);
+  color:var(--color-text-secondary);font-weight:500}
+[data-track="quiet"] .aicard__b .aicard__dot{background:var(--typography-gray400)}
+[data-track="quiet"] .aicard__steps{display:none}
+[data-track="quiet"] .aicard:hover{border-color:#b9c6f5}
 .aicard__tile{position:relative;width:56px;height:56px;flex:none;border-radius:var(--radius-sm);
   background:#fff;border:1px solid var(--ai-border);display:grid;place-items:center}
 .aicard__tile span{width:20px;height:20px;border-radius:50%;
@@ -495,9 +509,14 @@ img{display:block}
 [data-track="loud"] .tracker.t-a{display:flex}
 [data-track="loud"] .badge.t-a{display:inline-flex}
 /* display:revert 가 section 기본값(block)으로 되돌리므로 flex 레이아웃은 명시 복구 */
-[data-track="loud"] .aicard.t-ac,[data-track="entry"] .aicard.t-ac{display:flex}
+.aicard{display:flex}
 [data-track="loud"] .rbtn--ai.t-a,[data-track="quiet"] .rbtn--ai.t-bc,
 [data-track="entry"] .rbtn--ai.t-bc{display:inline-flex}
+[data-track="quiet"] .aicard h2.t-bc,[data-track="entry"] .aicard h2.t-bc,
+[data-track="loud"] .aicard h2.t-a{display:block}
+.aicard__b .t-a,.aicard__b .t-bc{display:none}
+[data-track="loud"] .aicard__b .t-a,[data-track="quiet"] .aicard__b .t-bc,
+[data-track="entry"] .aicard__b .t-bc{display:inline}
 </style>
 </head>
 <body data-screen="manage" data-track="quiet">
@@ -505,7 +524,7 @@ img{display:block}
 <div class="bar">
   <span class="bar__label">TRACK</span>
   <div class="tabs" id="trackTabs">
-    <button class="is-on" data-track="quiet">A · 은근한 서포트 <b>· 주력</b></button>
+    <button class="is-on" data-track="quiet">A · 영향 비례 <b>· 주력</b></button>
     <button data-track="loud">B · 전면 강조</button>
     <button data-track="entry">C · 진입만 강조</button>
   </div>
@@ -516,7 +535,7 @@ img{display:block}
     <button data-screen="source">③ 자료 연결</button>
     <button data-screen="proc">④ 초안 생성</button>
   </div>
-  <p class="bar__desc" id="desc">AI라는 말 대신 결과로 말함. 기존 배너를 그대로 쓰고 진입점을 늘리지 않음.</p>
+  <p class="bar__desc" id="desc">AI 존재감을 영향 크기에 비례시킴 · 탐색은 조용히, 저장에 영향을 주는 지점은 명확히</p>
 </div>
 
 <!-- 잡코리아 GNB -->
@@ -597,13 +616,14 @@ img{display:block}
     </div>
 
     <!-- A · C : AI 진입 카드 -->
-    <section class="aicard t-ac" role="button" tabindex="0" id="aiEntry"
+    <section class="aicard" role="button" tabindex="0" id="aiEntry"
              aria-label="AI 도움을 받아 이력서 작성하기">
       <span class="aicard__tile"><span></span></span>
       <div class="aicard__body">
-        <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 이력서 작성</span>
-        <h2 class="ty-h4">내 자료를 연결하면 이력서 초안을 만들어 드려요</h2>
-        <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 단계별로 연결하거나, AI 없이 바로 작성할 수 있어요.</p>
+        <span class="aicard__b ty-c2"><span class="aicard__dot"></span><span class="t-bc">경력 불러오기</span><span class="t-a">AI 이력서 작성</span></span>
+        <h2 class="ty-h4 t-bc">가지고 있는 자료로 이력서를 채워드릴게요</h2>
+        <h2 class="ty-h4 t-a">내 자료를 연결하면 AI가 이력서 초안을 만들어 드려요</h2>
+        <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 단계별로 연결하거나, 직접 작성할 수도 있어요.</p>
         <div class="aicard__steps ty-c1">
           <span class="aicard__s"><i>1</i>자료 연결</span><span class="aicard__ar">›</span>
           <span class="aicard__s"><i>2</i>초안 생성</span><span class="aicard__ar">›</span>
@@ -613,11 +633,6 @@ img{display:block}
       </div>
       <span class="aicard__cta ty-b4s">시작하기</span>
     </section>
-
-    <!-- B : 기존 배너 -->
-    <div class="banner-img t-b" id="aiBanner"><img src="assets-jk/banner_health.png" alt="내 모든 경력을 한 번에 모아보고 싶다면? 경력 불러오기"></div>
-
-    <p class="hint ty-c1 t-b">기존 배너의 목적지만 Resume Agent로 변경 · <b>새 진입점을 추가하지 않음</b></p>
     <p class="hint ty-c1 t-c">진입은 A · 목록과 진행 표시는 B · <b>AI 노출을 진입 구간으로만 한정</b></p>
 
     <section class="tracker t-a">
@@ -890,7 +905,6 @@ aiEntry.addEventListener('click',openModal);
 aiEntry.addEventListener('keydown',e=>{
   if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal();}
 });
-document.getElementById('aiBanner').addEventListener('click',openModal);
 document.getElementById('consentX').addEventListener('click',closeModal);
 document.getElementById('consentNo').addEventListener('click',closeModal);
 modal.addEventListener('click',e=>{if(e.target===modal) closeModal();});
