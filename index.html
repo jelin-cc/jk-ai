@@ -196,13 +196,13 @@ img{display:block}
 .rbtn--dots img{width:13px;height:3px}
 
 .badge{height:24px;padding:0 7.5px;border-radius:4px;border:1px solid var(--badge-line);
-  background:var(--badge-bg);color:var(--link-blue);font-size:12px;font-weight:400;line-height:22px;
+  background:var(--badge-bg);color:var(--link-blue);font-size:12px;font-weight:600;line-height:22px;
   white-space:nowrap;flex:none;display:inline-flex;align-items:center}
 .badge--warn{border-color:#ffc98a;background:#fff6ec;color:#c2570a}
 .badge--ai{border-color:var(--ai-border);background:var(--ai-tint);color:var(--ai-dark);gap:4px}
 /* Tier 1 · 되돌릴 수 있는 생성 단계 = 존재만 알리고 강조하지 않음 */
 .badge--soft{border-color:var(--color-border-tertiary);background:var(--bg-base);
-  color:var(--color-text-secondary);gap:4px;font-weight:500}
+  color:var(--color-text-secondary);gap:4px;font-weight:600}
 .badge--soft .badge__dot{background:var(--typography-gray400)}
 .badge__dot{width:5px;height:5px;border-radius:50%;background:var(--color-brand-500)}
 
@@ -232,12 +232,14 @@ img{display:block}
    surface = bg-base / border = ai-border / radius = radius-sm 10
    CTA = JAMS button primary (h44) / 배지 = Tag(radius 4) / 간격 = unit-*  */
 .aicard{margin:20px 39px 0;border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
-  background:var(--bg-base);padding:var(--unit-20);cursor:pointer;position:relative;overflow:hidden;
+  /* 지정 스톱(DDDFFF·96B1FD·FF74AC·FEAB3F)을 흰색과 92% 섞은 파스텔 틴트 */
+  background:linear-gradient(100deg,#F1F4FF 0%,#F6F2FF 28%,#FFF0F6 60%,#FFF6EB 86%,#FFFCF7 100%);
+  padding:var(--unit-20);cursor:pointer;position:relative;overflow:hidden;
   display:flex;align-items:center;gap:var(--unit-20);
   transition:box-shadow .18s,border-color .18s,transform .18s}
 /* 색은 마크에만. 카드는 마크 주변 국소 발광만 아주 옅게 */
 .aicard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:280px;pointer-events:none;
-  background:radial-gradient(150px 130px at 66px 50%,rgba(150,177,253,.20),rgba(255,116,172,.07) 46%,transparent 72%)}
+  background:radial-gradient(160px 140px at 66px 50%,rgba(150,177,253,.26),rgba(255,116,172,.10) 46%,transparent 74%)}
 .aicard:hover{border-color:var(--ai-border);box-shadow:0 6px 20px rgba(18,32,54,.07);transform:translateY(-1px)}
 /* A · 영향 비례 : Tier 0 이므로 차분하게. 존재는 알리되 앞세우지 않음 */
   color:var(--color-text-secondary);font-weight:500}
@@ -245,7 +247,7 @@ img{display:block}
   background:transparent;display:grid;place-items:center}
 .aicard__tile .jkm{width:30px;height:30px}
 .aicard__body{position:relative;flex:1;min-width:0}
-.aicard__b{background:var(--bg-base);border:1px solid var(--color-border-tertiary);border-radius:var(--unit-4);
+.aicard__b{background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);border-radius:var(--unit-4);
   height:24px;padding:0 var(--unit-8);color:var(--color-text-secondary);font-weight:600;
   display:inline-flex;align-items:center;gap:var(--unit-6);margin-bottom:var(--unit-8)}
 .aicard__dot{width:5px;height:5px;border-radius:50%;background:var(--color-brand-500)}
@@ -286,7 +288,7 @@ img{display:block}
 .hint b{color:var(--ai-dark);font-weight:700}
 
 .tracker{margin:12px 39px 0;border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
-  background:var(--bg-base);padding:16px 20px;display:flex;align-items:center;gap:16px}
+  background:linear-gradient(100deg,#F4F6FF 0%,#F9F5FF 40%,#FFF7F1 100%);padding:16px 20px;display:flex;align-items:center;gap:16px}
 .tracker__b{flex:1;min-width:0}
 .tracker__b h3{color:var(--ai-dark)}
 .tracker__b p{color:#6a6a6a;margin-top:2px}
@@ -318,7 +320,18 @@ img{display:block}
   padding:var(--unit-16);transition:border-color .15s,background .15s}
 .consent label:hover{background:#fafbfd}
 .consent label.is-on{border-color:var(--color-brand-500);background:#f7f9ff}
-.consent input{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--color-brand-500)}
+/* Checkbox · JAMS 2.0 Checkbox 대응
+   확정 토큰: color-brand-500 #1b55f6 / color-bg-interactive-secondary #e6e8ea
+   라운드·체크 글리프는 컴포넌트 노드 미확인 → 잠정값 */
+.consent input{position:absolute;opacity:0;width:0;height:0}
+.cbx{width:20px;height:20px;flex:none;margin-top:1px;border-radius:6px;
+  border:1.5px solid var(--color-bg-interactive-secondary);background:var(--bg-base);
+  display:grid;place-items:center;transition:background .16s,border-color .16s}
+.cbx svg{width:12px;height:12px;opacity:0;transform:scale(.6);
+  transition:opacity .16s,transform .18s cubic-bezier(.34,1.4,.6,1)}
+.consent label.is-on .cbx{background:var(--color-brand-500);border-color:var(--color-brand-500)}
+.consent label.is-on .cbx svg{opacity:1;transform:scale(1)}
+.consent input:focus-visible + .cbx{outline:3px solid rgba(27,85,246,.28);outline-offset:2px}
 .consent b{display:block;color:var(--color-text-primary)}
 .consent span{display:block;color:var(--color-text-secondary);margin-top:2px}
 .dialog__detail{margin-top:var(--unit-16);height:40px;padding:0 var(--unit-16);
@@ -377,7 +390,7 @@ img{display:block}
 .srccard__b p{margin-top:var(--unit-2);color:var(--color-text-secondary)}
 .srccard__b small{display:block;margin-top:var(--unit-6);color:var(--typography-gray400);
   font-size:13px;font-weight:500}
-.srccard__st{flex:none;border-radius:999px;padding:var(--unit-6) var(--unit-12);
+.srccard__st{flex:none;border-radius:999px;padding:var(--unit-6) var(--unit-12);font-weight:600;
   border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
 .srccard.is-on .srccard__st{border-color:var(--color-brand-500);
   background:var(--color-brand-500);color:#fff}
@@ -904,10 +917,10 @@ img{display:block}
     </div>
 
     <div class="consent">
-      <label id="agree1L"><input type="checkbox" id="agree1"><span>
+      <label id="agree1L"><input type="checkbox" id="agree1"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M1.8 6.2 4.5 8.9 10.2 3.2" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
         <b class="ty-b4b">[선택] AI 이력서 작성 및 코칭을 위한 정보 처리 동의</b>
         <span class="ty-c1">AI 자료 연결을 계속하려면 이 항목에 동의해주세요.</span></span></label>
-      <label id="agree2L"><input type="checkbox" id="agree2"><span>
+      <label id="agree2L"><input type="checkbox" id="agree2"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M1.8 6.2 4.5 8.9 10.2 3.2" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
         <b class="ty-b4b">[선택] 이력서 기반 맞춤 공고 추천 동의</b>
         <span class="ty-c1">동의하지 않아도 AI 이력서 작성과 코칭은 이용할 수 있어요.</span></span></label>
     </div>
