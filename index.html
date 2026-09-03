@@ -161,7 +161,8 @@ img{display:block}
 .item__b{flex:1;min-width:0}
 .item__propose{font-size:12px;color:var(--row-text);margin-bottom:9px}
 .item__propose b{font-weight:700}
-.item__t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:24px}
+.item__t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:24px;position:relative}
+.item__t .lv{position:static;margin-right:2px}
 .item__name{font-size:16px;font-weight:400;color:var(--row-text);line-height:24px}
 .item__name--link{font-weight:700;color:var(--link-blue)}
 .item__date{margin-top:12px;font-size:12px;color:var(--row-date)}
@@ -231,14 +232,7 @@ img{display:block}
   pointer-events:none}
 .aicard:hover{border-color:#b9c6f5;box-shadow:0 8px 24px rgba(18,32,54,.1);transform:translateY(-1px)}
 /* A · 영향 비례 : Tier 0 이므로 차분하게. 존재는 알리되 앞세우지 않음 */
-[data-track="quiet"] .aicard{border-color:var(--color-border-tertiary)}
-[data-track="quiet"] .aicard::before{opacity:.13}
-[data-track="quiet"] .aicard__tile{border-color:var(--color-border-tertiary)}
-[data-track="quiet"] .aicard__b{background:var(--bg-base);border-color:var(--color-border-tertiary);
   color:var(--color-text-secondary);font-weight:500}
-[data-track="quiet"] .aicard__b .aicard__dot{background:var(--typography-gray400)}
-[data-track="quiet"] .aicard__steps{display:none}
-[data-track="quiet"] .aicard:hover{border-color:#b9c6f5}
 .aicard__tile{position:relative;width:56px;height:56px;flex:none;border-radius:var(--radius-sm);
   background:#fff;border:1px solid var(--ai-border);display:grid;place-items:center}
 .aicard__tile span{width:20px;height:20px;border-radius:50%;
@@ -499,43 +493,44 @@ img{display:block}
 [data-screen="source"] .s-manage,[data-screen="source"] .s-proc,
 [data-screen="proc"]   .s-manage,[data-screen="proc"]   .s-source{display:none}
 [data-screen="manage"] .agentbar{display:none}
-.t-a,.t-b,.t-c,.t-ac,.t-bc{display:none}
-/* 트랙 키
-   quiet = A · 은근한 서포트 (주력)  ·  loud = B · 전면 강조  ·  entry = C · 진입만 강조
-   클래스 t-a(강조 전용) / t-b(은근 전용) / t-c(진입만) / t-ac(AI카드) / t-bc(조용한 목록) */
-[data-track="loud"] .t-a,[data-track="quiet"] .t-b,[data-track="entry"] .t-c,
-[data-track="loud"] .t-ac,[data-track="entry"] .t-ac,
-[data-track="quiet"] .t-bc,[data-track="entry"] .t-bc{display:revert}
-[data-track="loud"] .tracker.t-a{display:flex}
-[data-track="loud"] .badge.t-a{display:inline-flex}
-/* display:revert 가 section 기본값(block)으로 되돌리므로 flex 레이아웃은 명시 복구 */
-.aicard{display:flex}
-[data-track="loud"] .rbtn--ai.t-a,[data-track="quiet"] .rbtn--ai.t-bc,
-[data-track="entry"] .rbtn--ai.t-bc{display:inline-flex}
-[data-track="quiet"] .aicard h2.t-bc,[data-track="entry"] .aicard h2.t-bc,
-[data-track="loud"] .aicard h2.t-a{display:block}
-.aicard__b .t-a,.aicard__b .t-bc{display:none}
-[data-track="loud"] .aicard__b .t-a,[data-track="quiet"] .aicard__b .t-bc,
-[data-track="entry"] .aicard__b .t-bc{display:inline}
+/* ══ AI Presence Level 오버레이 ══
+   L1 invisible · L2 Subtle · L3 Explicit  (JK AI Experience Principle) */
+.lv{position:absolute;top:-9px;left:12px;z-index:5;height:18px;padding:0 7px;border-radius:5px;
+  font-size:10.5px;font-weight:700;letter-spacing:.02em;display:none;align-items:center;
+  box-shadow:0 2px 6px rgba(18,32,54,.18)}
+.lv--1{background:#eef1f6;color:#5c6473}
+.lv--2{background:#e6f4f7;color:#00707f}
+.lv--3{background:#1b55f6;color:#fff}
+[data-lv="on"] .lv{display:inline-flex}
+[data-lv="on"] .has-lv{position:relative;outline:1.5px dashed rgba(27,85,246,.45);
+  outline-offset:3px;border-radius:4px}
+.lvnote{display:none;margin:0 39px 16px;background:#fff;border:1px solid var(--color-border-tertiary);
+  border-radius:var(--radius-sm);padding:var(--unit-16) var(--unit-20)}
+[data-lv="on"] .lvnote{display:block}
+.lvnote b{display:block;color:var(--color-text-primary);font-size:14px;font-weight:700}
+.lvnote ul{margin-top:var(--unit-8);display:flex;flex-direction:column;gap:var(--unit-6)}
+.lvnote li{display:flex;gap:var(--unit-8);align-items:flex-start;font-size:13px;
+  color:var(--color-text-secondary);line-height:19px}
+.lvnote li span:first-child{flex:none;width:26px;height:18px;border-radius:5px;font-size:10.5px;
+  font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
 </style>
 </head>
-<body data-screen="manage" data-track="quiet">
+<body data-screen="manage" data-lv="off">
 
 <div class="bar">
-  <span class="bar__label">TRACK</span>
-  <div class="tabs" id="trackTabs">
-    <button class="is-on" data-track="quiet">A · 영향 비례 <b>· 주력</b></button>
-    <button data-track="loud">B · 전면 강조</button>
-    <button data-track="entry">C · 진입만 강조</button>
-  </div>
-  <span class="bar__sep"></span>
   <span class="bar__label">SCREEN</span>
   <div class="tabs" id="screenTabs">
     <button class="is-on" data-screen="manage">① 이력서 관리</button>
-    <button data-screen="source">③ 자료 연결</button>
-    <button data-screen="proc">④ 초안 생성</button>
+    <button data-screen="source">② 자료 연결</button>
+    <button data-screen="proc">③ 초안 생성</button>
   </div>
-  <p class="bar__desc" id="desc">AI 존재감을 영향 크기에 비례시킴 · 탐색은 조용히, 저장에 영향을 주는 지점은 명확히</p>
+  <span class="bar__sep"></span>
+  <span class="bar__label">AI PRESENCE LEVEL</span>
+  <div class="tabs" id="lvTabs">
+    <button data-lv="off" class="is-on">숨김</button>
+    <button data-lv="on">레벨 표시</button>
+  </div>
+  <p class="bar__desc" id="desc">찾아 쓰는 AI가 아니라, 이미 나를 위해 작동하고 있는 Intelligence</p>
 </div>
 
 <!-- 잡코리아 GNB -->
@@ -607,35 +602,27 @@ img{display:block}
 
     <div class="strip">
       <img class="strip__ico" src="assets-jk/ico-doc.svg" alt="" width="16" height="16">
-      <span class="strip__tx t-a">포지션 제안 받는 중입니다. AI로 경력을 최신화하고 제안 받을 확률을 높여보세요!</span>
-      <span class="strip__tx t-bc">포지션 제안 받는 중입니다. 경력 불러오기로 빠르게 업데이트하고 제안 받을 확률을 높여보세요!</span>
-      <a class="strip__link" href="#"><b class="t-a">AI로 최신화</b><b class="t-bc">경력 업데이트</b>
+      <span class="strip__tx">포지션 제안 받는 중입니다. 경력 불러오기로 빠르게 업데이트하고 제안 받을 확률을 높여보세요!</span>
+      <a class="strip__link" href="#"><b>경력 업데이트</b>
         <img src="assets-jk/ico-arrow.svg" alt="" width="20" height="20"></a>
       <span class="strip__more"><span>상세보기</span>
         <img src="assets-jk/ico-chevron.svg" alt="" width="24" height="24"></span>
     </div>
 
-    <!-- A · C : AI 진입 카드 -->
-    <section class="aicard" role="button" tabindex="0" id="aiEntry"
-             aria-label="AI 도움을 받아 이력서 작성하기">
+    <!-- L2 Subtle · 작은 signifier로 존재를 인지시키고 행동을 유도 -->
+    <section class="aicard has-lv" role="button" tabindex="0" id="aiEntry"
+             aria-label="가지고 있는 자료로 이력서 채우기">
+      <span class="lv lv--2">L2</span>
       <span class="aicard__tile"><span></span></span>
       <div class="aicard__body">
-        <span class="aicard__b ty-c2"><span class="aicard__dot"></span><span class="t-bc">경력 불러오기</span><span class="t-a">AI 이력서 작성</span></span>
-        <h2 class="ty-h4 t-bc">가지고 있는 자료로 이력서를 채워드릴게요</h2>
-        <h2 class="ty-h4 t-a">내 자료를 연결하면 AI가 이력서 초안을 만들어 드려요</h2>
-        <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 단계별로 연결하거나, 직접 작성할 수도 있어요.</p>
-        <div class="aicard__steps ty-c1">
-          <span class="aicard__s"><i>1</i>자료 연결</span><span class="aicard__ar">›</span>
-          <span class="aicard__s"><i>2</i>초안 생성</span><span class="aicard__ar">›</span>
-          <span class="aicard__s"><i>3</i>AI 기반 검토</span><span class="aicard__ar">›</span>
-          <span class="aicard__s"><i>4</i>검토·저장</span>
-        </div>
+        <span class="aicard__b ty-c2"><span class="aicard__dot"></span>경력 불러오기</span>
+        <h2 class="ty-h4">가지고 있는 자료로 이력서를 채워드릴게요</h2>
+        <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 연결하면 초안까지 만들어 드려요. 직접 작성할 수도 있어요.</p>
       </div>
       <span class="aicard__cta ty-b4s">시작하기</span>
     </section>
-    <p class="hint ty-c1 t-c">진입은 A · 목록과 진행 표시는 B · <b>AI 노출을 진입 구간으로만 한정</b></p>
 
-    <section class="tracker t-a">
+    <section class="tracker has-lv"><span class="lv lv--2">L2</span>
       <span class="tracker__s" aria-hidden="true"></span>
       <div class="tracker__b">
         <h3 class="ty-b4b">AI가 이력서 초안을 만들고 있어요</h3>
@@ -643,6 +630,15 @@ img{display:block}
       </div>
       <button class="rbtn rbtn--ai">진행 상태 보기</button>
     </section>
+
+    <div class="lvnote">
+      <b>AI Presence Level · 이 화면의 적용</b>
+      <ul>
+        <li><span class="lv--1">L1</span><span><b>invisible</b> — 목록 정렬과 자료 중복 정리. 사용자 판단에 영향이 없어 존재를 드러내지 않음</span></li>
+        <li><span class="lv--2">L2</span><span><b>Subtle</b> — 진입점, 미완성 이력서 보완 제안, 생성 진행 표시. 작은 signifier로 존재만 인지시킴</span></li>
+        <li><span class="lv--3">L3</span><span><b>Explicit</b> — 저장에 반영된 문장 생성·수정. AI 개입을 명확히 표시하고 근거와 변경 내용을 함께 제공</span></li>
+      </ul>
+    </div>
 
     <div class="listhead"><span>이력서 제목</span><span>이력서 관리</span></div>
 
@@ -658,7 +654,6 @@ img{display:block}
             <p class="item__date">2026.05.21</p>
           </div>
           <div class="item__a">
-            <button class="rbtn rbtn--ai t-a">AI로 다듬기</button>
             <button class="rbtn">수정</button>
             <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
           </div>
@@ -675,14 +670,14 @@ img{display:block}
       <article class="item"><div class="item__row">
         <div class="item__b">
           <p class="item__t">
-            <span class="badge badge--ai t-a"><span class="badge__dot"></span>AI 작성 · 검토 완료</span>
+            <span class="lv lv--3">L3</span>
+            <span class="badge badge--ai"><span class="badge__dot"></span>AI 작성 · 검토 완료</span>
             <span class="item__name">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
           </p>
-          <p class="item__date t-a">2026.08.28 업데이트 · AI가 다듬은 내용 6개 반영 · 근거 자료 3건</p>
-          <p class="item__date t-bc">2026.08.28 업데이트 · 경력 3개 · 학력 1개</p>
+          <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
         </div>
         <div class="item__a">
-          <button class="rbtn rbtn--ai t-a">변경 내용 보기</button>
+          <button class="rbtn rbtn--ai">변경 내용 보기</button>
           <button class="rbtn">수정</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
         </div>
@@ -692,18 +687,18 @@ img{display:block}
       <article class="item"><div class="item__row">
         <div class="item__b">
           <p class="item__t">
-            <span class="badge badge--ai t-a"><span class="badge__dot"></span>AI 생성 중</span>
+            <span class="lv lv--2">L2</span>
+            <span class="badge badge--soft"><span class="badge__dot"></span>AI 생성 중</span>
             <span class="item__name">2026 상반기 이력서</span>
           </p>
           <p class="item__date">2026.05.21</p>
-          <div class="progress-inline t-bc">
+          <div class="progress-inline">
             <div class="progress-inline__bar"><span class="progress-inline__fill"></span></div>
             <p class="progress-inline__t"><b>연결한 자료로 이력서를 정리하고 있어요</b> · 잠시 후 알려드릴게요</p>
           </div>
         </div>
         <div class="item__a">
-          <button class="rbtn rbtn--ai t-a">진행 상태</button>
-          <button class="rbtn t-bc">진행 상태</button>
+          <button class="rbtn">진행 상태</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
         </div>
       </div></article>
@@ -711,13 +706,12 @@ img{display:block}
 
       <article class="item"><div class="item__row">
         <div class="item__b">
-          <p class="item__t"><span class="badge badge--warn">미완성</span>
+          <p class="item__t"><span class="lv lv--2">L2</span><span class="badge badge--warn">미완성</span>
             <span class="item__name">이력서가 아직 완성되지 않았습니다.</span></p>
           <p class="item__date">2023.04.24 등록중</p>
         </div>
         <div class="item__a">
-          <button class="rbtn rbtn--ai t-a">AI로 완성하기</button>
-          <button class="rbtn rbtn--ai t-bc">빠르게 채우기</button>
+          <button class="rbtn rbtn--ai">빠르게 채우기</button>
           <button class="rbtn">완성하기</button>
           <button class="rbtn">삭제</button>
         </div>
@@ -730,7 +724,6 @@ img{display:block}
           <p class="item__date">2026.05.06</p>
         </div>
         <div class="item__a">
-          <button class="rbtn rbtn--ai t-a">AI로 다듬기</button>
           <button class="rbtn">수정</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
         </div>
@@ -743,7 +736,6 @@ img{display:block}
           <p class="item__date">2026.05.06</p>
         </div>
         <div class="item__a">
-          <button class="rbtn rbtn--ai t-a">AI로 다듬기</button>
           <button class="rbtn">수정</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
         </div>
@@ -887,7 +879,7 @@ function bind(id,attr){
     w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));
   });
 }
-bind('trackTabs','track'); bind('screenTabs','screen');
+bind('screenTabs','screen'); bind('lvTabs','lv');
 function goScreen(s){
   document.body.dataset.screen=s;
   document.querySelectorAll('#screenTabs button')
