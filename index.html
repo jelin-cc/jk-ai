@@ -467,42 +467,42 @@ img{display:block}
   letter-spacing:-.6px;color:var(--color-text-primary)}
 .proccard>p{margin-top:var(--unit-10);font-size:16px;line-height:24px;color:var(--color-text-secondary)}
 
-/* 진행 목록 */
-.proclist{text-align:left;border-top:1px solid var(--color-border-tertiary);
-  padding-top:var(--unit-8);overflow:hidden}
-.proclist li{display:flex;align-items:center;gap:var(--unit-12);height:60px;
-  padding:0 var(--unit-16);border-radius:14px;transition:background .2s ease}
+/* ══ 진행 패널 ══ */
+.procpanel{margin:var(--unit-24) auto 0;background:#fff;border-radius:24px;
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.06);
+  padding:var(--unit-24)}
+
+/* 진행률 헤더 */
+.procmeter{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:var(--unit-12)}
+.procmeter b{font-size:13px;font-weight:600;color:var(--typography-gray400);letter-spacing:-.1px}
+.procpct{font-size:24px;font-weight:700;letter-spacing:-.8px;color:var(--color-brand-500);
+  font-variant-numeric:tabular-nums;line-height:1}
+.procbar{height:8px;border-radius:999px;background:#eef0f4;overflow:hidden;margin-bottom:var(--unit-20)}
+.procbar span{display:block;height:100%;border-radius:999px;width:12%;
+  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-g1));
+  transition:width .6s cubic-bezier(.4,0,.2,1)}
+
+/* 단계 목록 · 구분선 없이 간격으로 */
+.proclist{text-align:left;display:flex;flex-direction:column;gap:2px}
+.proclist li{display:flex;align-items:center;gap:var(--unit-12);height:56px;
+  padding:0 var(--unit-12);margin:0 calc(var(--unit-12) * -1);border-radius:14px;
+  transition:background .22s ease}
 .proclist li i{width:26px;height:26px;flex:none;border-radius:50%;display:grid;place-items:center;
   font-style:normal;font-size:12px;font-weight:700;
-  background:#f2f4f7;color:var(--typography-gray400);transition:background .2s,color .2s}
+  background:#f1f3f7;color:var(--typography-gray400);transition:background .2s,color .2s}
 .proclist li b{flex:1;min-width:0;font-size:15px;font-weight:500;color:var(--typography-gray400);
-  transition:color .2s}
+  transition:color .2s;letter-spacing:-.2px}
 .proclist li em{font-style:normal;font-size:13px;font-weight:600;color:var(--typography-gray400);flex:none}
-
-.proclist li.is-done i{background:#e8f7f0;color:#00875a}
+.proclist li.is-done i{background:#eaf7f1;color:#00875a}
 .proclist li.is-done b{color:var(--color-text-primary);font-weight:600}
 .proclist li.is-done em{color:#00875a}
-
-.proclist li.is-run{background:linear-gradient(90deg,#f4f7ff,#f6fbfd)}
-.proclist li.is-run i{background:var(--color-brand-500);color:#fff;
-  box-shadow:0 0 0 4px rgba(27,85,246,.12)}
+.proclist li.is-run{background:#f4f7ff}
+.proclist li.is-run i{background:var(--color-brand-500);color:#fff;box-shadow:0 0 0 4px rgba(27,85,246,.12)}
 .proclist li.is-run b{color:var(--color-text-primary);font-weight:700}
 .proclist li.is-run em{color:var(--color-brand-500)}
 .proclist li.is-run::after{content:"";width:14px;height:14px;border-radius:50%;flex:none;
-  border:2px solid rgba(27,85,246,.22);border-top-color:var(--color-brand-500);
-  animation:spin .8s linear infinite;margin-left:var(--unit-8)}
-
-/* 진행률 */
-.procpanel{margin:var(--unit-24) auto 0;background:#fff;border-radius:20px;
-  box-shadow:0 2px 10px rgba(18,32,54,.05),0 12px 32px rgba(18,32,54,.05);
-  padding:var(--unit-16) var(--unit-8) var(--unit-8)}
-.procmeter{display:flex;align-items:center;gap:var(--unit-12);padding:0 var(--unit-16) var(--unit-12)}
-.procbar{flex:1;height:8px;border-radius:999px;background:#e9ecf2;overflow:hidden}
-.procbar span{display:block;height:100%;border-radius:999px;width:12%;
-  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-g1));
-  box-shadow:0 0 12px rgba(27,85,246,.35);transition:width .6s cubic-bezier(.4,0,.2,1)}
-.procpct{width:44px;text-align:right;font-size:13px;font-weight:700;
-  color:var(--color-brand-500);font-variant-numeric:tabular-nums}
+  border:2px solid rgba(27,85,246,.24);border-top-color:var(--color-brand-500);
+  animation:jkmTurn .8s linear infinite;margin-left:var(--unit-8)}
 
 /* 안내 */
 .procnotice{margin:var(--unit-24) auto 0;text-align:left;background:var(--bg-base);
@@ -900,7 +900,8 @@ img{display:block}
     <p class="ty-b2" id="procDesc">여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.</p>
 
     <div class="procpanel">
-      <div class="procmeter"><div class="procbar"><span id="procBar"></span></div><span class="procpct" id="procPct">0%</span></div>
+      <div class="procmeter"><b>진행률</b><span class="procpct" id="procPct">0%</span></div>
+      <div class="procbar"><span id="procBar"></span></div>
       <ol class="proclist" id="procList">
       <li data-n="0"><i>1</i><b class="ty-b4m">연결한 자료 확인</b><em class="ty-c1">대기</em></li>
       <li data-n="1"><i>2</i><b class="ty-b4m">경력·학력·프로젝트 정보 정리</b><em class="ty-c1">대기</em></li>
