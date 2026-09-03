@@ -235,8 +235,7 @@ img{display:block}
   color:var(--color-text-secondary);font-weight:500}
 .aicard__tile{position:relative;width:56px;height:56px;flex:none;border-radius:var(--radius-sm);
   background:#fff;border:1px solid var(--ai-border);display:grid;place-items:center}
-.aicard__tile span{width:20px;height:20px;border-radius:50%;
-  background:conic-gradient(from 140deg,var(--ai-cyan),var(--color-brand-500),var(--ai-dark))}
+.aicard__tile .jkm{width:30px;height:30px}
 .aicard__body{position:relative;flex:1;min-width:0}
 .aicard__b{background:var(--ai-tint);border:1px solid var(--ai-border);border-radius:var(--unit-4);
   height:24px;padding:0 var(--unit-8);color:var(--ai-dark);
@@ -414,13 +413,10 @@ img{display:block}
   background:var(--ai-grad);opacity:.5;animation:halo 2.6s ease-out infinite}
 .proclogo::after{animation-delay:1.3s}
 @keyframes halo{0%{transform:scale(.72);opacity:.55}70%{opacity:0}100%{transform:scale(1.25);opacity:0}}
-.proclogo span{position:relative;width:64px;height:64px;border-radius:50%;background:#fff;
-  box-shadow:0 6px 20px rgba(27,85,246,.16);display:grid;place-items:center}
-.proclogo span i{width:26px;height:26px;border-radius:50%;
-  background:conic-gradient(from 140deg,var(--ai-cyan),var(--color-brand-500),var(--ai-dark));
-  animation:spin 3.2s linear infinite;display:block}
+.proclogo .jkm{position:relative;z-index:2}
+
 .proccard.is-done .proclogo::before,.proccard.is-done .proclogo::after{animation:none;opacity:.42}
-.proccard.is-done .proclogo span i{animation:none}
+
 
 .proceyebrow{display:inline-flex;align-items:center;gap:var(--unit-6);margin-top:var(--unit-24);
   height:30px;padding:0 var(--unit-12);border-radius:999px;
@@ -493,6 +489,31 @@ img{display:block}
 [data-screen="source"] .s-manage,[data-screen="source"] .s-proc,
 [data-screen="proc"]   .s-manage,[data-screen="proc"]   .s-source{display:none}
 [data-screen="manage"] .agentbar{display:none}
+/* ══════════ JK 마크 · 서포터 (클로버 ↔ 스파클 모프) ══════════ */
+.jkm{position:relative;width:var(--s);height:var(--s);flex:none;display:block;
+  --spin:16s; --morph:9s; --glow:.7}
+.jkm--work{--spin:5s; --morph:3.1s; --glow:1.1}
+.jkm--calm{--spin:22s; --morph:13s; --glow:.5}
+.jkm__halo{position:absolute;inset:calc(var(--s)*-.34);border-radius:50%;z-index:0;
+  background:conic-gradient(from 0deg,#DDDFFF,#96B1FD 15%,#FF74AC 30%,#FEAB3F 70%,#96B1FD 85%,#DDDFFF);
+  filter:blur(calc(var(--s)*.26));opacity:calc(.5*var(--glow));
+  animation:jkmTurn var(--spin) linear infinite}
+.jkm svg{position:relative;z-index:1;width:100%;height:100%;overflow:visible;
+  animation:jkmFloat calc(var(--morph)*1.15) ease-in-out infinite}
+.jkm .shape{animation:jkmMorph var(--morph) cubic-bezier(.45,0,.55,1) infinite;
+  transform-origin:50px 50px;transform-box:view-box}
+.jkm .gwrap{transform-origin:50px 50px;transform-box:view-box;
+  animation:jkmTurn var(--spin) linear infinite}
+.jkm .eye{transform-origin:center;transform-box:fill-box;
+  animation:jkmBlink calc(var(--morph)*2.3) ease-in-out infinite}
+.jkm .eye.r{animation-delay:.05s}
+.jkm--noface .eyes{display:none}
+@keyframes jkmTurn{to{rotate:360deg}}
+@keyframes jkmFloat{0%,100%{transform:translate(-2%,1.5%) rotate(-2.5deg)}
+                    50%{transform:translate(2%,-1.5%) rotate(2.5deg)}}
+@keyframes jkmBlink{0%,93%,100%{scale:1 1}96.5%{scale:1 .12}}
+@media(prefers-reduced-motion:reduce){.jkm *{animation:none!important}}
+
 /* ══ AI Presence Level 오버레이 ══
    L1 invisible · L2 Subtle · L3 Explicit  (JK AI Experience Principle) */
 .lv{position:absolute;top:-9px;left:12px;z-index:5;height:18px;padding:0 7px;border-radius:5px;
@@ -613,7 +634,7 @@ img{display:block}
     <section class="aicard has-lv" role="button" tabindex="0" id="aiEntry"
              aria-label="가지고 있는 자료로 이력서 채우기">
       <span class="lv lv--2">L2</span>
-      <span class="aicard__tile"><span></span></span>
+      <span class="aicard__tile"><span class="jkm jkm--calm" style="--s:30px" data-mark></span></span>
       <div class="aicard__body">
         <span class="aicard__b ty-c2"><span class="aicard__dot"></span>경력 불러오기</span>
         <h2 class="ty-h4">가지고 있는 자료로 이력서를 채워드릴게요</h2>
@@ -623,7 +644,7 @@ img{display:block}
     </section>
 
     <section class="tracker has-lv"><span class="lv lv--2">L2</span>
-      <span class="tracker__s" aria-hidden="true"></span>
+      <span class="jkm jkm--work" style="--s:30px;margin:1px 4px 0 2px" data-mark aria-hidden="true"></span>
       <div class="tracker__b">
         <h3 class="ty-b4b">AI가 이력서 초안을 만들고 있어요</h3>
         <p class="ty-c1">2단계 초안 생성 · 연결한 자료 3개 정리 중 · 다른 메뉴를 이용해도 계속 진행됩니다</p>
@@ -671,7 +692,7 @@ img{display:block}
         <div class="item__b">
           <p class="item__t">
             <span class="lv lv--3">L3</span>
-            <span class="badge badge--ai"><span class="badge__dot"></span>AI 작성 · 검토 완료</span>
+            <span class="badge badge--ai"><span class="jkm jkm--calm jkm--noface" style="--s:14px" data-mark></span>AI 작성 · 검토 완료</span>
             <span class="item__name">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
           </p>
           <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
@@ -800,7 +821,7 @@ img{display:block}
 <!-- ═══════════ ④ 초안 생성 · 07 Processing ═══════════ -->
 <div class="s-proc">
   <div class="procpage"><div class="proccard" id="procCard">
-    <div class="proclogo"><span><i></i></span></div>
+    <div class="proclogo"><span class="jkm jkm--work" style="--s:64px" data-mark></span></div>
     <p class="proceyebrow ty-b4b">STEP 2 · 초안 생성</p>
     <h1 class="ty-h3" id="procTitle">연결한 자료로 이력서 초안을 만들고 있어요</h1>
     <p class="ty-b2" id="procDesc">여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.</p>
@@ -880,6 +901,56 @@ function bind(id,attr){
   });
 }
 bind('screenTabs','screen'); bind('lvTabs','lv');
+
+/* ══ JK 마크 · 서포터 ══
+   r(θ)=R0+A·cos4θ 로 동일 점 개수의 두 형태를 만들어 d 를 보간 */
+function jkLobe(R0,A,n=72){
+  const P=Array.from({length:n},(_,i)=>{
+    const t=i/n*Math.PI*2, r=R0+A*Math.cos(4*t);
+    return [50+r*Math.cos(t-Math.PI/2), 50+r*Math.sin(t-Math.PI/2)];});
+  let d=`M${P[0][0].toFixed(2)} ${P[0][1].toFixed(2)}`;
+  for(let i=0;i<n;i++){
+    const p0=P[(i-1+n)%n],p1=P[i],p2=P[(i+1)%n],p3=P[(i+2)%n];
+    const c1=[p1[0]+(p2[0]-p0[0])/6, p1[1]+(p2[1]-p0[1])/6];
+    const c2=[p2[0]-(p3[0]-p1[0])/6, p2[1]-(p3[1]-p1[1])/6];
+    d+=`C${c1[0].toFixed(2)} ${c1[1].toFixed(2)} ${c2[0].toFixed(2)} ${c2[1].toFixed(2)} ${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
+  }
+  return d+'Z';
+}
+const JK_CLOVER=jkLobe(36,8), JK_MID=jkLobe(31,14), JK_STAR=jkLobe(25,21);
+(()=>{const st=document.createElement('style');
+  st.textContent=`@keyframes jkmMorph{
+    0%,100%{d:path("${JK_CLOVER}");scale:1}
+    38%{d:path("${JK_MID}");scale:1.04}
+    62%{d:path("${JK_STAR}");scale:.96}
+    82%{d:path("${JK_MID}");scale:1.03}}`;
+  document.head.appendChild(st);})();
+let jkId=0;
+function jkMark(el){
+  const u='jk'+(++jkId);
+  el.innerHTML=`<span class="jkm__halo"></span>
+  <svg viewBox="0 0 100 100" fill="none">
+    <defs>
+      <linearGradient id="${u}g" x1="8%" y1="4%" x2="92%" y2="96%">
+        <stop offset="0%" stop-color="#DDDFFF"/><stop offset="15%" stop-color="#96B1FD"/>
+        <stop offset="34%" stop-color="#FF74AC"/><stop offset="72%" stop-color="#FEAB3F"/>
+        <stop offset="88%" stop-color="#96B1FD"/><stop offset="100%" stop-color="#DDDFFF"/>
+      </linearGradient>
+      <radialGradient id="${u}s" cx="34%" cy="26%" r="62%">
+        <stop offset="0%" stop-color="#fff" stop-opacity=".7"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g class="gwrap"><path class="shape" d="${JK_CLOVER}" fill="url(#${u}g)"/></g>
+    <path class="shape" d="${JK_CLOVER}" fill="url(#${u}s)"/>
+    <g class="eyes">
+      <rect class="eye l" x="40.4" y="43" width="4.4" height="11" rx="2.2" fill="#fff"/>
+      <rect class="eye r" x="55.2" y="43" width="4.4" height="11" rx="2.2" fill="#fff"/>
+    </g>
+  </svg>`;
+}
+document.querySelectorAll('[data-mark]').forEach(jkMark);
+
 function goScreen(s){
   document.body.dataset.screen=s;
   document.querySelectorAll('#screenTabs button')
