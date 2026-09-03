@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Resume Agent · 이력서 관리 + 자료 연결</title>
 <link rel="icon" type="image/svg+xml" href="assets-jk/favicon.svg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -530,6 +533,120 @@ img{display:block}
 .procfoot .jbtn--primary{box-shadow:0 6px 18px rgba(27,85,246,.28)}
 .procfoot .jbtn--primary:hover{transform:translateY(-1px)}
 
+
+/* ══════════ ⑤ AI 기반 검토 · 10 Coaching ══════════ */
+.cwbar{background:#fff;border-bottom:1px solid var(--color-border-tertiary)}
+.cwbar__in{width:1200px;margin:0 auto;height:72px;display:flex;align-items:center;gap:var(--unit-12)}
+.cwbar__crumb{display:flex;align-items:center;gap:var(--unit-6);flex:1;min-width:0;
+  font-size:14px;color:var(--color-text-secondary)}
+.cwbar__crumb b{color:var(--color-text-primary);font-weight:700}
+.cwbar__crumb s{text-decoration:none;color:var(--typography-gray400)}
+.cwbar__note{display:flex;align-items:center;gap:var(--unit-6);color:var(--typography-gray400);
+  font-size:12.5px;font-weight:600;white-space:nowrap}
+.cwbar__note img{width:15px;height:15px;opacity:.6}
+
+.cwpage{width:1200px;margin:0 auto;padding:var(--unit-24) 0 96px}
+
+/* 헤드 */
+.cwhead{background:#fff;border-radius:24px;padding:var(--unit-24);
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
+.cwhead__top{display:flex;align-items:center;gap:var(--unit-16)}
+.cwhead__tx{flex:1;min-width:0}
+.cwhead__tx h1{margin-top:var(--unit-6);font-size:24px;font-weight:700;letter-spacing:-.7px;
+  color:var(--color-text-primary)}
+.cwhead__tx p{margin-top:var(--unit-6);font-size:14px;color:var(--color-text-secondary)}
+.cwhead__act{display:flex;gap:var(--unit-8);flex:none}
+.cwuse{margin-top:var(--unit-16);padding:var(--unit-12) var(--unit-16);border-radius:14px;
+  background:#f7f8fb;display:flex;align-items:center;gap:var(--unit-12)}
+.cwuse b{font-size:13.5px;font-weight:700;color:var(--color-text-primary);white-space:nowrap}
+.cwuse p{flex:1;min-width:0;font-size:12.5px;color:var(--typography-gray400);line-height:17px}
+.cwuse__dots{display:flex;gap:4px;flex:none}
+.cwuse__dots i{width:16px;height:5px;border-radius:999px;background:var(--color-border-tertiary);display:block}
+.cwuse__dots i.on{background:var(--color-brand-500)}
+
+.cwmeta{margin-top:var(--unit-12);display:flex;align-items:center;gap:var(--unit-16);
+  padding:0 var(--unit-4);font-size:12.5px;color:var(--typography-gray400);flex-wrap:wrap}
+.cwmeta b{color:var(--color-text-primary);font-weight:700}
+.cwmeta em{font-style:normal;color:var(--color-brand-500);font-weight:700}
+
+/* 2단 */
+.cwgrid{margin-top:var(--unit-16);display:flex;gap:var(--unit-16);align-items:flex-start}
+.cwdraft{flex:1 0 0;min-width:0;background:#fff;border-radius:24px;padding:var(--unit-24);
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
+.cwdraft__h{display:flex;align-items:flex-start;gap:var(--unit-12);
+  padding-bottom:var(--unit-16);border-bottom:1px solid var(--color-border-tertiary)}
+.cwdraft__h div{flex:1;min-width:0}
+.cwdraft__h span{font-size:12px;font-weight:700;color:var(--color-brand-500);letter-spacing:.02em}
+.cwdraft__h h2{margin-top:var(--unit-4);font-size:19px;font-weight:700;letter-spacing:-.5px;
+  color:var(--color-text-primary);line-height:26px}
+.cwdraft__tag{flex:none;height:26px;padding:0 10px;border-radius:8px;background:#f1f3f7;
+  color:var(--typography-gray400);font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
+
+.cwfield{padding:var(--unit-16) 0;border-bottom:1px solid #f3f5f8}
+.cwfield:last-child{border-bottom:0;padding-bottom:0}
+.cwfield__h{display:flex;align-items:center;gap:var(--unit-8);margin-bottom:var(--unit-8)}
+.cwfield__h b{font-size:13px;font-weight:700;color:var(--color-text-secondary)}
+.cwfield__h .chg{height:20px;padding:0 7px;border-radius:6px;font-size:10.5px;font-weight:700;
+  background:rgba(27,85,246,.1);color:var(--color-brand-500);display:none;align-items:center}
+.cwfield.is-applied .chg{display:inline-flex}
+.cwfield__edit{margin-left:auto;height:30px;padding:0 11px;border-radius:9px;font-size:12.5px;
+  font-weight:600;color:var(--color-text-secondary);border:1px solid var(--color-border-tertiary);
+  background:#fff;transition:.15s}
+.cwfield__edit:hover{background:#f7f8fa}
+.cwfield p{font-size:14.5px;line-height:23px;color:var(--color-text-primary);letter-spacing:-.2px}
+.cwfield.is-applied{background:linear-gradient(90deg,rgba(27,85,246,.045),transparent 70%);
+  border-radius:12px;margin:0 -12px;padding-left:12px;padding-right:12px}
+
+/* 제안 사이드 */
+.cwside{width:400px;flex:none;background:#fff;border-radius:24px;padding:var(--unit-20);
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05);
+  position:sticky;top:var(--unit-16)}
+.cwside__h{display:flex;align-items:center;gap:var(--unit-10);margin-bottom:var(--unit-12)}
+.cwside__h div{flex:1;min-width:0}
+.cwside__h span{font-size:11.5px;font-weight:700;color:var(--typography-gray400);letter-spacing:.03em}
+.cwside__h b{display:block;font-size:16px;font-weight:700;letter-spacing:-.4px}
+.cwside__cnt{flex:none;height:26px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:700;
+  color:#fff;background:linear-gradient(120deg,var(--color-brand-500),var(--ai-g1));
+  display:inline-flex;align-items:center}
+.cwfilter{display:flex;gap:6px;margin-bottom:var(--unit-12);flex-wrap:wrap}
+.cwfilter button{height:30px;padding:0 12px;border-radius:999px;font-size:12.5px;font-weight:600;
+  color:var(--color-text-secondary);background:#f3f5f8;transition:.15s}
+.cwfilter button.on{background:var(--color-text-primary);color:#fff}
+
+.cwsug{border:1px solid var(--color-border-tertiary);border-radius:18px;padding:var(--unit-16);
+  margin-bottom:var(--unit-10);transition:border-color .2s,box-shadow .2s,opacity .2s}
+.cwsug:last-child{margin-bottom:0}
+.cwsug__lab{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:6px;
+  background:var(--ai-tint);color:var(--ai-dark);font-size:11px;font-weight:700}
+.cwsug h3{margin-top:var(--unit-8);font-size:14.5px;font-weight:700;letter-spacing:-.3px;
+  color:var(--color-text-primary);line-height:21px}
+.cwsug>p{margin-top:var(--unit-6);font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
+.cwdiff{margin-top:var(--unit-12);border-radius:12px;overflow:hidden;border:1px solid #f0f2f6}
+.cwdiff div{padding:var(--unit-10) var(--unit-12);font-size:12.5px;line-height:18px}
+.cwdiff .b4{background:#fbfbfc;color:var(--typography-gray400);text-decoration:line-through}
+.cwdiff .af{background:rgba(27,85,246,.05);color:var(--color-text-primary);font-weight:500}
+.cwdiff span{display:block;font-size:10.5px;font-weight:700;letter-spacing:.03em;margin-bottom:3px;
+  text-decoration:none}
+.cwdiff .b4 span{color:#c3c9d4}
+.cwdiff .af span{color:var(--color-brand-500)}
+.cwsug__act{margin-top:var(--unit-12);display:flex;gap:6px}
+.cwsug__act button{height:40px;border-radius:12px;font-size:13.5px;font-weight:600;transition:.15s}
+.cwsug__no{flex:none;padding:0 14px;color:var(--color-text-secondary);background:#f3f5f8}
+.cwsug__no:hover{background:#eaedf2}
+.cwsug__yes{flex:1;color:#fff;background:var(--color-brand-500)}
+.cwsug__yes:hover{background:#1648d8}
+.cwsug.is-done{opacity:.5;border-color:#eef0f4}
+.cwsug.is-done .cwsug__act{display:none}
+.cwsug__done{display:none;margin-top:var(--unit-12);height:36px;border-radius:10px;background:#eaf7f1;
+  color:#00875a;font-size:12.5px;font-weight:700;align-items:center;justify-content:center;gap:6px}
+.cwsug.is-done .cwsug__done{display:flex}
+.cwempty{padding:var(--unit-24);text-align:center;color:var(--typography-gray400);font-size:13px}
+
+[data-screen="manage"] .s-coach,[data-screen="source"] .s-coach,[data-screen="proc"] .s-coach{display:none}
+[data-screen="coach"] .s-manage,[data-screen="coach"] .s-source,[data-screen="coach"] .s-proc,
+[data-screen="coach"] .agentbar{display:none}
+[data-screen="manage"] .cwbar,[data-screen="source"] .cwbar,[data-screen="proc"] .cwbar{display:none}
+
 /* ══ 화면 전환 ══ */
 [data-screen="manage"] .s-source,[data-screen="manage"] .s-proc,
 [data-screen="source"] .s-manage,[data-screen="source"] .s-proc,
@@ -592,6 +709,7 @@ img{display:block}
     <button class="is-on" data-screen="manage">① 이력서 관리</button>
     <button data-screen="source">② 자료 연결</button>
     <button data-screen="proc">③ 초안 생성</button>
+    <button data-screen="coach">④ AI 기반 검토</button>
   </div>
   <span class="bar__sep"></span>
   <span class="bar__label">AI PRESENCE LEVEL</span>
@@ -732,6 +850,7 @@ img{display:block}
             <p class="item__date">2026.05.21</p>
           </div>
           <div class="item__a">
+            <button class="rbtn rbtn--ai">AI로 다듬기</button>
             <button class="rbtn">수정</button>
             <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
           </div>
@@ -802,6 +921,7 @@ img{display:block}
           <p class="item__date">2026.05.06</p>
         </div>
         <div class="item__a">
+          <button class="rbtn rbtn--ai">AI로 다듬기</button>
           <button class="rbtn">수정</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
         </div>
@@ -814,6 +934,7 @@ img{display:block}
           <p class="item__date">2026.05.06</p>
         </div>
         <div class="item__a">
+          <button class="rbtn rbtn--ai">AI로 다듬기</button>
           <button class="rbtn">수정</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
         </div>
@@ -926,6 +1047,74 @@ img{display:block}
   </div></div>
 </div>
 
+
+<!-- ═══════════ ⑤ AI 기반 검토 ═══════════ -->
+<div class="cwbar"><div class="cwbar__in">
+  <span class="agentbar__logo"><span class="jkm jkm--static" style="--s:26px" data-mark></span></span>
+  <span class="cwbar__crumb"><s>이력서 관리</s> / <b>이력서 Co-Pilot</b></span>
+  <span class="cwbar__note"><img src="assets-jk/sys-info.svg" alt="" width="15" height="15">아직 잡코리아에는 저장되지 않았어요</span>
+  <button class="jbtn jbtn--primary" id="cwSave">저장할 내용 확인</button>
+</div></div>
+
+<div class="s-coach"><div class="cwpage">
+
+  <section class="cwhead">
+    <div class="cwhead__top">
+      <span class="jkm jkm--calm" style="--s:44px" data-mark></span>
+      <div class="cwhead__tx">
+        <p class="proceyebrow" style="margin-top:0"><b>STEP 3</b><em>AI 기반 검토</em></p>
+        <h1>이력서 초안을 함께 다듬어볼까요?</h1>
+        <p>AI 제안을 전체 또는 항목별로 반영하고, 직접 문장을 수정할 수 있어요.</p>
+      </div>
+      <div class="cwhead__act">
+        <button class="jbtn" id="cwUndo">마지막 변경 되돌리기</button>
+        <button class="jbtn jbtn--primary" id="cwAll">적용 가능한 제안 3개 모두 반영</button>
+      </div>
+    </div>
+    <div class="cwuse">
+      <b id="cwUseTx">AI 코칭 1/5회 사용 · 4회 남음</b>
+      <span class="cwuse__dots" id="cwUseDots"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+      <p>항목별 피드백 질의·응답 1세트마다 1회 사용돼요. 제안 반영과 직접 수정은 횟수에 포함되지 않아요.</p>
+    </div>
+  </section>
+
+  <div class="cwmeta">
+    <span>초안 변경 <b id="cwChg">0개</b></span>
+    <span>제안 반영 <em id="cwApp">0/3</em></span>
+    <span>아직 잡코리아 이력서에는 저장되지 않았어요. 저장할 내용 확인에서 최종 검토합니다.</span>
+  </div>
+
+  <div class="cwgrid">
+    <!-- 이력서 편집 초안 -->
+    <section class="cwdraft">
+      <div class="cwdraft__h">
+        <div>
+          <span>편집 초안</span>
+          <h2>AI Product Owner / Career Agent / Enterprise SaaS</h2>
+        </div>
+        <span class="cwdraft__tag">편집 초안에만 반영</span>
+      </div>
+      <div id="cwFields"></div>
+    </section>
+
+    <!-- AI 제안 -->
+    <aside class="cwside">
+      <div class="cwside__h">
+        <span class="jkm jkm--static" style="--s:26px" data-mark></span>
+        <div><span>SUGGESTION</span><b>AI 제안</b></div>
+        <span class="cwside__cnt" id="cwLeft">3개</span>
+      </div>
+      <div class="cwfilter" id="cwFilter">
+        <button class="on" data-f="all">전체</button>
+        <button data-f="career">경력</button>
+        <button data-f="project">프로젝트</button>
+        <button data-f="skill">보유기술</button>
+      </div>
+      <div id="cwSug"></div>
+    </aside>
+  </div>
+</div></div>
+
 <!-- ═══════════ ② AI 동의 모달 ═══════════ -->
 <div class="modal" id="consent">
   <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="consentTitle">
@@ -1025,6 +1214,99 @@ function jkMark(el){
   </svg>`;
 }
 document.querySelectorAll('[data-mark]').forEach(jkMark);
+
+/* ══ ⑤ AI 기반 검토 ══ */
+const CW_FIELDS=[
+ {k:'title', label:'이력서 제목', v:'AI Product Owner / Career Agent / Enterprise SaaS'},
+ {k:'intro', label:'자기소개',   v:'구직자와 채용 서비스의 문제를 구조화하고, 생성형 AI를 실제 제품 흐름에 연결하는 AI 프로덕트 오너입니다.'},
+ {k:'career',label:'경력기술서',  v:'Career Agent 프로젝트 기획 및 개발'},
+ {k:'project',label:'프로젝트',   v:'AI Agent 기능 기획 및 데모 제작'},
+ {k:'skill', label:'보유기술',    v:'생성형 AI, RAG, 서비스 기획, UX, API, 품질 검증'}
+];
+const CW_SUG=[
+ {id:'s1',cat:'career',field:'career',
+  t:'담당 범위를 더 구체적으로 쓸 수 있어요',
+  why:'역할의 범위와 사용자가 얻는 가치를 함께 보여주면 첫 문장에서 강점이 선명해져요.',
+  before:'Career Agent 프로젝트 기획 및 개발',
+  after:'구직자가 여러 경력 자료를 연결해 프로필을 만들고, 필요한 사실만 확인한 뒤 이력서를 완성하는 AI 작성 흐름을 기획했습니다.'},
+ {id:'s2',cat:'project',field:'project',
+  t:'기능 나열보다 문제와 설계 결과를 연결해요',
+  why:'기능 나열보다 문제와 설계 결과를 연결하면 프로젝트의 목적이 잘 드러나요.',
+  before:'AI Agent 기능 기획 및 데모 제작',
+  after:'대화형 입력 대신 자료 연결·프로필 확인·Co-Pilot 상세 작성·저장으로 이어지는 PC Web 데모를 설계하고 사용 흐름을 검증했습니다.'},
+ {id:'s3',cat:'skill',field:'skill',
+  t:'비슷한 기술을 직무 기준으로 묶었어요',
+  why:'기술을 제품 역할 기준으로 묶으면 채용 담당자가 핵심 역량을 빠르게 파악할 수 있어요.',
+  before:'생성형 AI, RAG, 서비스 기획, UX, API, 품질 검증',
+  after:'AI Product: 생성형 AI · RAG · 서비스 기획 / Product Delivery: UX · API · 품질 검증'}
+];
+let cwApplied=[], cwFilter='all', cwHistory=[];
+
+function cwRenderFields(){
+  $('cwFields').innerHTML=CW_FIELDS.map(f=>{
+    const done=cwApplied.includes(f.k);
+    return `<div class="cwfield ${done?'is-applied':''}">
+      <div class="cwfield__h"><b>${f.label}</b>
+        <span class="chg">AI가 다듬음</span>
+        <button class="cwfield__edit">직접 수정</button></div>
+      <p>${f.v}</p></div>`;}).join('');
+}
+function cwRenderSug(){
+  const list=CW_SUG.filter(x=>cwFilter==='all'||x.cat===cwFilter);
+  $('cwSug').innerHTML = list.length ? list.map(x=>{
+    const done=cwApplied.includes(x.field);
+    return `<article class="cwsug ${done?'is-done':''}" data-id="${x.id}">
+      <span class="cwsug__lab"><span class="jkm jkm--static jkm--noface" style="--s:12px" data-mark></span>AI 제안</span>
+      <h3>${x.t}</h3>
+      <p>${x.why}</p>
+      <div class="cwdiff">
+        <div class="b4"><span>현재</span>${x.before}</div>
+        <div class="af"><span>제안</span>${x.after}</div>
+      </div>
+      <div class="cwsug__act">
+        <button class="cwsug__no">유지</button>
+        <button class="cwsug__yes">이 제안 반영</button>
+      </div>
+      <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
+    </article>`;}).join('') : '<p class="cwempty">이 항목에는 제안이 없어요</p>';
+  document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
+  $('cwLeft').textContent=(3-cwApplied.length)+'개';
+  $('cwChg').textContent=cwApplied.length+'개';
+  $('cwApp').textContent=cwApplied.length+'/3';
+  $('cwAll').textContent = cwApplied.length>=3 ? '모든 제안을 반영했어요'
+    : `적용 가능한 제안 ${3-cwApplied.length}개 모두 반영`;
+  $('cwAll').disabled = cwApplied.length>=3;
+  $('cwUndo').disabled = cwHistory.length===0;
+}
+function cwApply(id){
+  const x=CW_SUG.find(a=>a.id===id); if(!x||cwApplied.includes(x.field)) return;
+  const f=CW_FIELDS.find(a=>a.k===x.field);
+  cwHistory.push({field:x.field,prev:f.v});
+  f.v=x.after; cwApplied.push(x.field);
+  cwRenderFields(); cwRenderSug();
+}
+$('cwSug').addEventListener('click',e=>{
+  const card=e.target.closest('.cwsug'); if(!card) return;
+  if(e.target.closest('.cwsug__yes')) cwApply(card.dataset.id);
+  if(e.target.closest('.cwsug__no')){card.classList.add('is-done');
+    card.querySelector('.cwsug__done').textContent='현재 문장 유지';}
+});
+$('cwAll').addEventListener('click',()=>CW_SUG.forEach(x=>cwApply(x.id)));
+$('cwUndo').addEventListener('click',()=>{
+  const h=cwHistory.pop(); if(!h) return;
+  const f=CW_FIELDS.find(a=>a.k===h.field); f.v=h.prev;
+  cwApplied=cwApplied.filter(k=>k!==h.field);
+  cwRenderFields(); cwRenderSug();
+});
+$('cwFilter').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  cwFilter=b.dataset.f;
+  $('cwFilter').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  cwRenderSug();
+});
+$('cwSave').addEventListener('click',()=>alert('데모: STEP 4 검토·저장 화면으로 이어집니다.'));
+cwRenderFields(); cwRenderSug();
+
 
 function goScreen(s){
   document.body.dataset.screen=s;
@@ -1174,10 +1456,10 @@ $('procNoti').addEventListener('click',e=>{
   const b=e.currentTarget, on=b.classList.toggle('is-on');
   b.setAttribute('aria-checked',String(on));
 });
-$('procBack').addEventListener('click',()=>goScreen('manage'));
+$('procBack').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
 
 /* ── 스텝퍼 상태 ── */
-const SCREEN_STEP={source:1,proc:2};
+const SCREEN_STEP={source:1,proc:2,coach:3};
 function syncStepper(s){
   const cur=SCREEN_STEP[s]||0;
   document.querySelectorAll('#stepper li').forEach(li=>{
