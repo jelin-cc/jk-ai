@@ -46,9 +46,16 @@
   --unit-10:10px;--unit-12:12px;--unit-16:16px;--unit-18:18px;
   --unit-20:20px;--unit-24:24px;--unit-32:32px;--unit-999:999px;
 
-  /* ══ AI 전용 · 대응 토큰 없음 · 확장 후보 ══ */
-  --ai-cyan:#00a9c0; --ai-tint:#f6f8ff; --ai-border:#dce3fb; --ai-dark:#2a2f5c;
-  --ai-grad:linear-gradient(90deg,#e9e7ff,#dff6f8 48%,#e8f7f4);
+  /* ══ AI 확장 팔레트 ══
+     출처 두 가지만 사용
+     (a) JAMS 2.0 확인 토큰 : color-brand-500 #1b55f6 · color-icon-brand #083ccc
+     (b) 디자이너 지정 그라디언트 스톱 : DDDFFF · 96B1FD · FF74AC · FEAB3F
+     이전의 #1b55f6(민트)은 career-agent 번들의 임의값이라 전량 제거함 */
+  --ai-g0:#DDDFFF; --ai-g1:#96B1FD; --ai-g2:#FF74AC; --ai-g3:#FEAB3F;
+  --ai-dark:#083ccc;                    /* JAMS color-icon-brand */
+  --ai-border:#CFDAFE;                  /* ai-g1 기반 파생 */
+  --ai-tint:#F4F7FF;                    /* ai-g1 기반 파생 */
+  --ai-grad:linear-gradient(100deg,var(--ai-g0),var(--ai-g1) 38%,var(--ai-g2) 74%,var(--ai-g3));
 }
 *{box-sizing:border-box}
 html{background:var(--page-bg)}
@@ -136,7 +143,7 @@ img{display:block}
 
 .strip{margin:0 39px;height:58px;background:var(--strip-bg);border:1px solid var(--strip-line);
   display:flex;align-items:center;padding:0 24px;gap:8px}
-.strip__ico{width:16px;height:16px;flex:none}
+.strip__ico{width:16px;height:19.2px;flex:none}
 .strip__tx{font-size:14px;font-weight:400;color:var(--strip-text);flex:1;min-width:0}
 .strip__link{display:flex;align-items:center;gap:0;flex:none;margin-right:24px}
 .strip__link b{font-size:14px;font-weight:700;color:var(--strip-text);
@@ -183,7 +190,7 @@ img{display:block}
 .rbtn--ai{background:var(--ai-tint);border-color:var(--ai-border);color:var(--ai-dark);
   border-radius:var(--radius-sm);font-weight:600;display:inline-flex;align-items:center;gap:6px}
 .rbtn--ai:hover{background:#eef2ff;border-color:#b9c6f5}
-.rbtn--ai::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ai-cyan);flex:none}
+.rbtn--ai::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--color-brand-500);flex:none}
 /* ··· = JAMS ButtonIcononly (44×40) */
 .rbtn--dots{width:44px;padding:0}
 .rbtn--dots img{width:13px;height:3px}
@@ -197,12 +204,12 @@ img{display:block}
 .badge--soft{border-color:var(--color-border-tertiary);background:var(--bg-base);
   color:var(--color-text-secondary);gap:4px;font-weight:500}
 .badge--soft .badge__dot{background:var(--typography-gray400)}
-.badge__dot{width:5px;height:5px;border-radius:50%;background:var(--ai-cyan)}
+.badge__dot{width:5px;height:5px;border-radius:50%;background:var(--color-brand-500)}
 
 /* 강조상품 · 18:3740 실측: bg #f6f7fb / h48 / radius 8 / 전체 폭 */
 .promo{margin-top:12px;height:48px;background:var(--promo-bg);border-radius:8px;
   display:flex;align-items:center;padding:0 20px;gap:0}
-.promo>img{width:20px;height:20px;flex:none}
+.promo>img{width:20px;height:24px;flex:none}
 .promo__tx{margin-left:24px;flex:1;min-width:0;font-size:14px;font-weight:700;color:var(--row-text)}
 .promo__link{display:flex;align-items:center;gap:0;flex:none}
 .promo__link span{font-size:14px;font-weight:400;color:var(--row-text);
@@ -212,7 +219,7 @@ img{display:block}
 .progress-inline{margin-top:12px;max-width:440px}
 .progress-inline__bar{height:6px;border-radius:999px;background:#e6e8ea;overflow:hidden}
 .progress-inline__fill{display:block;height:100%;border-radius:999px;
-  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-cyan));width:62%}
+  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-g1));width:62%}
 .progress-inline__t{margin-top:8px;font-size:12px;color:#6a6a6a}
 .progress-inline__t b{color:var(--ai-dark);font-weight:700}
 
@@ -240,7 +247,7 @@ img{display:block}
 .aicard__b{background:var(--ai-tint);border:1px solid var(--ai-border);border-radius:var(--unit-4);
   height:24px;padding:0 var(--unit-8);color:var(--ai-dark);
   display:inline-flex;align-items:center;gap:var(--unit-4);margin-bottom:var(--unit-8)}
-.aicard__dot{width:5px;height:5px;border-radius:50%;background:var(--ai-cyan)}
+.aicard__dot{width:5px;height:5px;border-radius:50%;background:var(--color-brand-500)}
 .aicard h2{color:var(--color-text-primary)}
 .aicard__body>p{margin-top:var(--unit-4);color:var(--color-text-secondary)}
 .aicard__steps{display:flex;align-items:center;gap:var(--unit-6);margin-top:var(--unit-12);flex-wrap:wrap}
@@ -259,7 +266,7 @@ img{display:block}
 .aicard__prog{margin-top:var(--unit-12);height:5px;border-radius:999px;
   background:rgba(27,85,246,.14);overflow:hidden;max-width:420px}
 .aicard__prog span{display:block;height:100%;border-radius:999px;width:46%;
-  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-cyan));
+  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-g1));
   animation:progSlide 2.4s cubic-bezier(.45,0,.55,1) infinite}
 @keyframes progSlide{0%{width:22%}50%{width:64%}100%{width:22%}}
 .aicard__cta--ghost{background:#fff;color:var(--color-brand-500);
@@ -363,7 +370,7 @@ img{display:block}
 .srccard.is-off:hover{border-color:var(--color-border-tertiary);box-shadow:none}
 .srccard__ico{width:48px;height:48px;flex:none;border-radius:var(--radius-sm);
   background:var(--page-bg);display:grid;place-items:center}
-.srccard__ico img{width:24px;height:24px}
+.srccard__ico img{width:20px;height:24px}
 .srccard__b{flex:1;min-width:0}
 .srccard__b b{display:block;color:var(--color-text-primary)}
 .srccard__b p{margin-top:var(--unit-2);color:var(--color-text-secondary)}
@@ -383,7 +390,7 @@ img{display:block}
 .srcside__list{margin-top:var(--unit-16);display:flex;flex-direction:column;gap:var(--unit-8)}
 .srcside__i{display:flex;align-items:center;gap:var(--unit-10);
   background:var(--page-bg);border-radius:var(--unit-8);padding:var(--unit-10) var(--unit-12)}
-.srcside__i img{width:19px;height:19px;flex:none}
+.srcside__i img{width:16px;height:19px;flex:none}
 .srcside__i div{flex:1;min-width:0}
 .srcside__i b{display:block;color:var(--color-text-primary)}
 .srcside__i small{display:block;color:var(--typography-gray400);font-size:12px;font-weight:500;
@@ -437,7 +444,7 @@ img{display:block}
   height:30px;padding:0 var(--unit-12);border-radius:999px;
   background:var(--ai-tint);border:1px solid var(--ai-border);color:var(--ai-dark);
   font-size:13px;font-weight:600;letter-spacing:-.1px}
-.proceyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ai-cyan)}
+.proceyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--color-brand-500)}
 .proccard h1{margin-top:var(--unit-16);font-size:28px;font-weight:700;line-height:38px;
   letter-spacing:-.6px;color:var(--color-text-primary)}
 .proccard>p{margin-top:var(--unit-10);font-size:16px;line-height:24px;color:var(--color-text-secondary)}
@@ -472,7 +479,7 @@ img{display:block}
 .procmeter{margin:var(--unit-20) auto 0;display:flex;align-items:center;gap:var(--unit-12)}
 .procbar{flex:1;height:8px;border-radius:999px;background:#e9ecf2;overflow:hidden}
 .procbar span{display:block;height:100%;border-radius:999px;width:12%;
-  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-cyan));
+  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-g1));
   box-shadow:0 0 12px rgba(27,85,246,.35);transition:width .6s cubic-bezier(.4,0,.2,1)}
 .procpct{width:44px;text-align:right;font-size:13px;font-weight:700;
   color:var(--color-brand-500);font-variant-numeric:tabular-nums}
@@ -645,7 +652,7 @@ img{display:block}
     </div>
 
     <div class="strip">
-      <img class="strip__ico" src="assets-jk/ico-doc.svg" alt="" width="16" height="16">
+      <img class="strip__ico" src="assets-jk/ico-doc.svg" alt="" width="16" height="19">
       <span class="strip__tx">포지션 제안 받는 중입니다. 경력 불러오기로 빠르게 업데이트하고 제안 받을 확률을 높여보세요!</span>
       <a class="strip__link" href="#"><b>경력 업데이트</b>
         <img src="assets-jk/ico-arrow.svg" alt="" width="20" height="20"></a>
@@ -706,7 +713,7 @@ img{display:block}
           </div>
         </div>
         <div class="promo">
-          <img src="assets-jk/ico-doc.svg" alt="" width="20" height="20">
+          <img src="assets-jk/ico-doc.svg" alt="" width="20" height="24">
           <span class="promo__tx">강조 상품을 이용한 회원은 더 많은 채용 제안을 받고 있습니다.</span>
           <a class="promo__link" href="#"><span>이력서 강조상품 신청</span>
             <img src="assets-jk/ico-chev-sm.svg" alt="" width="20" height="20"></a>
@@ -1040,7 +1047,7 @@ function render(){
 
   $('srcList').innerHTML=S.s.map((c,i)=>`
     <button class="srccard ${isPicked(i)?'is-on':''} ${c.off?'is-off':''}" data-i="${i}" ${c.off?'disabled':''}>
-      <span class="srccard__ico"><img src="assets-jk/ico-doc.svg" alt="" width="24" height="24"></span>
+      <span class="srccard__ico"><img src="assets-jk/ico-doc.svg" alt="" width="20" height="24"></span>
       <span class="srccard__b">
         <b class="ty-b2b">${c.t}</b>
         <p class="ty-b4m">${c.p}</p>
@@ -1052,7 +1059,7 @@ function render(){
   $('pickCount').textContent=picked.length+'개';
   $('pickList').innerHTML = picked.length
     ? picked.map((p,n)=>`<div class="srcside__i">
-        <img src="assets-jk/ico-doc.svg" alt="" width="19" height="19">
+        <img src="assets-jk/ico-doc.svg" alt="" width="16" height="19">
         <div><b class="ty-c1">${p.t}</b><small>${p.m}</small></div>
         <button class="srcside__x" data-n="${n}" aria-label="${p.t} 연결 해제">✕</button>
       </div>`).join('')
