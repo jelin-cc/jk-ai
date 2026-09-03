@@ -155,17 +155,19 @@ body[data-face="off"] .buddy .eyes{display:none}
   0%,100%{transform:translate(-2%,1.5%) rotate(-2.5deg)}
   50%    {transform:translate(2%,-1.5%) rotate(2.5deg)}
 }
+.orb--static *{animation:none!important}
+.orb--static .orb__halo{opacity:.34}
 @keyframes buddyTurn{to{rotate:360deg}}
 @keyframes blink{0%,92%,100%{scale:1 1}96%{scale:1 .12}}
 
 /* 상태 */
-[data-state="idle"] .orb{--spin:9s;--morph:7s;--glow:.78}
-[data-state="work"] .orb{--spin:2.4s;--morph:2.6s;--glow:1.2}
+[data-state="idle"] .orb{--spin:6s;--morph:3.8s;--glow:.78}
+[data-state="work"] .orb{--spin:1.6s;--morph:1.5s;--glow:1.2}
 [data-state="done"] .orb{--spin:0s;--morph:0s;--glow:.85}
 [data-state="done"] .orb *{animation:none!important}
 [data-state="done"] .orb__skin{border-radius:50% 50% 48% 52%/52% 48% 52% 48%}
 [data-state="done"] .petal g.lobe{scale:1}
-[data-state="done"] .buddy .shape{d:path(var(--pClover))}
+[data-state="done"] .buddy .shape{d:path(var(--pOpen))}
 [data-state="done"] .spark .big{rotate:18deg;scale:1}
 [data-state="done"] .spark .sml{rotate:-24deg;scale:1;opacity:1}
 body.pause .orb *{animation-play-state:paused!important}
@@ -374,7 +376,7 @@ body.pause .orb *{animation-play-state:paused!important}
         <p>진입점, 보완 제안, 생성 진행. 작은 signifier로 존재만 알립니다.</p>
         <div class="lv__demo">
           <div><div class="row__l">배지 14px</div>
-            <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="14"></span>경력 불러오기</span></div></div>
+            <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="15" data-static></span>경력 불러오기</span></div></div>
           <div><div class="row__l">버튼 20px</div>
             <div class="row__b"><button class="btn"><span data-slot="pick" data-size="20"></span>빠르게 채우기</button></div></div>
           <div><div class="row__l">진입 타일 32px</div>
@@ -387,7 +389,7 @@ body.pause .orb *{animation-play-state:paused!important}
         <p>문장 생성·수정, 분석 결과. AI 개입을 분명히 드러냅니다.</p>
         <div class="lv__demo">
           <div><div class="row__l">상태 배지 16px</div>
-            <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="16"></span>AI 작성 · 검토 완료</span></div></div>
+            <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="16" data-static></span>AI 작성 · 검토 완료</span></div></div>
           <div><div class="row__l">분석 히어로 68px</div>
             <div class="row__b"><span class="bighero"><span data-slot="pick" data-size="68"></span></span></div></div>
         </div>
@@ -462,15 +464,12 @@ function lobePath(R0,A,n=72){
   }
   return d+'Z';
 }
-const P_CLOVER=lobePath(36,8), P_STAR=lobePath(25,21), P_MID=lobePath(31,14);
+const P_OPEN=lobePath(32,13), P_HALF=lobePath(28.5,17);
 (()=>{const st=document.createElement('style');
-  st.textContent=`:root{--pClover:"${P_CLOVER}"}
+  st.textContent=`:root{--pOpen:"${P_OPEN}"}
   @keyframes buddyMorph{
-    0%,100%{d:path("${P_CLOVER}");scale:1}
-    38%    {d:path("${P_MID}");scale:1.04}
-    62%    {d:path("${P_STAR}");scale:.96}
-    82%    {d:path("${P_MID}");scale:1.03}
-  }`;
+    0%,100%{d:path("${P_OPEN}");scale:1}
+    50%    {d:path("${P_HALF}");scale:.97}}`;
   document.head.appendChild(st);})();
 
 const buddySVG=()=>{const u='b'+(++pid);return `<svg class="buddy" viewBox="0 0 100 100" fill="none">
@@ -483,8 +482,8 @@ const buddySVG=()=>{const u='b'+(++pid);return `<svg class="buddy" viewBox="0 0 
     <stop offset="0%" stop-color="#fff" stop-opacity=".72"/>
     <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
   </radialGradient></defs>
-  <g class="gwrap"><path class="shape" d="${P_CLOVER}" fill="url(#${u}g)"/></g>
-  <path class="shape" d="${P_CLOVER}" fill="url(#${u}s)" style="animation-delay:inherit"/>
+  <g class="gwrap"><path class="shape" d="${P_OPEN}" fill="url(#${u}g)"/></g>
+  <path class="shape" d="${P_OPEN}" fill="url(#${u}s)" style="animation-delay:inherit"/>
   <g class="eyes">
     <rect class="eye l" x="40" y="42" width="4.6" height="12" rx="2.3" fill="#fff"/>
     <rect class="eye r" x="55.4" y="42" width="4.6" height="12" rx="2.3" fill="#fff"/>
@@ -498,6 +497,7 @@ function paint(){
   document.querySelectorAll('[data-slot]').forEach(el=>{
     const k=el.dataset.slot==='pick'?pick:el.dataset.slot;
     el.innerHTML=orb(k,+el.dataset.size);
+    if(el.hasAttribute('data-static')) el.querySelector('.orb').classList.add('orb--static');
     el.style.display='inline-flex';
   });
   document.getElementById('heroStage').innerHTML=orb(pick,176);

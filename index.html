@@ -491,9 +491,9 @@ img{display:block}
 [data-screen="manage"] .agentbar{display:none}
 /* ══════════ JK 마크 · 서포터 (클로버 ↔ 스파클 모프) ══════════ */
 .jkm{position:relative;width:var(--s);height:var(--s);flex:none;display:block;
-  --spin:16s; --morph:9s; --glow:.7}
-.jkm--work{--spin:5s; --morph:3.1s; --glow:1.1}
-.jkm--calm{--spin:22s; --morph:13s; --glow:.5}
+  --spin:8s; --morph:3.6s; --glow:.7}
+.jkm--work{--spin:3s; --morph:1.7s; --glow:1.1}
+.jkm--calm{--spin:11s; --morph:5s; --glow:.55}
 .jkm__halo{position:absolute;inset:calc(var(--s)*-.34);border-radius:50%;z-index:0;
   background:conic-gradient(from 0deg,#DDDFFF,#96B1FD 15%,#FF74AC 30%,#FEAB3F 70%,#96B1FD 85%,#DDDFFF);
   filter:blur(calc(var(--s)*.26));opacity:calc(.5*var(--glow));
@@ -508,6 +508,8 @@ img{display:block}
   animation:jkmBlink calc(var(--morph)*2.3) ease-in-out infinite}
 .jkm .eye.r{animation-delay:.05s}
 .jkm--noface .eyes{display:none}
+.jkm--static *{animation:none!important}
+.jkm--static .jkm__halo{opacity:.34;filter:blur(calc(var(--s)*.2))}
 @keyframes jkmTurn{to{rotate:360deg}}
 @keyframes jkmFloat{0%,100%{transform:translate(-2%,1.5%) rotate(-2.5deg)}
                     50%{transform:translate(2%,-1.5%) rotate(2.5deg)}}
@@ -692,7 +694,7 @@ img{display:block}
         <div class="item__b">
           <p class="item__t">
             <span class="lv lv--3">L3</span>
-            <span class="badge badge--ai"><span class="jkm jkm--calm jkm--noface" style="--s:14px" data-mark></span>AI 작성 · 검토 완료</span>
+            <span class="badge badge--ai"><span class="jkm jkm--static jkm--noface" style="--s:15px" data-mark></span>AI 작성 · 검토 완료</span>
             <span class="item__name">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
           </p>
           <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
@@ -917,13 +919,11 @@ function jkLobe(R0,A,n=72){
   }
   return d+'Z';
 }
-const JK_CLOVER=jkLobe(36,8), JK_MID=jkLobe(31,14), JK_STAR=jkLobe(25,21);
+const JK_OPEN=jkLobe(32,13), JK_HALF=jkLobe(28.5,17);
 (()=>{const st=document.createElement('style');
   st.textContent=`@keyframes jkmMorph{
-    0%,100%{d:path("${JK_CLOVER}");scale:1}
-    38%{d:path("${JK_MID}");scale:1.04}
-    62%{d:path("${JK_STAR}");scale:.96}
-    82%{d:path("${JK_MID}");scale:1.03}}`;
+    0%,100%{d:path("${JK_OPEN}");scale:1}
+    50%    {d:path("${JK_HALF}");scale:.97}}`;
   document.head.appendChild(st);})();
 let jkId=0;
 function jkMark(el){
@@ -941,8 +941,8 @@ function jkMark(el){
         <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <g class="gwrap"><path class="shape" d="${JK_CLOVER}" fill="url(#${u}g)"/></g>
-    <path class="shape" d="${JK_CLOVER}" fill="url(#${u}s)"/>
+    <g class="gwrap"><path class="shape" d="${JK_OPEN}" fill="url(#${u}g)"/></g>
+    <path class="shape" d="${JK_OPEN}" fill="url(#${u}s)"/>
     <g class="eyes">
       <rect class="eye l" x="40.4" y="43" width="4.4" height="11" rx="2.2" fill="#fff"/>
       <rect class="eye r" x="55.2" y="43" width="4.4" height="11" rx="2.2" fill="#fff"/>
