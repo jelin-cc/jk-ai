@@ -187,9 +187,9 @@ img{display:block}
 .rbtn:hover{background:#f7f8fa;border-color:#d3d7e0}
 .rbtn:active{background:#eef0f4}
 /* AI 액션 = JAMS 2.0 기준 (radius-sm 10 · 600 weight · brand tint) */
-.rbtn--ai{background:var(--ai-tint);border-color:var(--ai-border);color:var(--ai-dark);
+.rbtn--ai{background:var(--bg-base);border-color:var(--color-bg-interactive-secondary);color:var(--color-text-primary);
   border-radius:var(--radius-sm);font-weight:600;display:inline-flex;align-items:center;gap:6px}
-.rbtn--ai:hover{background:#eef2ff;border-color:#b9c6f5}
+.rbtn--ai:hover{background:#f7f8fa;border-color:var(--ai-border)}
 .rbtn--ai::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--color-brand-500);flex:none}
 /* ··· = JAMS ButtonIcononly (44×40) */
 .rbtn--dots{width:44px;padding:0}
@@ -231,22 +231,23 @@ img{display:block}
 /* ══ AI 진입 카드 · JAMS 2.0 기준 신규 컴포넌트 ══
    surface = bg-base / border = ai-border / radius = radius-sm 10
    CTA = JAMS button primary (h44) / 배지 = Tag(radius 4) / 간격 = unit-*  */
-.aicard{margin:20px 39px 0;border:1px solid var(--ai-border);border-radius:var(--radius-sm);
+.aicard{margin:20px 39px 0;border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
   background:var(--bg-base);padding:var(--unit-20);cursor:pointer;position:relative;overflow:hidden;
   display:flex;align-items:center;gap:var(--unit-20);
   transition:box-shadow .18s,border-color .18s,transform .18s}
-.aicard::before{content:"";position:absolute;inset:0;background:var(--ai-grad);opacity:.34;
-  pointer-events:none}
-.aicard:hover{border-color:#b9c6f5;box-shadow:0 8px 24px rgba(18,32,54,.1);transform:translateY(-1px)}
+/* 색은 마크에만. 카드는 마크 주변 국소 발광만 아주 옅게 */
+.aicard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:280px;pointer-events:none;
+  background:radial-gradient(150px 130px at 66px 50%,rgba(150,177,253,.20),rgba(255,116,172,.07) 46%,transparent 72%)}
+.aicard:hover{border-color:var(--ai-border);box-shadow:0 6px 20px rgba(18,32,54,.07);transform:translateY(-1px)}
 /* A · 영향 비례 : Tier 0 이므로 차분하게. 존재는 알리되 앞세우지 않음 */
   color:var(--color-text-secondary);font-weight:500}
-.aicard__tile{position:relative;width:56px;height:56px;flex:none;border-radius:var(--radius-sm);
-  background:#fff;border:1px solid var(--ai-border);display:grid;place-items:center}
+.aicard__tile{position:relative;width:52px;height:52px;flex:none;border-radius:var(--radius-sm);
+  background:transparent;display:grid;place-items:center}
 .aicard__tile .jkm{width:30px;height:30px}
 .aicard__body{position:relative;flex:1;min-width:0}
-.aicard__b{background:var(--ai-tint);border:1px solid var(--ai-border);border-radius:var(--unit-4);
-  height:24px;padding:0 var(--unit-8);color:var(--ai-dark);
-  display:inline-flex;align-items:center;gap:var(--unit-4);margin-bottom:var(--unit-8)}
+.aicard__b{background:var(--bg-base);border:1px solid var(--color-border-tertiary);border-radius:var(--unit-4);
+  height:24px;padding:0 var(--unit-8);color:var(--color-text-secondary);font-weight:600;
+  display:inline-flex;align-items:center;gap:var(--unit-6);margin-bottom:var(--unit-8)}
 .aicard__dot{width:5px;height:5px;border-radius:50%;background:var(--color-brand-500)}
 .aicard h2{color:var(--color-text-primary)}
 .aicard__body>p{margin-top:var(--unit-4);color:var(--color-text-secondary)}
@@ -284,8 +285,8 @@ img{display:block}
 .hint{margin:8px 39px 0;color:#6a6a6a}
 .hint b{color:var(--ai-dark);font-weight:700}
 
-.tracker{margin:12px 39px 0;border:1px solid var(--ai-border);border-radius:var(--radius-sm);
-  background:var(--ai-tint);padding:16px 20px;display:flex;align-items:center;gap:16px}
+.tracker{margin:12px 39px 0;border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
+  background:var(--bg-base);padding:16px 20px;display:flex;align-items:center;gap:16px}
 .tracker__b{flex:1;min-width:0}
 .tracker__b h3{color:var(--ai-dark)}
 .tracker__b p{color:#6a6a6a;margin-top:2px}
@@ -485,8 +486,8 @@ img{display:block}
   color:var(--color-brand-500);font-variant-numeric:tabular-nums}
 
 /* 안내 */
-.procnotice{margin:var(--unit-32) auto 0;text-align:left;background:var(--ai-tint);
-  border:1px solid var(--ai-border);border-radius:18px;padding:var(--unit-20);
+.procnotice{margin:var(--unit-32) auto 0;text-align:left;background:#f8f9fb;
+  border:1px solid var(--color-border-tertiary);border-radius:18px;padding:var(--unit-20);
   display:flex;gap:var(--unit-12);align-items:flex-start}
 .procnotice>i{width:26px;height:26px;flex:none;border-radius:50%;background:#fff;
   border:1px solid var(--ai-border);color:var(--ai-dark);font-style:normal;font-size:13px;
