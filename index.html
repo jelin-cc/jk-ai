@@ -170,8 +170,11 @@ img{display:block}
 .rbtn{height:40px;padding:0 17px;border:1px solid var(--btn-line);background:#fff;
   font-size:14px;font-weight:700;color:var(--row-text);line-height:38px;white-space:nowrap;transition:background .15s}
 .rbtn:hover{background:#fafbfd}
-.rbtn--ai{background:var(--ai-tint);border-color:var(--ai-border);color:var(--ai-dark)}
-.rbtn--ai:hover{background:#eef2ff}
+/* AI 액션 = JAMS 2.0 기준 (radius-sm 10 · 600 weight · brand tint) */
+.rbtn--ai{background:var(--ai-tint);border-color:var(--ai-border);color:var(--ai-dark);
+  border-radius:var(--radius-sm);font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.rbtn--ai:hover{background:#eef2ff;border-color:#b9c6f5}
+.rbtn--ai::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ai-cyan);flex:none}
 .rbtn--dots{width:48px;padding:0;display:flex;align-items:center;justify-content:center}
 .rbtn--dots img{width:13px;height:3px}
 
@@ -204,24 +207,40 @@ img{display:block}
 .tip__tx{position:absolute;left:27px;top:25px;font-size:12px;color:var(--tip-text);line-height:14.5px}
 .tip__tx b{color:var(--listhead-text);font-weight:400}
 
-/* AI 진입 카드 · 신규 (배너 자리) */
+/* ══ AI 진입 카드 · JAMS 2.0 기준 신규 컴포넌트 ══
+   surface = bg-base / border = ai-border / radius = radius-sm 10
+   CTA = JAMS button primary (h44) / 배지 = Tag(radius 4) / 간격 = unit-*  */
 .aicard{margin:20px 39px 0;border:1px solid var(--ai-border);border-radius:var(--radius-sm);
-  background:var(--ai-grad);padding:20px;position:relative;cursor:pointer;
-  transition:box-shadow .18s,transform .18s}
-.aicard:hover{box-shadow:0 8px 24px rgba(18,32,54,.1);transform:translateY(-1px)}
-.aicard__b{background:#fff;border:1px solid var(--ai-border);border-radius:999px;padding:4px 10px;
-  color:var(--ai-dark);display:inline-flex;align-items:center;gap:4px;margin-bottom:10px}
-.aicard__dot{width:6px;height:6px;border-radius:50%;background:var(--ai-cyan)}
-.aicard h2{color:#1a1c33}
-.aicard p{margin-top:6px;color:#4a4f70}
-.aicard__steps{display:flex;align-items:center;gap:6px;margin-top:16px;flex-wrap:wrap}
-.aicard__s{background:rgba(255,255,255,.82);border-radius:999px;padding:6px 12px;
-  color:#3d4266;display:flex;align-items:center;gap:6px}
-.aicard__s i{width:18px;height:18px;border-radius:50%;background:var(--ai-dark);color:#fff;
-  font-size:11px;font-weight:700;font-style:normal;display:grid;place-items:center}
-.aicard__ar{color:#a6acc9}
-.aicard__cta{position:absolute;right:20px;bottom:20px;height:40px;padding:0 20px;
-  background:var(--color-brand-500);color:#fff;border-radius:var(--radius-sm);line-height:40px}
+  background:var(--bg-base);padding:var(--unit-20);cursor:pointer;position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:var(--unit-20);
+  transition:box-shadow .18s,border-color .18s,transform .18s}
+.aicard::before{content:"";position:absolute;inset:0;background:var(--ai-grad);opacity:.34;
+  pointer-events:none}
+.aicard:hover{border-color:#b9c6f5;box-shadow:0 8px 24px rgba(18,32,54,.1);transform:translateY(-1px)}
+.aicard__tile{position:relative;width:56px;height:56px;flex:none;border-radius:var(--radius-sm);
+  background:#fff;border:1px solid var(--ai-border);display:grid;place-items:center}
+.aicard__tile span{width:20px;height:20px;border-radius:50%;
+  background:conic-gradient(from 140deg,var(--ai-cyan),var(--color-brand-500),var(--ai-dark))}
+.aicard__body{position:relative;flex:1;min-width:0}
+.aicard__b{background:var(--ai-tint);border:1px solid var(--ai-border);border-radius:var(--unit-4);
+  height:24px;padding:0 var(--unit-8);color:var(--ai-dark);
+  display:inline-flex;align-items:center;gap:var(--unit-4);margin-bottom:var(--unit-8)}
+.aicard__dot{width:5px;height:5px;border-radius:50%;background:var(--ai-cyan)}
+.aicard h2{color:var(--color-text-primary)}
+.aicard__body>p{margin-top:var(--unit-4);color:var(--color-text-secondary)}
+.aicard__steps{display:flex;align-items:center;gap:var(--unit-6);margin-top:var(--unit-12);flex-wrap:wrap}
+.aicard__s{background:#fff;border:1px solid var(--color-border-tertiary);border-radius:var(--unit-4);
+  height:26px;padding:0 var(--unit-8);color:var(--color-text-secondary);
+  display:inline-flex;align-items:center;gap:var(--unit-6)}
+.aicard__s i{width:16px;height:16px;border-radius:50%;background:var(--color-border-tertiary);
+  color:var(--color-text-secondary);font-size:10px;font-weight:700;font-style:normal;
+  display:grid;place-items:center}
+.aicard__s:first-of-type i{background:var(--color-brand-500);color:#fff}
+.aicard__ar{color:var(--typography-gray400);font-size:11px}
+.aicard__cta{position:relative;flex:none;height:44px;padding:0 var(--unit-20);
+  background:var(--color-brand-500);color:#fff;border-radius:var(--radius-sm);
+  display:inline-flex;align-items:center;gap:var(--unit-6);transition:background .15s}
+.aicard:hover .aicard__cta{background:#1648d8}
 .hint{margin:8px 39px 0;color:#6a6a6a}
 .hint b{color:var(--ai-dark);font-weight:700}
 
@@ -531,15 +550,19 @@ img{display:block}
     </div>
 
     <!-- A · C : AI 진입 카드 -->
-    <section class="aicard t-ac" role="button" tabindex="0" id="aiEntry">
-      <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 이력서 작성</span>
-      <h2 class="ty-h4">가지고 있는 자료로 이력서를 만들어 드릴게요</h2>
-      <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 연결하면 AI가 초안을 만들고, 확인한 내용만 저장합니다.</p>
-      <div class="aicard__steps ty-c1">
-        <span class="aicard__s"><i>1</i>자료 연결</span><span class="aicard__ar">›</span>
-        <span class="aicard__s"><i>2</i>초안 생성</span><span class="aicard__ar">›</span>
-        <span class="aicard__s"><i>3</i>AI 기반 검토</span><span class="aicard__ar">›</span>
-        <span class="aicard__s"><i>4</i>검토·저장</span>
+    <section class="aicard t-ac" role="button" tabindex="0" id="aiEntry"
+             aria-label="AI 도움을 받아 이력서 작성하기">
+      <span class="aicard__tile"><span></span></span>
+      <div class="aicard__body">
+        <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 이력서 작성</span>
+        <h2 class="ty-h4">내 자료를 연결하면 이력서 초안을 만들어 드려요</h2>
+        <p class="ty-b4m">기존 이력서·PDF·건강보험 경력을 단계별로 연결하거나, AI 없이 바로 작성할 수 있어요.</p>
+        <div class="aicard__steps ty-c1">
+          <span class="aicard__s"><i>1</i>자료 연결</span><span class="aicard__ar">›</span>
+          <span class="aicard__s"><i>2</i>초안 생성</span><span class="aicard__ar">›</span>
+          <span class="aicard__s"><i>3</i>AI 기반 검토</span><span class="aicard__ar">›</span>
+          <span class="aicard__s"><i>4</i>검토·저장</span>
+        </div>
       </div>
       <span class="aicard__cta ty-b4b">시작하기</span>
     </section>
@@ -815,7 +838,11 @@ function goScreen(s){
 const modal=document.getElementById('consent'), go=document.getElementById('consentGo');
 const openModal=()=>modal.classList.add('is-open');
 const closeModal=()=>modal.classList.remove('is-open');
-document.getElementById('aiEntry').addEventListener('click',openModal);
+const aiEntry=document.getElementById('aiEntry');
+aiEntry.addEventListener('click',openModal);
+aiEntry.addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal();}
+});
 document.getElementById('aiBanner').addEventListener('click',openModal);
 document.getElementById('consentX').addEventListener('click',closeModal);
 document.getElementById('consentNo').addEventListener('click',closeModal);
