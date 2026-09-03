@@ -261,9 +261,6 @@ img{display:block}
 
 .tracker{margin:12px 39px 0;border:1px solid var(--ai-border);border-radius:var(--radius-sm);
   background:var(--ai-tint);padding:16px 20px;display:flex;align-items:center;gap:16px}
-.tracker__s{width:32px;height:32px;border-radius:50%;flex:none;
-  border:3px solid #dfe6ff;border-top-color:var(--ai-cyan);animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 .tracker__b{flex:1;min-width:0}
 .tracker__b h3{color:var(--ai-dark)}
 .tracker__b p{color:#6a6a6a;margin-top:2px}
@@ -493,7 +490,7 @@ img{display:block}
 .jkm{position:relative;width:var(--s);height:var(--s);flex:none;display:block;
   --spin:8s; --morph:3.6s; --glow:.7}
 .jkm--work{--spin:3s; --morph:1.7s; --glow:1.1}
-.jkm--calm{--spin:11s; --morph:5s; --glow:.55}
+.jkm--calm{--spin:6s; --morph:2.8s; --glow:.6}
 .jkm__halo{position:absolute;inset:calc(var(--s)*-.34);border-radius:50%;z-index:0;
   background:conic-gradient(from 0deg,#DDDFFF,#96B1FD 15%,#FF74AC 30%,#FEAB3F 70%,#96B1FD 85%,#DDDFFF);
   filter:blur(calc(var(--s)*.26));opacity:calc(.5*var(--glow));
@@ -509,7 +506,7 @@ img{display:block}
 .jkm .eye.r{animation-delay:.05s}
 .jkm--noface .eyes{display:none}
 .jkm--static *{animation:none!important}
-.jkm--static .jkm__halo{opacity:.34;filter:blur(calc(var(--s)*.2))}
+.jkm--static .jkm__halo{display:none}
 @keyframes jkmTurn{to{rotate:360deg}}
 @keyframes jkmFloat{0%,100%{transform:translate(-2%,1.5%) rotate(-2.5deg)}
                     50%{transform:translate(2%,-1.5%) rotate(2.5deg)}}
@@ -919,11 +916,11 @@ function jkLobe(R0,A,n=72){
   }
   return d+'Z';
 }
-const JK_OPEN=jkLobe(32,13), JK_HALF=jkLobe(28.5,17);
+const JK_OPEN=jkLobe(36,8), JK_HALF=jkLobe(34,10.5);
 (()=>{const st=document.createElement('style');
   st.textContent=`@keyframes jkmMorph{
     0%,100%{d:path("${JK_OPEN}");scale:1}
-    50%    {d:path("${JK_HALF}");scale:.97}}`;
+    46%    {d:path("${JK_HALF}");scale:.84}}`;
   document.head.appendChild(st);})();
 let jkId=0;
 function jkMark(el){

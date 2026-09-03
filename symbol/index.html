@@ -72,46 +72,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
   filter:blur(calc(var(--s) * .045));
   animation:coreDrift calc(var(--morph)*.78) ease-in-out infinite}
 
-/* ── 변형 B · 링 ── */
-.orb--ring .orb__skin i{filter:blur(calc(var(--s)*.03))}
-.orb--ring .orb__skin{-webkit-mask:radial-gradient(circle,transparent 52%,#000 60%);
-  mask:radial-gradient(circle,transparent 52%,#000 60%)}
-.orb--ring .orb__core{inset:30%;opacity:.85}
-
-/* ── 변형 C · 궤적 ── */
-.orb--trail .orb__skin{border-radius:50%!important;animation:orbWobble calc(var(--morph)*.71) ease-in-out infinite;
-  -webkit-mask:conic-gradient(from -20deg,#000 0deg,#000 128deg,transparent 190deg);
-  mask:conic-gradient(from -20deg,#000 0deg,#000 128deg,transparent 190deg)}
-.orb--trail .orb__skin i{inset:-10%;border-radius:50%;
-  -webkit-mask:radial-gradient(circle,transparent 60%,#000 69%);
-  mask:radial-gradient(circle,transparent 60%,#000 69%);filter:blur(calc(var(--s)*.022))}
-.orb--trail .orb__halo{opacity:calc(.44*var(--glow))}
-.orb--trail .orb__core{inset:26%}
-
-/* ── 변형 D · 스파클 (JK 기존 마크 24295:2440) ── */
-.orb--spark .orb__skin,.orb--spark .orb__core{display:none}
-.orb--spark .orb__halo{inset:calc(var(--s) * -.3);opacity:calc(.55*var(--glow));
-  filter:blur(calc(var(--s)*.24))}
-.spark{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
-  animation:sparkFloat calc(var(--morph)*.9) ease-in-out infinite}
-.spark .big{transform-origin:6.33px 9px;
-  animation:sparkTwist var(--spin) cubic-bezier(.4,0,.6,1) infinite,
-            sparkBeat calc(var(--morph)*.38) ease-in-out infinite}
-.spark .sml{transform-origin:11.67px 4.33px;
-  animation:sparkTwist calc(var(--spin)*.62) cubic-bezier(.4,0,.6,1) infinite reverse,
-            sparkPop calc(var(--morph)*.46) ease-in-out infinite;
-  animation-delay:0s,calc(var(--morph)*-.2)}
-.spark .glowlayer{filter:blur(calc(var(--s)*.06));opacity:calc(.85*var(--glow));
-  animation:glowBeat calc(var(--morph)*.38) ease-in-out infinite}
-@keyframes sparkTwist{to{rotate:360deg}}
-@keyframes sparkBeat{0%,100%{scale:.92}50%{scale:1.14}}
-@keyframes sparkPop{0%,100%{scale:.72;opacity:.6}45%{scale:1.24;opacity:1}}
-@keyframes glowBeat{0%,100%{opacity:calc(.5*var(--glow))}50%{opacity:calc(1*var(--glow))}}
-@keyframes sparkFloat{
-  0%,100%{transform:translate(-2.5%,2%) rotate(-3deg)}
-  50%    {transform:translate(2.5%,-2%) rotate(3deg)}
-}
-
 /* ── 변형 E · 페탈 (6로브) ── */
 .orb--petal .orb__skin,.orb--petal .orb__core{display:none}
 .orb--petal .orb__halo{inset:calc(var(--s)*-.26);opacity:calc(.5*var(--glow));
@@ -156,7 +116,7 @@ body[data-face="off"] .buddy .eyes{display:none}
   50%    {transform:translate(2%,-1.5%) rotate(2.5deg)}
 }
 .orb--static *{animation:none!important}
-.orb--static .orb__halo{opacity:.34}
+.orb--static .orb__halo{display:none}
 @keyframes buddyTurn{to{rotate:360deg}}
 @keyframes blink{0%,92%,100%{scale:1 1}96%{scale:1 .12}}
 
@@ -292,8 +252,8 @@ body.pause .orb *{animation-play-state:paused!important}
 
   <section class="sec" style="margin-top:56px">
     <div class="sec__head">
-      <h2>일곱 가지 형태</h2>
-      <p>같은 그라디언트 스톱과 같은 모션 원리를 쓰되, 채움 방식만 다릅니다.</p>
+      <h2>세 가지 형태</h2>
+      <p>같은 그라디언트 스톱과 같은 모션 원리를 쓰되, 채움 방식만 다릅니다. 서포터가 기준안입니다.</p>
     </div>
     <div class="grid" id="grid">
 
@@ -321,37 +281,9 @@ body.pause .orb *{animation-play-state:paused!important}
         <div class="cand__tags"><span class="tag tag--good">가장 차분함</span><span class="tag">레이어 깊이감</span></div>
       </article>
 
-      <article class="cand" data-c="spark" tabindex="0">
-        <div class="cand__stage" data-slot="spark" data-size="108"></div>
-        <div class="cand__n"><h3>스파클</h3><small>SPARKLE</small></div>
-        <p class="cand__d">이미 쓰고 있는 JK 마크에 그라디언트와 모션만 입혔습니다.
-          <b>새로 학습시킬 필요가 없는 유일한 안</b>이고, 두 별이 서로 다른 박자로 반짝입니다.</p>
-        <div class="cand__tags"><span class="tag tag--good">기존 자산</span><span class="tag tag--good">학습비용 0</span></div>
-      </article>
 
-      <article class="cand" data-c="orb" tabindex="0">
-        <div class="cand__stage" data-slot="orb" data-size="108"></div>
-        <div class="cand__n"><h3>오브</h3><small>ORB</small></div>
-        <p class="cand__d">부드럽게 형태가 흔들리는 빛덩어리. <b>가장 유기적이고 살아있는 느낌</b>입니다.
-          작아져도 실루엣이 남아 배지까지 버팁니다.</p>
-        <div class="cand__tags"><span class="tag tag--good">14px 식별 우수</span><span class="tag">레퍼런스 근접</span></div>
-      </article>
 
-      <article class="cand" data-c="ring" tabindex="0">
-        <div class="cand__stage" data-slot="ring" data-size="108"></div>
-        <div class="cand__n"><h3>링</h3><small>RING</small></div>
-        <p class="cand__d">가운데를 비운 고리. <b>진행률·상태 표현으로 확장</b>하기 좋습니다.
-          다만 검색·로딩 아이콘과 혼동될 수 있습니다.</p>
-        <div class="cand__tags"><span class="tag tag--good">상태 확장 쉬움</span><span class="tag tag--warn">로딩과 혼동</span></div>
-      </article>
 
-      <article class="cand" data-c="trail" tabindex="0">
-        <div class="cand__stage" data-slot="trail" data-size="108"></div>
-        <div class="cand__n"><h3>궤적</h3><small>TRAIL</small></div>
-        <p class="cand__d">한쪽만 남은 빛의 꼬리가 코어를 돕니다. <b>방향과 진행감이 가장 뚜렷</b>합니다.
-          정적인 상태에서는 조금 허전합니다.</p>
-        <div class="cand__tags"><span class="tag tag--good">진행감 뚜렷</span><span class="tag tag--warn">정지 시 허전</span></div>
-      </article>
     </div>
   </section>
 
@@ -403,25 +335,12 @@ body.pause .orb *{animation-play-state:paused!important}
       <li><i>1</i><span><b>그라디언트는 지정 스톱 그대로.</b> <code style="color:#dde">DDDFFF · 96B1FD · FF74AC · FEAB3F · 96B1FD · DDDFFF</code> 를 conic으로 감아 회전시킵니다. 시작과 끝이 같은 색이라 이음매가 안 보입니다.</span></li>
       <li><i>2</i><span><b>모션은 세 겹이 서로 다른 속도로 움직입니다.</b> 그라디언트 회전 · 실루엣 모핑 · 중심광 드리프트. 각각 단순하지만 겹치면 반복이 안 느껴집니다.</span></li>
       <li><i>3</i><span><b>크기 하나로 전부 스케일됩니다.</b> 블러 반경이 크기에 비례해서 14px에서도 뭉개지지 않습니다.</span></li>
-      <li><i>4</i><span><b>스파클 재검토.</b> 앞서 &lsquo;업계 공용어라 배제&rsquo;라고 했지만, JK가 이미 쓰는 마크였습니다.
-        이미 있는 자산을 버리고 새 형태를 학습시키는 비용이 더 큽니다. 그라디언트와 모션으로 차별화하는 쪽이 낫습니다.</span></li>
-      <li><i>5</i><span><b>대기와 작동 중의 차이는 속도뿐입니다.</b> 대기 22초, 작동 중 4.6초. 형태가 바뀌지 않아 같은 존재로 읽힙니다.</span></li>
+      <li><i>4</i><span><b>대기와 작동 중의 차이는 속도뿐입니다.</b> 대기 22초, 작동 중 4.6초. 형태가 바뀌지 않아 같은 존재로 읽힙니다.</span></li>
     </ul>
   </div>
 </div>
 
 <script>
-const SPARK_BIG="M4.16944 7.57411C4.51781 7.45799 4.79118 7.18462 4.9073 6.83625L5.50076 5.05587C5.6202 4.69756 5.95552 4.45587 6.33321 4.45587C6.71091 4.45587 7.04623 4.69756 7.16567 5.05587L7.75913 6.83625C7.87525 7.18462 8.14862 7.45799 8.49699 7.57411L10.2774 8.16757C10.6357 8.28701 10.8774 8.62233 10.8774 9.00003C10.8774 9.37772 10.6357 9.71304 10.2774 9.83248L8.49699 10.4259C8.14862 10.5421 7.87525 10.8154 7.75913 11.1638L7.16567 12.9442C7.04623 13.3025 6.71091 13.5442 6.33321 13.5442C5.95552 13.5442 5.6202 13.3025 5.50076 12.9442L4.9073 11.1638C4.79118 10.8154 4.51781 10.5421 4.16944 10.4259L2.38906 9.83248C2.03075 9.71304 1.78906 9.37772 1.78906 9.00003C1.78906 8.62233 2.03075 8.28701 2.38906 8.16757L4.16944 7.57411Z";
-const SPARK_SML="M10.2136 3.61826C10.562 3.50214 10.8353 3.22877 10.9515 2.8804L11.1671 2.23354C11.2387 2.01855 11.4399 1.87354 11.6665 1.87354C11.8932 1.87354 12.0944 2.01855 12.166 2.23354L12.3816 2.8804C12.4978 3.22877 12.7711 3.50214 13.1195 3.61826L13.7664 3.83389C13.9814 3.90555 14.1264 4.10674 14.1264 4.33336C14.1264 4.55998 13.9814 4.76117 13.7664 4.83283L13.1195 5.04845C12.7711 5.16458 12.4978 5.43795 12.3816 5.78632L12.166 6.43318C12.0944 6.64817 11.8932 6.79318 11.6665 6.79318C11.4399 6.79318 11.2387 6.64817 11.1671 6.43318L10.9515 5.78632C10.8353 5.43795 10.562 5.16458 10.2136 5.04845L9.56672 4.83283C9.35174 4.76117 9.20672 4.55998 9.20672 4.33336C9.20672 4.10674 9.35174 3.90555 9.56672 3.83389L10.2136 3.61826Z";
-let uid=0;
-const sparkSVG=()=>{const g='sg'+(++uid);return `<svg class="spark" viewBox="0 0 16 16" fill="none">
-  <defs><linearGradient id="${g}" x1="0" y1="16" x2="16" y2="0">
-    <stop offset="0%" stop-color="#96B1FD"/><stop offset="34%" stop-color="#FF74AC"/>
-    <stop offset="72%" stop-color="#FEAB3F"/><stop offset="100%" stop-color="#DDDFFF"/>
-  </linearGradient></defs>
-  <g class="glowlayer"><path class="big" d="${SPARK_BIG}" fill="url(#${g})"/><path class="sml" d="${SPARK_SML}" fill="url(#${g})"/></g>
-  <path class="big" d="${SPARK_BIG}" fill="url(#${g})"/><path class="sml" d="${SPARK_SML}" fill="url(#${g})"/>
-</svg>`;};
 /* 지정 스톱(DDDFFF·96B1FD·FF74AC·FEAB3F·96B1FD·DDDFFF)을 6등분 지점에서 샘플링 */
 const HUES=['#DDDFFF','#A2AAF4','#FF79A3','#FE9076','#FEA648','#A2B0E8'];
 let pid=0;
@@ -464,12 +383,12 @@ function lobePath(R0,A,n=72){
   }
   return d+'Z';
 }
-const P_OPEN=lobePath(32,13), P_HALF=lobePath(28.5,17);
+const P_OPEN=lobePath(36,8), P_HALF=lobePath(34,10.5);
 (()=>{const st=document.createElement('style');
   st.textContent=`:root{--pOpen:"${P_OPEN}"}
   @keyframes buddyMorph{
     0%,100%{d:path("${P_OPEN}");scale:1}
-    50%    {d:path("${P_HALF}");scale:.97}}`;
+    46%    {d:path("${P_HALF}");scale:.84}}`;
   document.head.appendChild(st);})();
 
 const buddySVG=()=>{const u='b'+(++pid);return `<svg class="buddy" viewBox="0 0 100 100" fill="none">
@@ -489,9 +408,9 @@ const buddySVG=()=>{const u='b'+(++pid);return `<svg class="buddy" viewBox="0 0 
     <rect class="eye r" x="55.4" y="42" width="4.6" height="12" rx="2.3" fill="#fff"/>
   </g></svg>`;};
 
-const BODY={buddy:buddySVG,spark:sparkSVG,petal:petalSVG,lens:lensSVG};
-const orb=(kind,s)=>`<span class="orb ${kind!=='orb'?'orb--'+kind:''}" style="--s:${s}px">
-  <i class="orb__halo"></i>${BODY[kind]?BODY[kind]():'<i class="orb__skin"><i></i></i><i class="orb__core"></i>'}</span>`;
+const BODY={buddy:buddySVG,petal:petalSVG,lens:lensSVG};
+const orb=(kind,s)=>`<span class="orb orb--${kind}" style="--s:${s}px">
+  <i class="orb__halo"></i>${BODY[kind]()}</span>`;
 let pick='buddy';
 function paint(){
   document.querySelectorAll('[data-slot]').forEach(el=>{
