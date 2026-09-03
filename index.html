@@ -324,10 +324,11 @@ img{display:block}
    확정 토큰: color-brand-500 #1b55f6 / color-bg-interactive-secondary #e6e8ea
    라운드·체크 글리프는 컴포넌트 노드 미확인 → 잠정값 */
 .consent input{position:absolute;opacity:0;width:0;height:0}
-.cbx{width:20px;height:20px;flex:none;margin-top:1px;border-radius:6px;
+.cbx{position:relative;width:20px;height:20px;flex:none;margin-top:1px;border-radius:6px;
   border:1.5px solid var(--color-bg-interactive-secondary);background:var(--bg-base);
-  display:grid;place-items:center;transition:background .16s,border-color .16s}
-.cbx svg{width:12px;height:12px;display:block;opacity:0;transform:scale(.6);
+  transition:background .16s,border-color .16s}
+.cbx svg{position:absolute;left:-1.5px;top:-1.5px;width:20px;height:20px;display:block;
+  opacity:0;transform:scale(.62);transform-origin:center;
   transition:opacity .16s,transform .18s cubic-bezier(.34,1.4,.6,1)}
 .consent label.is-on .cbx{background:var(--color-brand-500);border-color:var(--color-brand-500)}
 .consent label.is-on .cbx svg{opacity:1;transform:scale(1)}
@@ -922,10 +923,10 @@ img{display:block}
     </div>
 
     <div class="consent">
-      <label id="agree1L"><input type="checkbox" id="agree1"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.6 6.2 5 8.6 9.4 3.4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
+      <label id="agree1L"><input type="checkbox" id="agree1"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
         <b class="ty-b4b">[선택] AI 이력서 작성 및 코칭을 위한 정보 처리 동의</b>
         <span class="ty-c1">AI 자료 연결을 계속하려면 이 항목에 동의해주세요.</span></span></label>
-      <label id="agree2L"><input type="checkbox" id="agree2"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.6 6.2 5 8.6 9.4 3.4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
+      <label id="agree2L"><input type="checkbox" id="agree2"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
         <b class="ty-b4b">[선택] 이력서 기반 맞춤 공고 추천 동의</b>
         <span class="ty-c1">동의하지 않아도 AI 이력서 작성과 코칭은 이용할 수 있어요.</span></span></label>
     </div>
