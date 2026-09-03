@@ -536,7 +536,7 @@ img{display:block}
 
 /* ══════════ ⑤ AI 기반 검토 · 10 Coaching ══════════ */
 .cwbar{background:#fff;border-bottom:1px solid var(--color-border-tertiary)}
-.cwbar__in{width:1200px;margin:0 auto;height:72px;display:flex;align-items:center;gap:var(--unit-12)}
+.cwbar__in{position:relative;width:1200px;margin:0 auto;height:72px;display:flex;align-items:center;gap:var(--unit-12)}
 .cwbar__crumb{display:flex;align-items:center;gap:var(--unit-6);flex:1;min-width:0;
   font-size:14px;color:var(--color-text-secondary)}
 .cwbar__crumb b{color:var(--color-text-primary);font-weight:700}
@@ -605,9 +605,9 @@ img{display:block}
 .cwside__h div{flex:1;min-width:0}
 .cwside__h span{font-size:11.5px;font-weight:700;color:var(--typography-gray400);letter-spacing:.03em}
 .cwside__h b{display:block;font-size:16px;font-weight:700;letter-spacing:-.4px}
-.cwside__cnt{flex:none;height:26px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:700;
-  color:#fff;background:linear-gradient(120deg,var(--color-brand-500),var(--ai-g1));
-  display:inline-flex;align-items:center}
+.cwside__cnt{flex:none;height:26px;padding:0 11px;border-radius:999px;font-size:12.5px;font-weight:700;
+  color:#fff;background:var(--color-brand-500);display:inline-flex;align-items:center;
+  box-shadow:0 2px 6px rgba(27,85,246,.28)}
 .cwfilter{display:flex;gap:6px;margin-bottom:var(--unit-12);flex-wrap:wrap}
 .cwfilter button{height:30px;padding:0 12px;border-radius:999px;font-size:12.5px;font-weight:600;
   color:var(--color-text-secondary);background:#f3f5f8;transition:.15s}
@@ -646,6 +646,133 @@ img{display:block}
 [data-screen="coach"] .s-manage,[data-screen="coach"] .s-source,[data-screen="coach"] .s-proc,
 [data-screen="coach"] .agentbar{display:none}
 [data-screen="manage"] .cwbar,[data-screen="source"] .cwbar,[data-screen="proc"] .cwbar{display:none}
+
+
+/* ══════════ ⑤ 이력서 작성 · 캡처 기준 + JAMS 컬러 ══════════ */
+.rw-head{background:#fff;border-bottom:1px solid var(--color-border-tertiary)}
+.rw-head__in{width:1256px;margin:0 auto;height:54px;display:flex;align-items:center}
+.rw-head__in>span{font-size:17px;font-weight:800;color:#1c3faa;letter-spacing:-.02em}
+.rw-head__nav{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--color-text-secondary)}
+.rw-head__nav i{width:1px;height:11px;background:#d8dce2;display:block}
+
+.rw-page{background:#eceff3;padding:28px 0 90px}
+.rw-wrap{width:1256px;margin:0 auto;display:flex;gap:20px;align-items:flex-start}
+.rw-main{flex:1 0 0;min-width:0}
+.rw-title{background:#fff;border:1px solid var(--color-border-tertiary);padding:26px 28px;
+  font-size:22px;font-weight:500;letter-spacing:-.4px;margin-bottom:26px}
+.rw-sec{margin-bottom:26px}
+.rw-sec__h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rw-sec__h h2{font-size:19px;font-weight:700;letter-spacing:-.4px}
+.rw-sec__h .rgt{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--typography-gray400)}
+.rw-sec__h .rgt b{color:#f04452;font-weight:400}
+.rw-card{background:#fff;border:1px solid var(--color-border-tertiary);padding:20px}
+
+.rw-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px}
+.rw-row:last-child{margin-bottom:0}
+.rw-f{position:relative;border:1px solid #dfe3e8;background:#fff;height:56px;padding:9px 12px 0;flex:1;min-width:0}
+.rw-f--sm{flex:0 0 130px}.rw-f--md{flex:0 0 172px}.rw-f--lg{flex:0 0 240px}
+.rw-f label{display:block;font-size:11px;color:var(--typography-gray400);line-height:14px}
+.rw-f label b{color:#f04452;font-weight:400}
+.rw-f .v{font-size:14px;line-height:24px;margin-top:1px}
+.rw-f .v.ph{color:#b7bdc9}
+.rw-f--dis{background:#f5f7f9}
+.rw-f__ico{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;opacity:.4}
+.rw-f__cta{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;
+  color:var(--color-brand-500);text-decoration:underline}
+.rw-sel::after{content:"";position:absolute;right:11px;top:calc(50% - 2px);
+  border:4px solid transparent;border-top-color:var(--typography-gray400)}
+.rw-ta{border:1px solid #dfe3e8;padding:9px 12px;min-height:76px;width:100%}
+.rw-ta label{display:block;font-size:11px;color:var(--typography-gray400)}
+.rw-ta .v{font-size:14px;margin-top:4px;line-height:21px}
+.rw-ta .v.ph{color:#b7bdc9}
+.rw-chk{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--color-text-secondary);
+  height:56px;white-space:nowrap;flex:none}
+.rw-chk i{width:18px;height:18px;border-radius:50%;border:1.5px solid #c9cfd8;display:grid;
+  place-items:center;font-size:10px;color:#fff}
+.rw-chk.on i{background:var(--color-brand-500);border-color:var(--color-brand-500)}
+.rw-chk.on{color:var(--color-text-primary)}
+.rw-tag{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 11px;
+  border:1px solid #c7d2fb;background:#fff;color:var(--color-brand-500);font-size:13px}
+.rw-tag em{font-style:normal;color:var(--typography-gray400);cursor:pointer}
+.rw-chip{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 12px;
+  border:1px solid #dfe3e8;background:#fff;font-size:13px;color:var(--color-text-secondary);cursor:pointer}
+.rw-chip.on{border-color:var(--color-brand-500);color:var(--color-brand-500)}
+.rw-chip b{font-weight:400;color:#b7bdc9}
+.rw-add{border-top:1px solid #eef1f4;margin-top:14px;padding-top:14px;text-align:center}
+.rw-add button{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--color-text-secondary)}
+.rw-add span{width:20px;height:20px;border-radius:50%;border:1px solid #c9cfd8;color:var(--typography-gray400);
+  display:grid;place-items:center;font-size:13px}
+.rw-item{position:relative;padding:16px 0;border-bottom:1px solid #eef1f4}
+.rw-item:first-child{padding-top:0}
+.rw-item:last-of-type{border-bottom:0}
+.rw-del{position:absolute;right:-32px;top:2px;width:22px;height:22px;background:#b7bdc9;color:#fff;
+  display:grid;place-items:center;font-size:12px}
+.rw-link{font-size:13px;color:var(--color-brand-500);text-decoration:underline}
+.rw-btn{height:32px;padding:0 11px;border:1px solid #dfe3e8;background:#fff;
+  font-size:12.5px;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:5px}
+.rw-btn b{color:#03c75a;font-weight:800;font-size:12px}
+.rw-note{background:#f7f9fb;border:1px solid #eef1f4;padding:14px 16px;margin-top:14px;
+  display:flex;align-items:center;gap:20px;font-size:13px;color:var(--color-text-secondary)}
+.rw-note>b{font-weight:600;color:var(--color-text-primary);flex:none}
+.rw-tip{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;
+  border:1px solid var(--color-brand-500);border-radius:18px;background:#fff;
+  font-size:12.5px;color:var(--color-brand-500)}
+.rw-hint{font-size:12px;color:var(--typography-gray400);margin-bottom:8px}
+.rw-hint b{color:#f04452;font-weight:400}
+.rw-pref{display:flex;gap:8px}
+.rw-pref button{flex:1;height:56px;border:1px solid #dfe3e8;background:#fff;
+  display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;color:var(--typography-gray400)}
+.rw-pref button i{width:18px;height:18px;border-radius:50%;border:1.5px solid #c9cfd8;
+  display:grid;place-items:center;font-size:10px;color:#fff}
+.rw-pref button.on{border-color:var(--color-brand-500);color:var(--color-brand-500)}
+.rw-pref button.on i{background:var(--color-brand-500);border-color:var(--color-brand-500)}
+.rw-prefbody{margin-top:8px;background:#f7f9fb;padding:14px;display:flex;align-items:center;gap:8px}
+.rw-prefbody>b{font-size:13px;color:var(--color-text-secondary);width:52px;flex:none}
+.rw-sa{border:1px solid #dfe3e8}
+.rw-sa__h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #eef1f4}
+.rw-sa__h b{flex:1;font-size:14px;font-weight:400}
+.rw-sa__h s{text-decoration:none;font-size:12.5px;color:var(--typography-gray400)}
+.rw-sa__h em{font-style:normal;width:34px;height:34px;display:grid;place-items:center;
+  color:#b7bdc9;border-left:1px solid #eef1f4;font-size:15px}
+.rw-sa__b{padding:16px 14px;font-size:14px;line-height:24px;min-height:210px}
+/* 스킬 (Figma 1455:30544) */
+.rw-skill__search{position:relative;border:1px solid #dfe3e8;height:52px;display:flex;
+  align-items:center;padding:0 14px;color:#b7bdc9;font-size:14px;max-width:610px}
+.rw-skill__search img{position:absolute;right:14px;width:18px;height:18px;opacity:.4}
+.rw-tabs{display:flex;gap:6px;margin:14px 0 10px}
+.rw-tabs button{height:34px;padding:0 14px;border-radius:999px;border:1px solid #dfe3e8;
+  background:#fff;font-size:13px;font-weight:600;color:var(--color-text-secondary)}
+.rw-tabs button.on{border-color:var(--color-brand-500);color:var(--color-brand-500);background:#f5f8ff}
+.rw-skill__lead{display:flex;align-items:center;font-size:13px;color:var(--color-text-secondary);margin-bottom:10px}
+.rw-skill__lead .rgt{margin-left:auto;display:flex;gap:12px;font-size:12.5px;color:var(--color-text-secondary)}
+.rw-skill__pool{display:flex;flex-wrap:wrap;gap:6px}
+.rw-skill__mine{margin-top:16px;border:1px solid #eef1f4;background:#fafbfc;padding:16px}
+.rw-skill__mine h4{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
+.rw-skill__mine h4 b{color:var(--color-brand-500)}
+.rw-skill__mine h4 s{margin-left:auto;text-decoration:none;font-size:12.5px;font-weight:500;
+  color:var(--color-text-secondary)}
+.rw-skill__mine p{font-size:12.5px;color:var(--typography-gray400);margin:4px 0 12px}
+.rw-side{width:250px;flex:none;position:sticky;top:16px}
+.rw-side__box{background:#fff;border:1px solid var(--color-border-tertiary);padding:16px 0 8px}
+.rw-side__t{padding:0 16px 12px;border-bottom:1px solid #eef1f4;font-size:13px;color:var(--typography-gray400)}
+.rw-side__i{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:14px;color:var(--typography-gray400)}
+.rw-side__i span{width:20px;flex:none;text-align:center;font-size:13px}
+.rw-side__i b{flex:1;font-weight:500}
+.rw-side__i.on{color:var(--color-brand-500)}
+.rw-side__i.on b{font-weight:600}
+.rw-side__i em{width:20px;height:20px;border-radius:50%;border:1px solid #c9cfd8;
+  color:var(--typography-gray400);font-style:normal;display:grid;place-items:center;font-size:13px;line-height:1}
+.rw-side__i.on em{border-color:#9fb4fb;color:var(--color-brand-500)}
+.rw-save{margin-top:12px;width:100%;height:52px;background:var(--color-brand-500);color:#fff;
+  font-size:16px;font-weight:700}
+.rw-save:hover{background:#1648d8}
+
+[data-screen="write"] .gnb,[data-screen="write"] .agentbar,[data-screen="write"] .cwbar,
+[data-screen="write"] .s-manage,[data-screen="write"] .s-source,
+[data-screen="write"] .s-proc,[data-screen="write"] .s-coach{display:none}
+[data-screen="manage"] .s-write,[data-screen="source"] .s-write,[data-screen="proc"] .s-write,
+[data-screen="coach"] .s-write,[data-screen="manage"] .rw-head,[data-screen="source"] .rw-head,
+[data-screen="proc"] .rw-head,[data-screen="coach"] .rw-head{display:none}
 
 /* ══ 화면 전환 ══ */
 [data-screen="manage"] .s-source,[data-screen="manage"] .s-proc,
@@ -710,6 +837,7 @@ img{display:block}
     <button data-screen="source">② 자료 연결</button>
     <button data-screen="proc">③ 초안 생성</button>
     <button data-screen="coach">④ AI 기반 검토</button>
+    <button data-screen="write">⑤ 이력서 작성</button>
   </div>
   <span class="bar__sep"></span>
   <span class="bar__label">AI PRESENCE LEVEL</span>
@@ -1052,6 +1180,12 @@ img{display:block}
 <div class="cwbar"><div class="cwbar__in">
   <span class="agentbar__logo"><span class="jkm jkm--static" style="--s:26px" data-mark></span></span>
   <span class="cwbar__crumb"><s>이력서 관리</s> / <b>이력서 Co-Pilot</b></span>
+  <ol class="steps ty-c1" id="stepper2">
+    <li data-s="1"><i>1</i>자료 연결</li><span class="steps__ar">›</span>
+    <li data-s="2"><i>2</i>초안 생성</li><span class="steps__ar">›</span>
+    <li data-s="3"><i>3</i>AI 기반 검토</li><span class="steps__ar">›</span>
+    <li data-s="4"><i>4</i>검토·저장</li>
+  </ol>
   <span class="cwbar__note"><img src="assets-jk/sys-info.svg" alt="" width="15" height="15">아직 잡코리아에는 저장되지 않았어요</span>
   <button class="jbtn jbtn--primary" id="cwSave">저장할 내용 확인</button>
 </div></div>
@@ -1114,6 +1248,267 @@ img{display:block}
     </aside>
   </div>
 </div></div>
+
+
+<!-- ═══════════ ⑤ 이력서 작성 ═══════════ -->
+<div class="rw-head"><div class="rw-head__in">
+  <span>JOBKOREA</span>
+  <div class="rw-head__nav"><a href="#">개인회원 홈</a><i></i><a href="#">이력서 관리</a></div>
+</div></div>
+
+<div class="s-write"><div class="rw-page"><div class="rw-wrap">
+<div class="rw-main">
+
+  <div class="rw-title">함께 일하고 싶은 동료 홍길동입니다.</div>
+
+  <!-- 인적사항 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>인적사항</h2>
+    <span class="rgt"><b>*</b> 필수 입력 정보입니다.</span></div>
+    <div class="rw-card"><div style="display:flex;gap:12px">
+      <div style="flex:1;min-width:0">
+        <div class="rw-row">
+          <div class="rw-f rw-f--md"><label>이름<b>*</b></label><div class="v">홍길동</div></div>
+          <div class="rw-f rw-f--md"><label>생년월일<b>*</b></label><div class="v">1995.12.10</div></div>
+          <div class="rw-f rw-f--sm"><label>성별<b>*</b></label><div class="v">여자</div></div>
+          <div class="rw-f "><label>이메일<b>*</b></label><div class="v">daiggy@jobkorea.co.kr</div></div>
+        </div>
+        <div class="rw-row">
+          <div class="rw-f rw-f--lg"><label>전화번호</label><div class="v">02-1234-5678</div></div>
+          <div class="rw-f rw-f--lg"><label>휴대폰번호<b>*</b></label><div class="v">010-5030-4252</div></div>
+          <div class="rw-f "><label>주소</label><div class="v">전남광주 북구 충효동</div><img class="rw-f__ico" src="assets-jk/sys-search.svg" alt=""></div>
+        </div>
+        <div class="rw-row"><div class="rw-f rw-f--lg"><label>홈페이지</label><div class="v">http://www.jobkorea.co.kr</div></div></div>
+      </div>
+      <div style="width:108px;height:130px;background:#e9edf2;flex:none;position:relative">
+        <span style="position:absolute;left:0;right:0;bottom:0;height:26px;background:rgba(0,0,0,.45);
+          color:#fff;font-size:11px;display:grid;place-items:center">사진변경</span>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 희망직무 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>희망직무</h2></div>
+    <div class="rw-card">
+      <div class="rw-hint" style="display:flex"><span>희망직무 키워드<b>*</b></span>
+        <a class="rw-link" style="margin-left:auto">추가하기</a></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="rw-tag">AI 서비스 기획 <em>✕</em></span>
+        <span class="rw-tag">프로덕트 오너 <em>✕</em></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 스킬 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>스킬</h2>
+    <span class="rgt">보유 강점을 선택하면, 스킬에 딱 맞는 공고를 추천해 드려요!</span></div>
+    <div class="rw-card">
+      <div class="rw-skill__search">찾으려는 스킬을 입력해주세요
+        <img src="assets-jk/sys-search.svg" alt=""></div>
+      <div class="rw-tabs">
+        <button class="on">하드스킬</button><button>소프트스킬</button><button>추천스킬</button>
+      </div>
+      <div class="rw-skill__lead"><span>직무별 맞춤스킬을 추천해 드려요.</span>
+        <span class="rgt"><a class="rw-link">스킬 새로보기</a><a class="rw-link">전체보기</a></span></div>
+      <div class="rw-skill__pool">
+        <span class="rw-chip on"><b>✓</b>생성형 AI</span><span class="rw-chip on"><b>✓</b>RAG</span>
+        <span class="rw-chip on"><b>✓</b>서비스 기획</span><span class="rw-chip on"><b>✓</b>UX 리서치</span>
+        <span class="rw-chip on"><b>✓</b>Figma</span><span class="rw-chip on"><b>✓</b>SQL</span>
+        <span class="rw-chip on"><b>✓</b>A/B 테스트</span><span class="rw-chip on"><b>✓</b>요구사항 정의</span>
+        <span class="rw-chip"><b>+</b>Notion</span><span class="rw-chip"><b>+</b>Jira</span>
+        <span class="rw-chip"><b>+</b>Confluence</span><span class="rw-chip"><b>+</b>Amplitude</span>
+        <span class="rw-chip"><b>+</b>프로토타이핑</span><span class="rw-chip"><b>+</b>데이터 분석</span>
+        <span class="rw-chip"><b>+</b>API 설계</span><span class="rw-chip"><b>+</b>품질 검증</span>
+      </div>
+      <div class="rw-skill__mine">
+        <h4>내가 보유한 스킬 <b>(8/10)</b><s>↺ 초기화</s></h4>
+        <p>툴, 기술, 언어 등 다양한 스킬을 어필해 보세요</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="rw-tag">생성형 AI <em>✕</em></span><span class="rw-tag">RAG <em>✕</em></span>
+          <span class="rw-tag">서비스 기획 <em>✕</em></span><span class="rw-tag">UX 리서치 <em>✕</em></span>
+          <span class="rw-tag">Figma <em>✕</em></span><span class="rw-tag">SQL <em>✕</em></span>
+          <span class="rw-tag">A/B 테스트 <em>✕</em></span><span class="rw-tag">요구사항 정의 <em>✕</em></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 학력 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>학력</h2>
+    <span class="rgt"><span class="rw-chk" style="height:auto"><i></i>고등학교 미만 졸업</span></span></div>
+    <div class="rw-card">
+      <div class="rw-item"><span class="rw-del">✕</span>
+        <div class="rw-row">
+          <div class="rw-f rw-f--md rw-sel"><label>학교구분</label><div class="v">고등학교</div></div>
+          <div class="rw-f "><label>학교명<b>*</b></label><div class="v">배화여자고등학교</div><img class="rw-f__ico" src="assets-jk/sys-search.svg" alt=""></div>
+          <div class="rw-f rw-f--sm"><label>졸업년도<b>*</b></label><div class="v">2012</div></div>
+          <div class="rw-f rw-f--sm rw-sel"><label>졸업상태</label><div class="v">졸업</div></div>
+          <span class="rw-chk"><i></i>대입검정고시</span>
+        </div>
+      </div>
+      <div class="rw-item"><span class="rw-del">✕</span>
+        <div class="rw-row">
+          <div class="rw-f rw-f--md rw-sel"><label>학교구분</label><div class="v">대학교(4년)</div></div>
+          <div class="rw-f "><label>학교명<b>*</b></label><div class="v">건국대학교 (서울)</div><img class="rw-f__ico" src="assets-jk/sys-search.svg" alt=""></div>
+          <div class="rw-f rw-f--sm"><label>입학년월<b>*</b></label><div class="v">2012.03</div></div>
+          <div class="rw-f rw-f--sm"><label>졸업년월<b>*</b></label><div class="v">2016.02</div></div>
+          <div class="rw-f rw-f--sm rw-sel"><label>졸업상태</label><div class="v">졸업</div></div>
+          <span class="rw-chk"><i></i>편입</span>
+        </div>
+        <div class="rw-row">
+          <div class="rw-f "><label>전공명<b>*</b></label><div class="v">정보·컴퓨터교육전공</div><img class="rw-f__ico" src="assets-jk/sys-search.svg" alt=""></div>
+          <div class="rw-f rw-f--sm"><label>학점</label><div class="v">3.8</div></div>
+          <div class="rw-f rw-f--sm rw-sel"><label>총점</label><div class="v">4.3</div></div>
+        </div>
+        <div class="rw-row" style="gap:6px">
+          <span class="rw-chip">다른전공 <b>+</b></span><span class="rw-chip">졸업 논문/작품 <b>+</b></span>
+        </div>
+      </div>
+      <div class="rw-add"><button><span>+</span>추가</button></div>
+    </div>
+  </section>
+
+  <!-- 경력 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>경력</h2>
+    <span class="rgt" style="gap:6px">
+      <span class="rw-tip">경력을 하나씩 등록하지 말고 간편하게 불러오세요! ✕</span>
+      <button class="rw-btn">모든 경력 한 번에 불러오기</button>
+      <button class="rw-btn">해외 근무 경험 추가하기</button></span></div>
+    <div class="rw-card">
+      <div class="rw-item"><span class="rw-del">✕</span>
+        <div class="rw-row">
+          <div class="rw-f "><label>회사명<b>*</b></label><div class="v">잡코리아(유)</div></div>
+          <div class="rw-f "><label>부서명</label><div class="v">AI Product</div></div>
+          <div class="rw-f rw-f--sm"><label>입사년월<b>*</b></label><div class="v">2025.03</div></div>
+          <span class="rw-chk on"><i>✓</i>재직중</span>
+        </div>
+        <div class="rw-row">
+          <div class="rw-f rw-f--md rw-sel"><label>직급/직책</label><div class="v">책임</div></div>
+          <div class="rw-f "><label>담당직무<b>*</b></label><div class="v">AI 서비스 기획</div><span class="rw-f__cta">선택하기</span></div>
+          <div class="rw-f rw-f--sm"><label>연봉</label><div class="v">6,200</div></div>
+        </div>
+        <div class="rw-ta"><label>담당업무</label>
+          <div class="v">자료 연결부터 사용자 확인, 이력서 작성까지 이어지는 AI 이력서 경험을 기획했습니다. 초안 생성·근거 표시·승인 흐름을 정의하고 데모로 검증했습니다.</div></div>
+        <div class="rw-row" style="margin-top:8px;gap:6px;align-items:center">
+          <span class="rw-tag">연봉 <em>✕</em></span><span class="rw-tag">담당업무 <em>✕</em></span>
+          <span class="rw-chk" style="height:auto;margin-left:auto"><i></i>인재정보에 회사명 비공개</span>
+        </div>
+      </div>
+      <div class="rw-item"><span class="rw-del">✕</span>
+        <div class="rw-row">
+          <div class="rw-f "><label>회사명<b>*</b></label><div class="v">스타트업A</div></div>
+          <div class="rw-f "><label>부서명</label><div class="v">프로덕트팀</div></div>
+          <div class="rw-f rw-f--sm"><label>입사년월<b>*</b></label><div class="v">2021.07</div></div>
+          <div class="rw-f rw-f--sm"><label>퇴사년월<b>*</b></label><div class="v">2025.02</div></div>
+          <span class="rw-chk"><i></i>재직중</span>
+        </div>
+        <div class="rw-row">
+          <div class="rw-f rw-f--md rw-sel"><label>직급/직책</label><div class="v">매니저</div></div>
+          <div class="rw-f "><label>담당직무<b>*</b></label><div class="v">서비스 기획</div><span class="rw-f__cta">선택하기</span></div>
+          <div class="rw-f rw-f--sm"><label>연봉</label><div class="v">4,800</div></div>
+        </div>
+        <div class="rw-ta"><label>담당업무</label>
+          <div class="v">구직자 온보딩 개편을 담당해 가입 완료율을 개선했고, 검색·추천 지표를 정의해 실험 체계를 만들었습니다.</div></div>
+      </div>
+      <div class="rw-add"><button><span>+</span>추가</button></div>
+      <div class="rw-note"><b>경력기술서</b><span>자유롭게 경력을 작성할 수 있습니다.</span>
+        <a class="rw-link">작성하기 &gt;</a></div>
+    </div>
+  </section>
+
+  <!-- 자격증 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>자격증</h2>
+    <span class="rgt"><button class="rw-btn"><b>NAVER</b> 에서 자격증 불러오기</button></span></div>
+    <div class="rw-card">
+      <div class="rw-item"><span class="rw-del">✕</span><div class="rw-row">
+        <div class="rw-f "><label>자격증 명<b>*</b></label><div class="v">정보처리기사</div><img class="rw-f__ico" src="assets-jk/sys-search.svg" alt=""></div>
+        <div class="rw-f rw-f--lg"><label>발행처</label><div class="v">한국산업인력공단</div></div>
+        <div class="rw-f rw-f--sm"><label>취득월</label><div class="v">2016.08</div></div></div></div>
+      <div class="rw-item"><span class="rw-del">✕</span><div class="rw-row">
+        <div class="rw-f "><label>자격증 명<b>*</b></label><div class="v">SQLD</div><img class="rw-f__ico" src="assets-jk/sys-search.svg" alt=""></div>
+        <div class="rw-f rw-f--lg"><label>발행처</label><div class="v">한국데이터산업진흥원</div></div>
+        <div class="rw-f rw-f--sm"><label>취득월</label><div class="v">2022.04</div></div></div></div>
+      <div class="rw-add"><button><span>+</span>추가</button></div>
+    </div>
+  </section>
+
+  <!-- 취업우대 · 병역 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>취업우대 · 병역</h2></div>
+    <div class="rw-card">
+      <div class="rw-pref">
+        <button><i></i>보훈대상</button><button class="on"><i>✓</i>취업보호 대상</button>
+        <button><i></i>고용지원금 대상</button><button><i></i>장애</button>
+        <button class="on"><i>✓</i>병역</button>
+      </div>
+      <div class="rw-prefbody"><b>병역</b>
+        <div class="rw-f rw-f--md rw-sel"><label>병역</label><div class="v">군필</div></div>
+        <div class="rw-f rw-f--sm"><label>입대일</label><div class="v">2022.01</div></div>
+        <div class="rw-f rw-f--sm"><label>제대일</label><div class="v">2022.10</div></div>
+        <div class="rw-f rw-f--lg rw-sel"><label>군별/제대 계급</label><div class="v">육군 병장</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 자기소개서 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>자기소개서</h2>
+    <span class="rgt"><button class="rw-btn">순서변경</button></span></div>
+    <div class="rw-card">
+      <div class="rw-sa">
+        <div class="rw-sa__h"><b>지원 동기와 입사 후 포부</b><s>412자</s><em>✕</em></div>
+        <div class="rw-sa__b">구직자가 이미 가진 경력 자료를 다시 입력하지 않고도 이력서를 완성할 수 있게 만드는 일에 관심이 많습니다. 잡코리아에서 자료 연결부터 초안 생성, 사용자 확인, 저장까지 하나의 흐름으로 이어지는 경험을 설계했고, 사용자가 확인하지 않은 내용은 저장하지 않는다는 원칙을 화면 단위로 구현했습니다.<br><br>AI가 만든 문장을 그대로 쓰는 것이 아니라 근거와 함께 보여주고, 최종 선택은 사용자에게 남기는 방식이 신뢰를 만든다고 생각합니다. 앞으로도 구직자가 자기 경력을 스스로 설명할 수 있게 돕는 제품을 만들고 싶습니다.</div>
+      </div>
+      <div class="rw-add"><button><span>+</span>추가</button></div>
+    </div>
+  </section>
+
+  <!-- 희망근무조건 -->
+  <section class="rw-sec"><div class="rw-sec__h"><h2>희망근무조건</h2></div>
+    <div class="rw-card">
+      <div class="rw-row">
+        <div class="rw-f rw-f--lg rw-sel"><label>고용형태</label><div class="v">정규직</div></div>
+        <div class="rw-f rw-f--lg"><label>희망연봉</label><div class="v">7,000</div></div>
+        <span class="rw-chk on"><i>✓</i>면접 후 결정</span>
+      </div>
+      <div style="border-top:1px solid #eef1f4;margin-top:14px;padding-top:14px">
+        <div class="rw-hint" style="display:flex"><span>희망근무지 <b>*</b>최대 3개 시도 안에서 자유롭게 선택 가능합니다.</span>
+          <a class="rw-link" style="margin-left:auto">추가하기</a></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="rw-tag">서울 &gt; 강남구 <em>✕</em></span>
+          <span class="rw-tag">서울 &gt; 서초구 <em>✕</em></span>
+          <span class="rw-tag">경기 &gt; 성남시 분당구 <em>✕</em></span>
+        </div>
+      </div>
+      <div style="border-top:1px solid #eef1f4;margin-top:14px;padding-top:14px">
+        <div class="rw-hint" style="display:flex"><span>산업 키워드</span>
+          <a class="rw-link" style="margin-left:auto">추가하기</a></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="rw-tag">IT·인터넷 <em>✕</em></span>
+          <span class="rw-tag">서비스업 <em>✕</em></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<aside class="rw-side">
+  <div class="rw-side__box">
+    <div class="rw-side__t">이력서 항목</div>
+    <div class="rw-side__i on"><span>◎</span><b>희망직무</b></div>
+    <div class="rw-side__i on"><span>◈</span><b>스킬</b></div>
+    <div class="rw-side__i on"><span>◍</span><b>학력</b><em>−</em></div>
+    <div class="rw-side__i on"><span>▤</span><b>경력</b><em>−</em></div>
+    <div class="rw-side__i"><span>▥</span><b>인턴·대외활동</b><em>+</em></div>
+    <div class="rw-side__i"><span>▦</span><b>교육이수</b><em>+</em></div>
+    <div class="rw-side__i on"><span>▧</span><b>자격증</b><em>−</em></div>
+    <div class="rw-side__i"><span>▲</span><b>수상</b><em>+</em></div>
+    <div class="rw-side__i"><span>✈</span><b>해외경험</b><em>+</em></div>
+    <div class="rw-side__i"><span>◐</span><b>어학</b><em>+</em></div>
+    <div class="rw-side__i"><span>▩</span><b>포트폴리오</b><em>+</em></div>
+    <div class="rw-side__i on"><span>◉</span><b>취업우대 · 병역</b><em>−</em></div>
+    <div class="rw-side__i on"><span>✎</span><b>자기소개서</b><em>−</em></div>
+  </div>
+  <button class="rw-save">이력서저장</button>
+</aside>
+</div></div></div>
 
 <!-- ═══════════ ② AI 동의 모달 ═══════════ -->
 <div class="modal" id="consent">
@@ -1243,7 +1638,7 @@ const CW_SUG=[
 let cwApplied=[], cwFilter='all', cwHistory=[];
 
 function cwRenderFields(){
-  $('cwFields').innerHTML=CW_FIELDS.map(f=>{
+  document.getElementById('cwFields').innerHTML=CW_FIELDS.map(f=>{
     const done=cwApplied.includes(f.k);
     return `<div class="cwfield ${done?'is-applied':''}">
       <div class="cwfield__h"><b>${f.label}</b>
@@ -1253,7 +1648,7 @@ function cwRenderFields(){
 }
 function cwRenderSug(){
   const list=CW_SUG.filter(x=>cwFilter==='all'||x.cat===cwFilter);
-  $('cwSug').innerHTML = list.length ? list.map(x=>{
+  document.getElementById('cwSug').innerHTML = list.length ? list.map(x=>{
     const done=cwApplied.includes(x.field);
     return `<article class="cwsug ${done?'is-done':''}" data-id="${x.id}">
       <span class="cwsug__lab"><span class="jkm jkm--static jkm--noface" style="--s:12px" data-mark></span>AI 제안</span>
@@ -1270,13 +1665,13 @@ function cwRenderSug(){
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
     </article>`;}).join('') : '<p class="cwempty">이 항목에는 제안이 없어요</p>';
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
-  $('cwLeft').textContent=(3-cwApplied.length)+'개';
-  $('cwChg').textContent=cwApplied.length+'개';
-  $('cwApp').textContent=cwApplied.length+'/3';
-  $('cwAll').textContent = cwApplied.length>=3 ? '모든 제안을 반영했어요'
+  document.getElementById('cwLeft').textContent=(3-cwApplied.length)+'개';
+  document.getElementById('cwChg').textContent=cwApplied.length+'개';
+  document.getElementById('cwApp').textContent=cwApplied.length+'/3';
+  document.getElementById('cwAll').textContent = cwApplied.length>=3 ? '모든 제안을 반영했어요'
     : `적용 가능한 제안 ${3-cwApplied.length}개 모두 반영`;
-  $('cwAll').disabled = cwApplied.length>=3;
-  $('cwUndo').disabled = cwHistory.length===0;
+  document.getElementById('cwAll').disabled = cwApplied.length>=3;
+  document.getElementById('cwUndo').disabled = cwHistory.length===0;
 }
 function cwApply(id){
   const x=CW_SUG.find(a=>a.id===id); if(!x||cwApplied.includes(x.field)) return;
@@ -1285,26 +1680,26 @@ function cwApply(id){
   f.v=x.after; cwApplied.push(x.field);
   cwRenderFields(); cwRenderSug();
 }
-$('cwSug').addEventListener('click',e=>{
+document.getElementById('cwSug').addEventListener('click',e=>{
   const card=e.target.closest('.cwsug'); if(!card) return;
   if(e.target.closest('.cwsug__yes')) cwApply(card.dataset.id);
   if(e.target.closest('.cwsug__no')){card.classList.add('is-done');
     card.querySelector('.cwsug__done').textContent='현재 문장 유지';}
 });
-$('cwAll').addEventListener('click',()=>CW_SUG.forEach(x=>cwApply(x.id)));
-$('cwUndo').addEventListener('click',()=>{
+document.getElementById('cwAll').addEventListener('click',()=>CW_SUG.forEach(x=>cwApply(x.id)));
+document.getElementById('cwUndo').addEventListener('click',()=>{
   const h=cwHistory.pop(); if(!h) return;
   const f=CW_FIELDS.find(a=>a.k===h.field); f.v=h.prev;
   cwApplied=cwApplied.filter(k=>k!==h.field);
   cwRenderFields(); cwRenderSug();
 });
-$('cwFilter').addEventListener('click',e=>{
+document.getElementById('cwFilter').addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   cwFilter=b.dataset.f;
-  $('cwFilter').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('cwFilter').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
   cwRenderSug();
 });
-$('cwSave').addEventListener('click',()=>alert('데모: STEP 4 검토·저장 화면으로 이어집니다.'));
+document.getElementById('cwSave').addEventListener('click',()=>alert('데모: STEP 4 검토·저장 화면으로 이어집니다.'));
 cwRenderFields(); cwRenderSug();
 
 
@@ -1462,7 +1857,7 @@ $('procBack').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'m
 const SCREEN_STEP={source:1,proc:2,coach:3};
 function syncStepper(s){
   const cur=SCREEN_STEP[s]||0;
-  document.querySelectorAll('#stepper li').forEach(li=>{
+  document.querySelectorAll('#stepper li, #stepper2 li').forEach(li=>{
     const n=+li.dataset.s;
     li.classList.toggle('is-done',n<cur);
     li.classList.toggle('is-current',n===cur);
