@@ -451,6 +451,10 @@ img{display:block}
 [data-track="b"] .t-bc,[data-track="c"] .t-bc{display:revert}
 [data-track="a"] .tracker.t-a{display:flex}
 [data-track="a"] .badge.t-a{display:inline-flex}
+/* display:revert 가 section 기본값(block)으로 되돌리므로 flex 레이아웃은 명시 복구 */
+[data-track="a"] .aicard.t-ac,[data-track="c"] .aicard.t-ac{display:flex}
+[data-track="a"] .rbtn--ai.t-a,[data-track="b"] .rbtn--ai.t-bc,
+[data-track="c"] .rbtn--ai.t-bc{display:inline-flex}
 </style>
 </head>
 <body data-screen="manage" data-track="a">
