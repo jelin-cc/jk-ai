@@ -7,200 +7,238 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
-  --brand:#1b55f6; --brand-deep:#123ec9; --brand-lift:#5b8cff;
-  --cyan:#00c2d6; --violet:#7b6cf6; --ink:#12141a;
-  --tx:#12141a; --tx2:#454b57; --tx3:#8b93a3; --tx4:#b7bdc9;
-  --bg:#fbfcfd; --card:#fff; --ln:#edeff3;
-  --r-lg:28px; --r-md:20px; --r-sm:14px;
+  /* 지정 그라디언트 스톱 */
+  --c0:#DDDFFF; --c1:#96B1FD; --c2:#FF74AC; --c3:#FEAB3F;
+  --tx:#12141a; --tx2:#4a5160; --tx3:#8b93a3; --tx4:#b9bfcb;
+  --bg:#fafbfc; --card:#fff; --ln:#ecEEF2;
+  --r-lg:26px; --r-md:18px; --r-sm:13px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--tx);
   font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",system-ui,sans-serif;
   font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.2px}
-h1,h2,h3,h4,p{margin:0}
+h1,h2,h3,p{margin:0}
 ul{margin:0;padding:0;list-style:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
-:focus-visible{outline:3px solid rgba(27,85,246,.3);outline-offset:3px}
-svg{display:block}
+:focus-visible{outline:3px solid rgba(150,177,253,.7);outline-offset:3px}
 
-/* ── 상단 ── */
-.top{position:sticky;top:0;z-index:60;
-  background:rgba(251,252,253,.82);backdrop-filter:saturate(180%) blur(14px);
-  border-bottom:1px solid var(--ln);padding:14px 28px;
-  display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+/* ══════════════════ 심볼 엔진 ══════════════════
+   .orb  : --s(크기) 하나로 전 레이어가 스케일됨
+   레이어 = halo(발광) + skin(형태) + core(중심광)            */
+.orb{position:relative;width:var(--s);height:var(--s);flex:none;display:block;
+  --spin:14s; --morph:11s; --blur:.16; --glow:1}
+.orb i{position:absolute;display:block;border-radius:inherit}
+
+@keyframes orbSpin{to{transform:rotate(360deg)}}
+@keyframes orbMorph{
+  0%,100%{border-radius:58% 42% 40% 60%/48% 40% 60% 52%}
+  20%    {border-radius:40% 60% 62% 38%/58% 55% 45% 42%}
+  40%    {border-radius:52% 48% 38% 62%/40% 62% 38% 60%}
+  60%    {border-radius:62% 38% 55% 45%/56% 42% 58% 44%}
+  80%    {border-radius:44% 56% 48% 52%/44% 58% 42% 56%}
+}
+@keyframes orbWobble{
+  0%,100%{transform:translate(-3%,2%) scale(1)}
+  25%    {transform:translate(2%,-3%) scale(1.06)}
+  50%    {transform:translate(3%,3%) scale(.97)}
+  75%    {transform:translate(-2%,-2%) scale(1.04)}
+}
+@keyframes coreDrift{
+  0%,100%{transform:translate(-9%,-10%) scale(.94)}
+  33%    {transform:translate(8%,-4%) scale(1.1)}
+  66%    {transform:translate(2%,9%) scale(1)}
+}
+/* 형태 */
+.orb__skin{inset:0;overflow:hidden;
+  animation:orbMorph var(--morph) ease-in-out infinite,
+            orbWobble calc(var(--morph)*.71) ease-in-out infinite}
+.orb__skin i{inset:-38%;border-radius:0;
+  background:conic-gradient(from 0deg,
+    var(--c0) 0%, var(--c1) 15%, var(--c2) 30%, var(--c3) 70%, var(--c1) 85%, var(--c0) 100%);
+  filter:blur(calc(var(--s) * var(--blur) * .26));
+  animation:orbSpin var(--spin) linear infinite}
+
+/* 발광 */
+.orb__halo{inset:calc(var(--s) * -.22);border-radius:50%;z-index:-1;
+  background:conic-gradient(from 0deg,
+    var(--c0) 0%, var(--c1) 15%, var(--c2) 30%, var(--c3) 70%, var(--c1) 85%, var(--c0) 100%);
+  filter:blur(calc(var(--s) * var(--blur)));opacity:calc(.72 * var(--glow));
+  animation:orbSpin var(--spin) linear infinite}
+
+/* 중심광 */
+.orb__core{inset:14%;border-radius:50%;
+  background:radial-gradient(circle at 44% 40%,
+    #fff 0%, rgba(255,255,255,.92) 34%, rgba(255,255,255,.42) 58%, rgba(255,255,255,0) 76%);
+  filter:blur(calc(var(--s) * .045));
+  animation:coreDrift calc(var(--morph)*.78) ease-in-out infinite}
+
+/* ── 변형 B · 링 ── */
+.orb--ring .orb__skin i{filter:blur(calc(var(--s)*.03))}
+.orb--ring .orb__skin{-webkit-mask:radial-gradient(circle,transparent 52%,#000 60%);
+  mask:radial-gradient(circle,transparent 52%,#000 60%)}
+.orb--ring .orb__core{inset:30%;opacity:.85}
+
+/* ── 변형 C · 궤적 ── */
+.orb--trail .orb__skin{border-radius:50%!important;animation:orbWobble calc(var(--morph)*.71) ease-in-out infinite;
+  -webkit-mask:conic-gradient(from -20deg,#000 0deg,#000 128deg,transparent 190deg);
+  mask:conic-gradient(from -20deg,#000 0deg,#000 128deg,transparent 190deg)}
+.orb--trail .orb__skin i{inset:-10%;border-radius:50%;
+  -webkit-mask:radial-gradient(circle,transparent 60%,#000 69%);
+  mask:radial-gradient(circle,transparent 60%,#000 69%);filter:blur(calc(var(--s)*.022))}
+.orb--trail .orb__halo{opacity:calc(.44*var(--glow))}
+.orb--trail .orb__core{inset:26%}
+
+/* ── 변형 D · 스파클 (JK 기존 마크 24295:2440) ── */
+.orb--spark .orb__skin,.orb--spark .orb__core{display:none}
+.orb--spark .orb__halo{inset:calc(var(--s) * -.3);opacity:calc(.55*var(--glow));
+  filter:blur(calc(var(--s)*.24))}
+.spark{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+  animation:sparkFloat calc(var(--morph)*.9) ease-in-out infinite}
+.spark .big{transform-origin:6.33px 9px;
+  animation:sparkTwist var(--spin) cubic-bezier(.4,0,.6,1) infinite,
+            sparkBeat calc(var(--morph)*.38) ease-in-out infinite}
+.spark .sml{transform-origin:11.67px 4.33px;
+  animation:sparkTwist calc(var(--spin)*.62) cubic-bezier(.4,0,.6,1) infinite reverse,
+            sparkPop calc(var(--morph)*.46) ease-in-out infinite;
+  animation-delay:0s,calc(var(--morph)*-.2)}
+.spark .glowlayer{filter:blur(calc(var(--s)*.06));opacity:calc(.85*var(--glow));
+  animation:glowBeat calc(var(--morph)*.38) ease-in-out infinite}
+@keyframes sparkTwist{to{rotate:360deg}}
+@keyframes sparkBeat{0%,100%{scale:.92}50%{scale:1.14}}
+@keyframes sparkPop{0%,100%{scale:.72;opacity:.6}45%{scale:1.24;opacity:1}}
+@keyframes glowBeat{0%,100%{opacity:calc(.5*var(--glow))}50%{opacity:calc(1*var(--glow))}}
+@keyframes sparkFloat{
+  0%,100%{transform:translate(-2.5%,2%) rotate(-3deg)}
+  50%    {transform:translate(2.5%,-2%) rotate(3deg)}
+}
+
+/* ── 변형 E · 페탈 (6로브) ── */
+.orb--petal .orb__skin,.orb--petal .orb__core{display:none}
+.orb--petal .orb__halo{inset:calc(var(--s)*-.26);opacity:calc(.5*var(--glow));
+  filter:blur(calc(var(--s)*.2))}
+.petal{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+  animation:petalSpin var(--spin) linear infinite}
+.petal g.lobe{transform-origin:50px 50px;animation:lobeBreath var(--morph) ease-in-out infinite}
+.petal g.lobe ellipse{mix-blend-mode:screen}
+@keyframes petalSpin{to{rotate:360deg}}
+@keyframes lobeBreath{0%,100%{scale:1}50%{scale:1.09}}
+
+/* ── 변형 F · 팬 (부채꼴 잎) ── */
+.orb--lens .orb__skin,.orb--lens .orb__core{display:none}
+.orb--lens .orb__halo{inset:calc(var(--s)*-.18);opacity:calc(.3*var(--glow));
+  filter:blur(calc(var(--s)*.19))}
+.lens{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+  animation:fanTurn calc(var(--spin)*2.4) ease-in-out infinite}
+.lens g{transform-origin:50px 78px;transform-box:view-box}
+.lens .f1{animation:fanA var(--morph) ease-in-out infinite}
+.lens .f2{animation:fanA calc(var(--morph)*1.13) ease-in-out infinite;animation-delay:calc(var(--morph)*-.18)}
+.lens .f3{animation:fanA calc(var(--morph)*.88) ease-in-out infinite;animation-delay:calc(var(--morph)*-.34)}
+.lens .f4{animation:fanA calc(var(--morph)*1.26) ease-in-out infinite;animation-delay:calc(var(--morph)*-.52)}
+@keyframes fanA{0%,100%{rotate:-9deg}50%{rotate:9deg}}
+@keyframes fanTurn{0%,100%{rotate:-7deg}50%{rotate:7deg}}
+
+/* 상태 */
+[data-state="idle"] .orb{--spin:9s;--morph:7s;--glow:.78}
+[data-state="work"] .orb{--spin:2.4s;--morph:2.6s;--glow:1.2}
+[data-state="done"] .orb{--spin:0s;--morph:0s;--glow:.85}
+[data-state="done"] .orb *{animation:none!important}
+[data-state="done"] .orb__skin{border-radius:50% 50% 48% 52%/52% 48% 52% 48%}
+[data-state="done"] .petal g.lobe{scale:1}
+[data-state="done"] .spark .big{rotate:18deg;scale:1}
+[data-state="done"] .spark .sml{rotate:-24deg;scale:1;opacity:1}
+body.pause .orb *{animation-play-state:paused!important}
+
+/* ══════════════════ 페이지 ══════════════════ */
+.top{position:sticky;top:0;z-index:60;background:rgba(250,251,252,.84);
+  backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--ln);
+  padding:13px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .top__t{font-size:15px;font-weight:700;letter-spacing:-.3px}
 .top__t span{color:var(--tx3);font-weight:500}
-.seg{margin-left:auto;display:flex;gap:3px;background:#eef0f4;border-radius:12px;padding:3px}
+.seg{display:flex;gap:3px;background:#eff1f5;border-radius:12px;padding:3px}
+.seg:first-of-type{margin-left:auto}
 .seg button{padding:7px 14px;border-radius:9px;font-size:13px;font-weight:600;color:var(--tx2);
   transition:.18s cubic-bezier(.4,0,.2,1);white-space:nowrap}
 .seg button.is-on{background:#fff;color:var(--tx);box-shadow:0 1px 3px rgba(18,20,26,.1)}
 
-.wrap{max-width:1120px;margin:0 auto;padding:0 28px 120px}
-
-/* ── 히어로 ── */
-.hero{padding:80px 0 64px;text-align:center;position:relative}
-.hero__glow{position:absolute;left:50%;top:40px;width:520px;height:340px;translate:-50% 0;
-  background:radial-gradient(50% 50% at 50% 50%,rgba(91,140,255,.28),rgba(0,194,214,.14) 45%,transparent 72%);
-  filter:blur(24px);pointer-events:none}
-.hero__stage{position:relative;width:200px;height:200px;margin:0 auto 36px;display:grid;place-items:center}
-.hero h1{position:relative;font-size:38px;font-weight:700;letter-spacing:-1.4px;line-height:1.28}
-.hero h1 em{font-style:normal;
-  background:linear-gradient(96deg,var(--brand) 0%,var(--violet) 46%,var(--cyan) 100%);
+/* 히어로 · 다크 */
+.hero{background:#08080c;border-radius:0 0 34px 34px;padding:96px 28px 104px;text-align:center;
+  position:relative;overflow:hidden}
+.hero__bg{position:absolute;left:50%;top:-6%;width:760px;height:560px;translate:-50% 0;pointer-events:none;
+  background:radial-gradient(45% 45% at 50% 50%,rgba(150,177,253,.2),rgba(255,116,172,.1) 46%,transparent 72%);
+  filter:blur(30px)}
+.hero__stage{position:relative;display:grid;place-items:center;height:260px;margin-bottom:40px}
+.hero h1{position:relative;font-size:40px;font-weight:700;letter-spacing:-1.5px;line-height:1.26;color:#fff}
+.hero h1 em{font-style:normal;background:linear-gradient(96deg,var(--c1),var(--c2) 46%,var(--c3));
   -webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{position:relative;margin-top:16px;font-size:17px;color:var(--tx2);letter-spacing:-.3px}
+.hero p{position:relative;margin-top:18px;font-size:17px;color:#9aa1b3;letter-spacing:-.3px}
 
-/* ── 후보 ── */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.cand{position:relative;background:var(--card);border:1px solid var(--ln);border-radius:var(--r-lg);
-  padding:28px 24px 24px;cursor:pointer;overflow:hidden;
-  transition:transform .3s cubic-bezier(.34,1.3,.5,1),box-shadow .3s,border-color .25s}
-.cand::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:linear-gradient(150deg,rgba(91,140,255,.1),rgba(0,194,214,.06) 55%,transparent 78%);
-  opacity:0;transition:opacity .3s}
-.cand:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(18,32,54,.1)}
-.cand.is-pick{border-color:transparent;box-shadow:0 0 0 2px var(--brand),0 20px 48px rgba(27,85,246,.18)}
-.cand.is-pick::after{opacity:1}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 120px}
+.sec{margin-top:80px}
+.sec__head{text-align:center;margin-bottom:32px}
+.sec__head h2{font-size:27px;font-weight:700;letter-spacing:-.9px}
+.sec__head p{margin-top:9px;color:var(--tx2);font-size:15.5px}
 
-.cand__stage{height:196px;display:grid;place-items:center;position:relative}
-.cand__stage::before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;
-  background:radial-gradient(circle,rgba(91,140,255,.2),rgba(0,194,214,.09) 50%,transparent 70%);
-  filter:blur(14px);opacity:0;transition:opacity .35s}
-.cand.is-pick .cand__stage::before,.cand:hover .cand__stage::before{opacity:1}
-
-.cand__name{position:relative;display:flex;align-items:baseline;gap:8px;margin-top:4px}
-.cand__name h3{font-size:19px;font-weight:700;letter-spacing:-.5px}
-.cand__name small{font-size:12.5px;color:var(--tx4);font-weight:600;letter-spacing:.02em}
-.cand__d{position:relative;margin-top:10px;font-size:14px;color:var(--tx2);line-height:1.6;min-height:66px}
+/* 후보 */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cand{background:var(--card);border:1px solid var(--ln);border-radius:var(--r-lg);
+  padding:20px 18px 18px;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.25,.5,1),box-shadow .3s,border-color .2s}
+.cand:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(18,32,54,.09)}
+.cand.is-pick{border-color:transparent;box-shadow:0 0 0 2px var(--c1),0 18px 42px rgba(150,177,253,.34)}
+.cand__stage{height:150px;display:grid;place-items:center;border-radius:var(--r-md);
+  background:#0a0a0f;margin-bottom:20px}
+.cand__n{display:flex;align-items:baseline;gap:8px}
+.cand__n h3{font-size:18px;font-weight:700;letter-spacing:-.5px}
+.cand__n small{font-size:12px;color:var(--tx4);font-weight:600;letter-spacing:.04em}
+.cand__d{margin-top:8px;font-size:13px;color:var(--tx2);line-height:1.6;min-height:78px}
 .cand__d b{color:var(--tx);font-weight:700}
-.cand__tags{position:relative;margin-top:16px;display:flex;gap:6px;flex-wrap:wrap}
-.tag{height:26px;padding:0 10px;border-radius:8px;background:#f3f5f8;color:var(--tx2);
-  font-size:12px;font-weight:600;display:inline-flex;align-items:center}
-.tag--good{background:rgba(0,194,214,.12);color:#00707f}
-.tag--warn{background:rgba(255,149,0,.13);color:#b5620a}
+.cand__tags{margin-top:14px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{height:25px;padding:0 9px;border-radius:8px;background:#f3f5f8;color:var(--tx2);
+  font-size:11.5px;font-weight:600;display:inline-flex;align-items:center}
+.tag--good{background:rgba(150,177,253,.2);color:#3f5bb8}
+.tag--warn{background:rgba(254,171,63,.18);color:#a5670a}
 
-/* ── 레벨 ── */
-.sec{margin-top:88px}
-.sec__head{text-align:center;margin-bottom:36px}
-.sec__head h2{font-size:28px;font-weight:700;letter-spacing:-.9px}
-.sec__head p{margin-top:10px;color:var(--tx2);font-size:16px}
-.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.lv{background:var(--card);border:1px solid var(--ln);border-radius:var(--r-lg);padding:26px 24px;
+/* 레벨 */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.lv{background:var(--card);border:1px solid var(--ln);border-radius:var(--r-lg);padding:24px 22px;
   display:flex;flex-direction:column}
 .lv__h{display:flex;align-items:center;gap:9px}
-.lv__b{height:24px;padding:0 9px;border-radius:8px;font-size:11.5px;font-weight:700;letter-spacing:.03em;
+.lv__b{height:23px;padding:0 9px;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:.04em;
   display:inline-flex;align-items:center;color:#fff}
-.lv1 .lv__b{background:#c3cad6}
-.lv2 .lv__b{background:linear-gradient(120deg,#00c2d6,#3ba7f0)}
-.lv3 .lv__b{background:linear-gradient(120deg,var(--brand),var(--violet))}
-.lv__h b{font-size:17px;font-weight:700;letter-spacing:-.4px}
-.lv>p{margin-top:10px;color:var(--tx2);font-size:13.5px;line-height:1.62}
-.lv__demo{margin-top:22px;padding-top:22px;border-top:1px solid var(--ln);
-  display:flex;flex-direction:column;gap:18px;flex:1}
-.row__l{font-size:11.5px;font-weight:700;color:var(--tx4);letter-spacing:.04em;margin-bottom:9px}
+.lv1 .lv__b{background:#c5cbd6}
+.lv2 .lv__b{background:linear-gradient(120deg,var(--c1),var(--c2))}
+.lv3 .lv__b{background:linear-gradient(120deg,var(--c2),var(--c3))}
+.lv__h b{font-size:16.5px;font-weight:700;letter-spacing:-.4px}
+.lv>p{margin-top:9px;color:var(--tx2);font-size:13px;line-height:1.62}
+.lv__demo{margin-top:20px;padding-top:20px;border-top:1px solid var(--ln);
+  display:flex;flex-direction:column;gap:17px;flex:1}
+.row__l{font-size:11px;font-weight:700;color:var(--tx4);letter-spacing:.05em;margin-bottom:8px}
 .row__b{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
 .chip{height:26px;padding:0 9px;border-radius:8px;background:#f3f5f8;color:var(--tx2);
   font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
-.chip--ai{background:linear-gradient(120deg,rgba(27,85,246,.09),rgba(0,194,214,.09));
-  color:#1b3a86;box-shadow:inset 0 0 0 1px rgba(27,85,246,.16)}
+.chip--ai{background:linear-gradient(120deg,rgba(150,177,253,.2),rgba(255,116,172,.14));color:#42477a}
 .btn{height:44px;padding:0 18px;border-radius:var(--r-sm);font-size:14.5px;font-weight:600;
-  display:inline-flex;align-items:center;gap:8px;
-  background:linear-gradient(120deg,rgba(27,85,246,.07),rgba(0,194,214,.07));
-  color:#1b3a86;box-shadow:inset 0 0 0 1px rgba(27,85,246,.16);transition:.2s}
-.btn:hover{box-shadow:inset 0 0 0 1px rgba(27,85,246,.34)}
-.tile{width:60px;height:60px;border-radius:18px;background:#fff;display:grid;place-items:center;
-  box-shadow:0 4px 14px rgba(18,32,54,.09),inset 0 0 0 1px rgba(27,85,246,.1)}
-.bighero{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;position:relative;
-  background:#fff;box-shadow:0 12px 34px rgba(27,85,246,.2)}
-.bighero::before{content:"";position:absolute;inset:-14px;border-radius:50%;z-index:-1;
-  background:conic-gradient(from 200deg,rgba(27,85,246,.3),rgba(123,108,246,.3),rgba(0,194,214,.3),rgba(27,85,246,.3));
-  filter:blur(13px)}
+  display:inline-flex;align-items:center;gap:9px;color:#42477a;
+  background:linear-gradient(120deg,rgba(150,177,253,.17),rgba(255,116,172,.12));transition:.2s}
+.btn:hover{filter:brightness(.98)}
+.tile{width:60px;height:60px;border-radius:18px;background:#0a0a0f;display:grid;place-items:center}
+.bighero{width:120px;height:120px;border-radius:50%;background:#0a0a0f;display:grid;place-items:center}
 
-/* ── 노트 ── */
-.note{margin-top:88px;border-radius:var(--r-lg);padding:34px 36px;color:#e7ebf4;
-  background:linear-gradient(140deg,#171a24,#1d2230 58%,#151b2c)}
-.note h3{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.4px}
-.note ul{margin-top:16px;display:flex;flex-direction:column;gap:12px}
-.note li{display:flex;gap:12px;font-size:14px;line-height:1.62;color:#b9c1d1}
+.note{margin-top:80px;border-radius:var(--r-lg);padding:32px 34px;color:#c4cad8;
+  background:linear-gradient(140deg,#111319,#181c26 58%,#12161f)}
+.note h3{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.4px}
+.note ul{margin-top:15px;display:flex;flex-direction:column;gap:11px}
+.note li{display:flex;gap:11px;font-size:13.5px;line-height:1.62}
 .note li b{color:#fff;font-weight:700}
-.note li i{flex:none;width:22px;height:22px;border-radius:7px;margin-top:2px;font-style:normal;
-  font-size:11px;font-weight:700;display:grid;place-items:center;
-  background:linear-gradient(120deg,var(--brand),var(--violet));color:#fff}
+.note li i{flex:none;width:21px;height:21px;border-radius:7px;margin-top:2px;font-style:normal;
+  font-size:10.5px;font-weight:700;display:grid;place-items:center;color:#12141a;
+  background:linear-gradient(120deg,var(--c1),var(--c2))}
 
-/* ══════════ 심볼 모션 ══════════ */
-.sym{overflow:visible}
-@keyframes sweep{to{transform:rotate(360deg)}}
-@keyframes drift{0%,100%{transform:rotate(0deg) scale(1)}50%{transform:rotate(14deg) scale(1.045)}}
-@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-@keyframes shimmer{0%{transform:translateX(-90%)}55%,100%{transform:translateX(160%)}}
-@keyframes lobeSpin{to{transform:rotate(360deg)}}
-@keyframes glowPulse{0%,100%{opacity:.55}50%{opacity:.95}}
-
-.symA .orbit{transform-origin:32px 32px;animation:sweep var(--d,8s) cubic-bezier(.42,0,.58,1) infinite}
-.symA .orbit2{transform-origin:32px 32px;animation:sweep calc(var(--d,8s)*1.7) linear infinite reverse}
-.symA .core{transform-origin:32px 32px;animation:breathe calc(var(--d,8s)*.5) ease-in-out infinite}
-.symA .halo{transform-origin:32px 32px;animation:glowPulse calc(var(--d,8s)*.5) ease-in-out infinite}
-
-.symB .lobe{transform-origin:32px 32px;animation:lobeSpin var(--d,8s) cubic-bezier(.45,0,.55,1) infinite}
-.symB .lobe2{animation-duration:calc(var(--d,8s)*1.35);animation-direction:reverse}
-.symB .lobe3{animation-duration:calc(var(--d,8s)*.82)}
-.symB .bcore{transform-origin:32px 32px;animation:breathe calc(var(--d,8s)*.46) ease-in-out infinite}
-
-.symC .plate{transform-origin:32px 32px;animation:drift calc(var(--d,8s)*.62) ease-in-out infinite}
-.symC .shine{animation:shimmer calc(var(--d,8s)*.55) cubic-bezier(.4,0,.2,1) infinite}
-
-[data-state="idle"] .sym{--d:11s}
-[data-state="work"] .sym{--d:2.4s}
-[data-state="done"] .sym{--d:0s}
-[data-state="done"] .sym *{animation:none!important}
-[data-state="done"] .symA .orbit{transform:rotate(-38deg)}
-[data-state="done"] .symA .orbit2{transform:rotate(150deg)}
-[data-state="done"] .symC .shine{transform:translateX(160%)}
-body.pause .sym *{animation-play-state:paused!important}
-
-@media(max-width:980px){.grid,.levels{grid-template-columns:1fr}.hero h1{font-size:30px}}
+@media(max-width:940px){.grid,.levels{grid-template-columns:1fr}.hero h1{font-size:30px}}
+@media(prefers-reduced-motion:reduce){.orb *{animation:none!important}}
 </style>
 </head>
 <body data-state="idle">
-
-<!-- 심볼 원본 정의 (defs 공유) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <radialGradient id="gCore" cx="34%" cy="28%" r="78%">
-    <stop offset="0%" stop-color="#a9c6ff"/><stop offset="42%" stop-color="#2f6bff"/>
-    <stop offset="100%" stop-color="#0f37bd"/>
-  </radialGradient>
-  <linearGradient id="gTrail" x1="0%" y1="100%" x2="100%" y2="0%">
-    <stop offset="0%" stop-color="#00c2d6" stop-opacity="0"/>
-    <stop offset="42%" stop-color="#22b4ee" stop-opacity=".85"/>
-    <stop offset="100%" stop-color="#1b55f6"/>
-  </linearGradient>
-  <linearGradient id="gTrail2" x1="100%" y1="0%" x2="0%" y2="100%">
-    <stop offset="0%" stop-color="#7b6cf6" stop-opacity="0"/>
-    <stop offset="55%" stop-color="#7b6cf6" stop-opacity=".7"/>
-    <stop offset="100%" stop-color="#00c2d6"/>
-  </linearGradient>
-  <radialGradient id="gHalo" cx="50%" cy="50%" r="50%">
-    <stop offset="55%" stop-color="#5b8cff" stop-opacity=".34"/>
-    <stop offset="100%" stop-color="#5b8cff" stop-opacity="0"/>
-  </radialGradient>
-  <linearGradient id="gL1" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" stop-color="#1b55f6"/><stop offset="100%" stop-color="#7b6cf6"/></linearGradient>
-  <linearGradient id="gL2" x1="100%" y1="0%" x2="0%" y2="100%">
-    <stop offset="0%" stop-color="#7b6cf6"/><stop offset="100%" stop-color="#00c2d6"/></linearGradient>
-  <linearGradient id="gL3" x1="0%" y1="100%" x2="100%" y2="0%">
-    <stop offset="0%" stop-color="#00c2d6"/><stop offset="100%" stop-color="#3b8cff"/></linearGradient>
-  <linearGradient id="gPlate" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" stop-color="#3b7bff"/><stop offset="52%" stop-color="#1b55f6"/>
-    <stop offset="100%" stop-color="#00a9c0"/>
-  </linearGradient>
-  <linearGradient id="gShine" x1="0%" y1="0%" x2="100%" y2="0%">
-    <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
-    <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
-    <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-  </linearGradient>
-  <clipPath id="cPlate"><path d="M32 5c19.2 0 27 7.8 27 27s-7.8 27-27 27S5 51.2 5 32 12.8 5 32 5Z"/></clipPath>
-</defs></svg>
 
 <div class="top">
   <span class="top__t">AI 심볼 <span>· Resume Agent</span></span>
@@ -209,61 +247,82 @@ body.pause .sym *{animation-play-state:paused!important}
     <button data-state="work">작동 중</button>
     <button data-state="done">완료</button>
   </div>
-  <div class="seg" id="playSeg" style="margin-left:0">
+  <div class="seg" id="playSeg">
     <button data-play="on" class="is-on">모션</button>
     <button data-play="off">정지</button>
   </div>
 </div>
 
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__stage" id="heroStage"></div>
+  <h1>이미 나를 위해<br><em>작동하고 있는</em> Intelligence</h1>
+  <p>찾아 쓰는 AI가 아니라, 곁에서 계속 돌고 있는 존재</p>
+</section>
+
 <div class="wrap">
 
-  <section class="hero">
-    <div class="hero__glow"></div>
-    <div class="hero__stage" id="heroStage"></div>
-    <h1>이미 나를 위해<br><em>작동하고 있는</em> Intelligence</h1>
-    <p>찾아 쓰는 AI가 아니라, 곁에서 계속 돌고 있는 존재</p>
+  <section class="sec" style="margin-top:56px">
+    <div class="sec__head">
+      <h2>여섯 가지 형태</h2>
+      <p>같은 그라디언트 스톱과 같은 모션 원리를 쓰되, 채움 방식만 다릅니다.</p>
+    </div>
+    <div class="grid" id="grid">
+
+      <article class="cand is-pick" data-c="petal" tabindex="0">
+        <div class="cand__stage" data-slot="petal" data-size="118"></div>
+        <div class="cand__n"><h3>페탈</h3><small>PETAL</small></div>
+        <p class="cand__d">여섯 로브가 겹치며 가운데가 하얗게 타오릅니다. 겹침 자체가 색을 만들어
+          <b>여러 자료가 하나로 합쳐지는 과정</b>을 그대로 보여줍니다.</p>
+        <div class="cand__tags"><span class="tag tag--good">가장 인상적</span><span class="tag tag--warn">작은 크기 불리</span></div>
+      </article>
+
+      <article class="cand" data-c="lens" tabindex="0">
+        <div class="cand__stage" data-slot="lens" data-size="118" style="background:#fff"></div>
+        <div class="cand__n"><h3>팬</h3><small>FAN</small></div>
+        <p class="cand__d">네 겹의 잎이 부채처럼 펼쳐졌다 접힙니다. 뒤로 갈수록 옅어져
+          <b>깊이가 생기고 가장 차분합니다.</b> 밝은 배경 전용입니다.</p>
+        <div class="cand__tags"><span class="tag tag--good">가장 차분함</span><span class="tag">레이어 깊이감</span></div>
+      </article>
+
+      <article class="cand" data-c="spark" tabindex="0">
+        <div class="cand__stage" data-slot="spark" data-size="108"></div>
+        <div class="cand__n"><h3>스파클</h3><small>SPARKLE</small></div>
+        <p class="cand__d">이미 쓰고 있는 JK 마크에 그라디언트와 모션만 입혔습니다.
+          <b>새로 학습시킬 필요가 없는 유일한 안</b>이고, 두 별이 서로 다른 박자로 반짝입니다.</p>
+        <div class="cand__tags"><span class="tag tag--good">기존 자산</span><span class="tag tag--good">학습비용 0</span></div>
+      </article>
+
+      <article class="cand" data-c="orb" tabindex="0">
+        <div class="cand__stage" data-slot="orb" data-size="108"></div>
+        <div class="cand__n"><h3>오브</h3><small>ORB</small></div>
+        <p class="cand__d">부드럽게 형태가 흔들리는 빛덩어리. <b>가장 유기적이고 살아있는 느낌</b>입니다.
+          작아져도 실루엣이 남아 배지까지 버팁니다.</p>
+        <div class="cand__tags"><span class="tag tag--good">14px 식별 우수</span><span class="tag">레퍼런스 근접</span></div>
+      </article>
+
+      <article class="cand" data-c="ring" tabindex="0">
+        <div class="cand__stage" data-slot="ring" data-size="108"></div>
+        <div class="cand__n"><h3>링</h3><small>RING</small></div>
+        <p class="cand__d">가운데를 비운 고리. <b>진행률·상태 표현으로 확장</b>하기 좋습니다.
+          다만 검색·로딩 아이콘과 혼동될 수 있습니다.</p>
+        <div class="cand__tags"><span class="tag tag--good">상태 확장 쉬움</span><span class="tag tag--warn">로딩과 혼동</span></div>
+      </article>
+
+      <article class="cand" data-c="trail" tabindex="0">
+        <div class="cand__stage" data-slot="trail" data-size="108"></div>
+        <div class="cand__n"><h3>궤적</h3><small>TRAIL</small></div>
+        <p class="cand__d">한쪽만 남은 빛의 꼬리가 코어를 돕니다. <b>방향과 진행감이 가장 뚜렷</b>합니다.
+          정적인 상태에서는 조금 허전합니다.</p>
+        <div class="cand__tags"><span class="tag tag--good">진행감 뚜렷</span><span class="tag tag--warn">정지 시 허전</span></div>
+      </article>
+    </div>
   </section>
-
-  <div class="grid" id="grid">
-
-    <article class="cand is-pick" data-c="A" tabindex="0">
-      <div class="cand__stage" data-slot="A" data-size="128"></div>
-      <div class="cand__name"><h3>궤도</h3><small>ORBIT</small></div>
-      <p class="cand__d">코어 주위를 도는 빛의 궤적. <b>무엇을 하는지가 아니라 어떻게 존재하는지</b>를 그립니다.
-        멈추지 않고 곁을 도는 상태 자체가 ambient의 정의입니다.</p>
-      <div class="cand__tags">
-        <span class="tag tag--good">12px 식별 우수</span>
-        <span class="tag">궤적 수로 레벨 조절</span>
-      </div>
-    </article>
-
-    <article class="cand" data-c="B" tabindex="0">
-      <div class="cand__stage" data-slot="B" data-size="128"></div>
-      <div class="cand__name"><h3>블룸</h3><small>BLOOM</small></div>
-      <p class="cand__d">세 갈래 빛이 겹쳐 피어나는 형태. 여러 자료가 하나로 <b>합쳐져 새로 만들어진다</b>는
-        Source Intake의 결과를 담습니다. 가장 따뜻합니다.</p>
-      <div class="cand__tags">
-        <span class="tag tag--good">브랜드감 강함</span>
-        <span class="tag tag--warn">작을수록 뭉침</span>
-      </div>
-    </article>
-
-    <article class="cand" data-c="C" tabindex="0">
-      <div class="cand__stage" data-slot="C" data-size="128"></div>
-      <div class="cand__name"><h3>플레이트</h3><small>PLATE</small></div>
-      <p class="cand__d">스퀘어클 면에 빛이 훑고 지나갑니다. <b>가장 조용하고 안정적</b>이라
-        아이콘 세트에 자연스럽게 섞입니다. 존재감은 가장 약합니다.</p>
-      <div class="cand__tags">
-        <span class="tag tag--good">아이콘셋 정합</span>
-        <span class="tag tag--warn">개성 약함</span>
-      </div>
-    </article>
-  </div>
 
   <section class="sec">
     <div class="sec__head">
       <h2>존재감은 형태가 아니라 강도로</h2>
-      <p>선택한 심볼이 L1 → L3 로 갈수록 궤적과 발광만 늘어납니다. 형태는 그대로입니다.</p>
+      <p>L1 → L3 로 갈수록 발광과 회전만 강해집니다. 형태는 그대로입니다.</p>
     </div>
     <div class="levels">
 
@@ -284,8 +343,8 @@ body.pause .sym *{animation-play-state:paused!important}
             <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="14"></span>경력 불러오기</span></div></div>
           <div><div class="row__l">버튼 20px</div>
             <div class="row__b"><button class="btn"><span data-slot="pick" data-size="20"></span>빠르게 채우기</button></div></div>
-          <div><div class="row__l">진입 타일 30px</div>
-            <div class="row__b"><span class="tile"><span data-slot="pick" data-size="30"></span></span></div></div>
+          <div><div class="row__l">진입 타일 32px</div>
+            <div class="row__b"><span class="tile"><span data-slot="pick" data-size="32"></span></span></div></div>
         </div>
       </div>
 
@@ -295,79 +354,88 @@ body.pause .sym *{animation-play-state:paused!important}
         <div class="lv__demo">
           <div><div class="row__l">상태 배지 16px</div>
             <div class="row__b"><span class="chip chip--ai"><span data-slot="pick" data-size="16"></span>AI 작성 · 검토 완료</span></div></div>
-          <div><div class="row__l">분석 히어로 60px</div>
-            <div class="row__b"><span class="bighero"><span data-slot="pick" data-size="60"></span></span></div></div>
+          <div><div class="row__l">분석 히어로 68px</div>
+            <div class="row__b"><span class="bighero"><span data-slot="pick" data-size="68"></span></span></div></div>
         </div>
       </div>
     </div>
   </section>
 
   <div class="note">
-    <h3>고를 때 볼 것</h3>
+    <h3>설계 메모</h3>
     <ul>
-      <li><i>1</i><span><b>작은 크기에서 살아남는가.</b> L2 배지가 14px입니다. 궤도는 코어가 남아 버티고, 블룸은 세 갈래가 뭉쳐 얼룩이 됩니다.</span></li>
-      <li><i>2</i><span><b>형태를 안 바꾸고 강도만 조절되는가.</b> 궤도는 궤적 개수, 플레이트는 발광 세기로 조절됩니다. 블룸은 갈래를 줄이면 다른 형태가 됩니다.</span></li>
-      <li><i>3</i><span><b>검색 아이콘으로 오독되지 않는가.</b> 잡코리아는 검색이 핵심 기능이라 원형 링 계열은 위험합니다.</span></li>
-      <li><i>4</i><span><b>스파클은 배제.</b> 업계 공용어가 되어 &lsquo;AI 기능 버튼&rsquo;으로 읽힙니다. 찾아 쓰는 AI가 되어버려 원칙과 정면 충돌합니다.</span></li>
+      <li><i>1</i><span><b>그라디언트는 지정 스톱 그대로.</b> <code style="color:#dde">DDDFFF · 96B1FD · FF74AC · FEAB3F · 96B1FD · DDDFFF</code> 를 conic으로 감아 회전시킵니다. 시작과 끝이 같은 색이라 이음매가 안 보입니다.</span></li>
+      <li><i>2</i><span><b>모션은 세 겹이 서로 다른 속도로 움직입니다.</b> 그라디언트 회전 · 실루엣 모핑 · 중심광 드리프트. 각각 단순하지만 겹치면 반복이 안 느껴집니다.</span></li>
+      <li><i>3</i><span><b>크기 하나로 전부 스케일됩니다.</b> 블러 반경이 크기에 비례해서 14px에서도 뭉개지지 않습니다.</span></li>
+      <li><i>4</i><span><b>스파클 재검토.</b> 앞서 &lsquo;업계 공용어라 배제&rsquo;라고 했지만, JK가 이미 쓰는 마크였습니다.
+        이미 있는 자산을 버리고 새 형태를 학습시키는 비용이 더 큽니다. 그라디언트와 모션으로 차별화하는 쪽이 낫습니다.</span></li>
+      <li><i>5</i><span><b>대기와 작동 중의 차이는 속도뿐입니다.</b> 대기 22초, 작동 중 4.6초. 형태가 바뀌지 않아 같은 존재로 읽힙니다.</span></li>
     </ul>
   </div>
 </div>
 
 <script>
-const SYM={
-A:s=>`<svg class="sym symA" width="${s}" height="${s}" viewBox="0 0 64 64">
-  <circle class="halo" cx="32" cy="32" r="30" fill="url(#gHalo)"/>
-  <g class="orbit"><path d="M32 6.5A25.5 25.5 0 0 1 54.1 19.3" fill="none"
-     stroke="url(#gTrail)" stroke-width="5" stroke-linecap="round"/></g>
-  <g class="orbit2"><path d="M47.6 51.2A19.5 19.5 0 0 1 20.9 46" fill="none"
-     stroke="url(#gTrail2)" stroke-width="4" stroke-linecap="round"/></g>
-  <g class="core"><circle cx="32" cy="32" r="11.5" fill="url(#gCore)"/>
-    <ellipse cx="28.2" cy="27.6" rx="4.4" ry="3.1" fill="#fff" opacity=".42" transform="rotate(-28 28.2 27.6)"/>
-  </g></svg>`,
-B:s=>`<svg class="sym symB" width="${s}" height="${s}" viewBox="0 0 64 64">
-  <circle class="halo" cx="32" cy="32" r="30" fill="url(#gHalo)"/>
-  <g style="mix-blend-mode:multiply">
-    <g class="lobe lobe1"><ellipse cx="32" cy="23" rx="12" ry="17.5" fill="url(#gL1)" opacity=".82"/></g>
-    <g class="lobe lobe2"><ellipse cx="32" cy="23" rx="12" ry="17.5" fill="url(#gL2)" opacity=".8"
-       transform="rotate(120 32 32)"/></g>
-    <g class="lobe lobe3"><ellipse cx="32" cy="23" rx="12" ry="17.5" fill="url(#gL3)" opacity=".8"
-       transform="rotate(240 32 32)"/></g>
-  </g>
-  <g class="bcore"><circle cx="32" cy="32" r="6.6" fill="#fff" opacity=".92"/></g></svg>`,
-C:s=>`<svg class="sym symC" width="${s}" height="${s}" viewBox="0 0 64 64">
-  <circle class="halo" cx="32" cy="32" r="30" fill="url(#gHalo)"/>
-  <g class="plate">
-    <path d="M32 5c19.2 0 27 7.8 27 27s-7.8 27-27 27S5 51.2 5 32 12.8 5 32 5Z" fill="url(#gPlate)"/>
-    <g clip-path="url(#cPlate)">
-      <rect class="shine" x="-16" y="0" width="26" height="64" fill="url(#gShine)" transform="skewX(-16)"/>
-    </g>
-    <path d="M32 5c19.2 0 27 7.8 27 27s-7.8 27-27 27S5 51.2 5 32 12.8 5 32 5Z" fill="none"
-      stroke="#fff" stroke-opacity=".24" stroke-width="1.4"/>
-    <circle cx="32" cy="32" r="7" fill="#fff" opacity=".95"/>
-  </g></svg>`};
+const SPARK_BIG="M4.16944 7.57411C4.51781 7.45799 4.79118 7.18462 4.9073 6.83625L5.50076 5.05587C5.6202 4.69756 5.95552 4.45587 6.33321 4.45587C6.71091 4.45587 7.04623 4.69756 7.16567 5.05587L7.75913 6.83625C7.87525 7.18462 8.14862 7.45799 8.49699 7.57411L10.2774 8.16757C10.6357 8.28701 10.8774 8.62233 10.8774 9.00003C10.8774 9.37772 10.6357 9.71304 10.2774 9.83248L8.49699 10.4259C8.14862 10.5421 7.87525 10.8154 7.75913 11.1638L7.16567 12.9442C7.04623 13.3025 6.71091 13.5442 6.33321 13.5442C5.95552 13.5442 5.6202 13.3025 5.50076 12.9442L4.9073 11.1638C4.79118 10.8154 4.51781 10.5421 4.16944 10.4259L2.38906 9.83248C2.03075 9.71304 1.78906 9.37772 1.78906 9.00003C1.78906 8.62233 2.03075 8.28701 2.38906 8.16757L4.16944 7.57411Z";
+const SPARK_SML="M10.2136 3.61826C10.562 3.50214 10.8353 3.22877 10.9515 2.8804L11.1671 2.23354C11.2387 2.01855 11.4399 1.87354 11.6665 1.87354C11.8932 1.87354 12.0944 2.01855 12.166 2.23354L12.3816 2.8804C12.4978 3.22877 12.7711 3.50214 13.1195 3.61826L13.7664 3.83389C13.9814 3.90555 14.1264 4.10674 14.1264 4.33336C14.1264 4.55998 13.9814 4.76117 13.7664 4.83283L13.1195 5.04845C12.7711 5.16458 12.4978 5.43795 12.3816 5.78632L12.166 6.43318C12.0944 6.64817 11.8932 6.79318 11.6665 6.79318C11.4399 6.79318 11.2387 6.64817 11.1671 6.43318L10.9515 5.78632C10.8353 5.43795 10.562 5.16458 10.2136 5.04845L9.56672 4.83283C9.35174 4.76117 9.20672 4.55998 9.20672 4.33336C9.20672 4.10674 9.35174 3.90555 9.56672 3.83389L10.2136 3.61826Z";
+let uid=0;
+const sparkSVG=()=>{const g='sg'+(++uid);return `<svg class="spark" viewBox="0 0 16 16" fill="none">
+  <defs><linearGradient id="${g}" x1="0" y1="16" x2="16" y2="0">
+    <stop offset="0%" stop-color="#96B1FD"/><stop offset="34%" stop-color="#FF74AC"/>
+    <stop offset="72%" stop-color="#FEAB3F"/><stop offset="100%" stop-color="#DDDFFF"/>
+  </linearGradient></defs>
+  <g class="glowlayer"><path class="big" d="${SPARK_BIG}" fill="url(#${g})"/><path class="sml" d="${SPARK_SML}" fill="url(#${g})"/></g>
+  <path class="big" d="${SPARK_BIG}" fill="url(#${g})"/><path class="sml" d="${SPARK_SML}" fill="url(#${g})"/>
+</svg>`;};
+/* 지정 스톱(DDDFFF·96B1FD·FF74AC·FEAB3F·96B1FD·DDDFFF)을 6등분 지점에서 샘플링 */
+const HUES=['#DDDFFF','#A2AAF4','#FF79A3','#FE9076','#FEA648','#A2B0E8'];
+let pid=0;
+const petalSVG=()=>{const u='p'+(++pid);
+  const lobes=HUES.map((h,i)=>`
+    <g class="lobe" style="animation-delay:${(-i*0.42).toFixed(2)}s;transform:rotate(${i*60}deg)">
+      <radialGradient id="${u}g${i}" cx="50%" cy="34%" r="66%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity=".96"/>
+        <stop offset="46%" stop-color="${h}" stop-opacity=".95"/>
+        <stop offset="100%" stop-color="${h}" stop-opacity=".72"/>
+      </radialGradient>
+      <ellipse cx="50" cy="31" rx="23" ry="27" fill="url(#${u}g${i})"/>
+    </g>`).join('');
+  return `<svg class="petal" viewBox="0 0 100 100" fill="none"><defs></defs>${lobes}</svg>`;};
 
-let pick='A';
+const FAN=[['#DDDFFF','#C9D2FB',-34,.55],['#A2B0E8','#96B1FD',-16,.7],
+           ['#96B1FD','#A2AAF4',2,.82],['#7E9BFA','#96B1FD',20,.94]];
+const lensSVG=()=>{const u='l'+(++pid);
+  const el=FAN.map(([a,b,rot,op],i)=>`
+    <g class="f${i+1}" style="--rot:${rot}deg">
+      <linearGradient id="${u}g${i}" x1="14%" y1="0%" x2="86%" y2="100%">
+        <stop offset="0%" stop-color="${a}"/><stop offset="100%" stop-color="${b}"/>
+      </linearGradient>
+      <ellipse cx="50" cy="44" rx="29" ry="38" fill="url(#${u}g${i})" opacity="${op}"
+        transform="rotate(${rot} 50 78)"/>
+    </g>`).join('');
+  return `<svg class="lens" viewBox="0 0 100 100" fill="none">${el}</svg>`;};
+
+const BODY={spark:sparkSVG,petal:petalSVG,lens:lensSVG};
+const orb=(kind,s)=>`<span class="orb ${kind!=='orb'?'orb--'+kind:''}" style="--s:${s}px">
+  <i class="orb__halo"></i>${BODY[kind]?BODY[kind]():'<i class="orb__skin"><i></i></i><i class="orb__core"></i>'}</span>`;
+let pick='petal';
 function paint(){
   document.querySelectorAll('[data-slot]').forEach(el=>{
     const k=el.dataset.slot==='pick'?pick:el.dataset.slot;
-    el.innerHTML=SYM[k](+el.dataset.size);
+    el.innerHTML=orb(k,+el.dataset.size);
     el.style.display='inline-flex';
   });
-  document.getElementById('heroStage').innerHTML=SYM[pick](168);
+  document.getElementById('heroStage').innerHTML=orb(pick,176);
+  document.querySelectorAll('.tile,.bighero').forEach(t=>t.style.background=pick==='lens'?'#fff':'#0a0a0f');
+  document.querySelector('.hero').style.background=pick==='lens'?'#f4f6fa':'#08080c';
   document.querySelectorAll('.cand').forEach(c=>c.classList.toggle('is-pick',c.dataset.c===pick));
 }
-document.getElementById('grid').addEventListener('click',e=>{
-  const c=e.target.closest('.cand'); if(c){pick=c.dataset.c;paint();}
-});
-document.getElementById('grid').addEventListener('keydown',e=>{
-  const c=e.target.closest('.cand');
-  if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pick=c.dataset.c;paint();}
-});
-function seg(id,fn){
-  const w=document.getElementById(id);
+const g=document.getElementById('grid');
+g.addEventListener('click',e=>{const c=e.target.closest('.cand');if(c){pick=c.dataset.c;paint();}});
+g.addEventListener('keydown',e=>{const c=e.target.closest('.cand');
+  if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pick=c.dataset.c;paint();}});
+function seg(id,fn){const w=document.getElementById(id);
   w.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-    w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));fn(b);});
-}
+    w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));fn(b);});}
 seg('stateSeg',b=>document.body.dataset.state=b.dataset.state);
 seg('playSeg',b=>document.body.classList.toggle('pause',b.dataset.play==='off'));
 paint();
