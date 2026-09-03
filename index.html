@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Resume Agent · 이력서 관리 + 자료 연결</title>
+<link rel="icon" type="image/svg+xml" href="assets-jk/favicon.svg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
@@ -368,11 +369,6 @@ img{display:block}
 .srchead__eyebrow{color:var(--color-brand-500)}
 .srchead h1{margin-top:var(--unit-8);color:var(--color-text-primary)}
 .srchead p{margin-top:var(--unit-8);color:var(--color-text-secondary)}
-/* 4개 질문의 하위 진행. 상단 스텝퍼(전체 4단계)와 구분되도록 세그먼트로 표기 */
-.srcsteps{margin-top:var(--unit-12);display:flex;gap:6px;max-width:420px}
-.srcsteps i{flex:1;height:4px;border-radius:999px;background:var(--color-border-tertiary);
-  display:block;transition:background .25s ease}
-.srcsteps i.is-on{background:var(--color-brand-500)}
 .srcgrid{margin-top:var(--unit-24);display:flex;gap:var(--unit-24);align-items:flex-start}
 .srclist{flex:1 0 0;min-width:0;display:flex;flex-direction:column;gap:var(--unit-12)}
 
@@ -844,7 +840,6 @@ img{display:block}
       <p class="srchead__eyebrow ty-b4b">자료 연결 <span id="stepNo">1</span>/4</p>
       <h1 class="ty-h3" id="stepQ">작성해둔 이력서가 있나요?</h1>
       <p class="ty-b2" id="stepD">가장 최근 자료 하나만 연결해도 괜찮아요. 없다면 바로 넘어갈 수 있어요.</p>
-      <div class="srcsteps" id="stepBar" role="progressbar" aria-label="자료 연결 진행"><i></i><i></i><i></i><i></i></div>
     </div>
 
     <div class="srcgrid">
@@ -1063,7 +1058,6 @@ function render(){
   $('stepNo').textContent=step+1;
   $('stepQ').textContent=S.q;
   $('stepD').textContent=S.d;
-  $('stepBar').querySelectorAll('i').forEach((el,i)=>el.classList.toggle('is-on',i<=step));
 
   $('srcList').innerHTML=S.s.map((c,i)=>`
     <button class="srccard ${isPicked(i)?'is-on':''} ${c.off?'is-off':''}" data-i="${i}" ${c.off?'disabled':''}>
