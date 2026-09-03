@@ -287,7 +287,7 @@ img{display:block}
 .agentbar__logo{width:32px;height:32px;border-radius:var(--unit-8);background:var(--ai-grad);
   display:grid;place-items:center;flex:none}
 .agentbar__logo span{width:12px;height:12px;border-radius:50%;background:var(--ai-dark)}
-.agentbar__t{flex:1;min-width:0;display:flex;flex-direction:column}
+.agentbar__t{flex:none;min-width:0;display:flex;flex-direction:column;margin-right:var(--unit-8)}
 .agentbar__t span{color:var(--color-text-secondary)}
 .agentbar__t b{color:var(--color-text-primary)}
 .agentbar__safe{display:flex;align-items:center;gap:var(--unit-4);color:var(--color-text-secondary);
@@ -355,8 +355,77 @@ img{display:block}
 .srcsticky__t b{display:block;color:var(--color-text-primary)}
 .srcsticky__t span{display:block;color:var(--typography-gray400);margin-top:var(--unit-2)}
 
+/* ══ AgentSubheader 4단계 스텝퍼 ══ */
+.steps{display:flex;align-items:center;gap:var(--unit-8);flex:1;justify-content:center;
+  margin:0;padding:0}
+.steps li{display:flex;align-items:center;gap:var(--unit-6);color:var(--typography-gray400);
+  list-style:none;white-space:nowrap}
+.steps li i{width:20px;height:20px;border-radius:50%;flex:none;font-style:normal;font-size:11px;
+  font-weight:700;display:grid;place-items:center;
+  background:var(--color-border-tertiary);color:var(--color-text-secondary)}
+.steps li.is-done{color:var(--color-text-secondary)}
+.steps li.is-done i{background:var(--ai-tint);border:1px solid var(--ai-border);color:var(--ai-dark)}
+.steps li.is-current{color:var(--color-text-primary);font-weight:700}
+.steps li.is-current i{background:var(--color-brand-500);color:#fff}
+.steps__ar{color:var(--typography-gray400);font-size:11px}
+
+/* ══════════ ④ 초안 생성 · 07 Processing ══════════ */
+.procpage{width:1200px;margin:0 auto;padding:56px 0 80px;display:flex;justify-content:center}
+.proccard{width:680px;text-align:center}
+.proclogo{width:62px;height:62px;margin:0 auto;border-radius:50%;background:var(--ai-grad);
+  display:grid;place-items:center}
+.proclogo span{width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.proclogo span i{width:14px;height:14px;border-radius:50%;background:var(--ai-dark);display:block}
+.proceyebrow{margin-top:var(--unit-20);color:var(--color-brand-500)}
+.proccard h1{margin-top:var(--unit-8);color:var(--color-text-primary)}
+.proccard>p{margin-top:var(--unit-8);color:var(--color-text-secondary)}
+
+.proclist{width:578px;margin:var(--unit-32) auto 0;text-align:left;
+  border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
+  background:#fff;overflow:hidden}
+.proclist li{display:flex;align-items:center;gap:var(--unit-12);height:50px;
+  padding:0 var(--unit-20);border-bottom:1px solid var(--color-border-tertiary);list-style:none}
+.proclist li:last-child{border-bottom:0}
+.proclist li i{width:20px;height:20px;flex:none;border-radius:50%;display:grid;place-items:center;
+  font-style:normal;font-size:11px;font-weight:700;
+  background:var(--color-border-tertiary);color:var(--typography-gray400)}
+.proclist li b{flex:1;min-width:0;color:var(--typography-gray400);font-weight:500}
+.proclist li em{font-style:normal;color:var(--typography-gray400);flex:none}
+.proclist li.is-done i{background:#ebf8f2;color:#00875a}
+.proclist li.is-done b{color:var(--color-text-primary);font-weight:700}
+.proclist li.is-done em{color:#00875a}
+.proclist li.is-run i{background:var(--ai-tint);border:1px solid var(--ai-border);color:var(--ai-dark);
+  animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.proclist li.is-run b{color:var(--color-text-primary);font-weight:700}
+.proclist li.is-run em{color:var(--color-brand-500);font-weight:700}
+
+.procbar{width:578px;margin:var(--unit-20) auto 0;height:5px;border-radius:999px;
+  background:var(--color-border-tertiary);overflow:hidden}
+.procbar span{display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--color-brand-500),var(--ai-cyan));
+  width:20%;transition:width .5s ease}
+
+.procnotice{width:578px;margin:var(--unit-32) auto 0;text-align:left;
+  background:var(--ai-tint);border:1px solid var(--ai-border);border-radius:var(--radius-sm);
+  padding:var(--unit-20);display:flex;gap:var(--unit-12);align-items:flex-start}
+.procnotice>i{width:22px;height:22px;flex:none;border-radius:50%;background:#fff;
+  border:1px solid var(--ai-border);color:var(--ai-dark);font-style:normal;font-size:12px;
+  font-weight:700;display:grid;place-items:center}
+.procnotice div{flex:1;min-width:0}
+.procnotice b{display:block;color:var(--ai-dark)}
+.procnotice p{margin-top:var(--unit-4);color:var(--color-text-secondary)}
+.procnotice button{margin-top:var(--unit-12);height:36px;padding:0 var(--unit-12);
+  border:1px solid var(--ai-border);border-radius:var(--unit-8);background:#fff;
+  color:var(--ai-dark);display:inline-flex;align-items:center;gap:var(--unit-6)}
+.procnotice button.is-off{color:var(--typography-gray400);border-color:var(--color-border-tertiary)}
+.procfoot{margin-top:var(--unit-32)}
+
 /* ══ 화면 전환 ══ */
-[data-screen="manage"] .s-source,[data-screen="source"] .s-manage{display:none}
+[data-screen="manage"] .s-source,[data-screen="manage"] .s-proc,
+[data-screen="source"] .s-manage,[data-screen="source"] .s-proc,
+[data-screen="proc"]   .s-manage,[data-screen="proc"]   .s-source{display:none}
+[data-screen="manage"] .agentbar{display:none}
 .t-a,.t-b,.t-c,.t-ac,.t-bc{display:none}
 [data-track="a"] .t-a,[data-track="b"] .t-b,[data-track="c"] .t-c,
 [data-track="a"] .t-ac,[data-track="c"] .t-ac,
@@ -379,6 +448,7 @@ img{display:block}
   <div class="tabs" id="screenTabs">
     <button class="is-on" data-screen="manage">① 이력서 관리</button>
     <button data-screen="source">③ 자료 연결</button>
+    <button data-screen="proc">④ 초안 생성</button>
   </div>
   <p class="bar__desc" id="desc">이력서 관리는 Figma 18:10 원본 그대로 · 시작하기 → 동의 모달 → 자료 연결</p>
 </div>
@@ -604,15 +674,22 @@ img{display:block}
 </div>
 </div>
 
+<!-- ═══════════ AgentSubheader · 자료 연결 / 초안 생성 공통 ═══════════ -->
+<div class="agentbar"><div class="agentbar__in">
+  <span class="agentbar__logo"><span></span></span>
+  <span class="agentbar__t"><span class="ty-c1">이력서 관리</span><b class="ty-b4b">AI 이력서 작성</b></span>
+  <ol class="steps ty-c1" id="stepper">
+    <li data-s="1"><i>1</i>자료 연결</li><span class="steps__ar">›</span>
+    <li data-s="2"><i>2</i>초안 생성</li><span class="steps__ar">›</span>
+    <li data-s="3"><i>3</i>AI 기반 검토</li><span class="steps__ar">›</span>
+    <li data-s="4"><i>4</i>검토·저장</li>
+  </ol>
+  <span class="agentbar__safe ty-c1"><i></i>원본 변경 없음</span>
+  <button class="jbtn" id="srcExit">나가기</button>
+</div></div>
+
 <!-- ═══════════ ③ 자료 연결 ═══════════ -->
 <div class="s-source">
-  <div class="agentbar"><div class="agentbar__in">
-    <span class="agentbar__logo"><span></span></span>
-    <span class="agentbar__t"><span class="ty-c1">이력서 관리</span><b class="ty-b4b">AI 이력서 작성</b></span>
-    <span class="agentbar__safe ty-c1"><i></i>원본 변경 없음</span>
-    <button class="jbtn" id="srcExit">나가기</button>
-  </div></div>
-
   <div class="srcpage">
     <div class="srchead">
       <p class="srchead__eyebrow ty-b4b">자료 연결 <span id="stepNo">1</span>/4</p>
@@ -640,6 +717,37 @@ img{display:block}
     </div>
     <button class="jbtn" id="srcPrev">이전</button>
     <button class="jbtn jbtn--primary" id="srcNext">건너뛰기</button>
+  </div></div>
+</div>
+
+<!-- ═══════════ ④ 초안 생성 · 07 Processing ═══════════ -->
+<div class="s-proc">
+  <div class="procpage"><div class="proccard">
+    <div class="proclogo"><span><i></i></span></div>
+    <p class="proceyebrow ty-b4b">STEP 2 · 초안 생성</p>
+    <h1 class="ty-h3" id="procTitle">연결한 자료로 이력서 초안을 만들고 있어요</h1>
+    <p class="ty-b2" id="procDesc">여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.</p>
+
+    <ol class="proclist" id="procList">
+      <li data-n="0"><i>1</i><b class="ty-b4m">연결한 자료 확인</b><em class="ty-c1">대기</em></li>
+      <li data-n="1"><i>2</i><b class="ty-b4m">경력·학력·프로젝트 정보 정리</b><em class="ty-c1">대기</em></li>
+      <li data-n="2"><i>3</i><b class="ty-b4m">중복 정보와 날짜 차이 확인</b><em class="ty-c1">대기</em></li>
+      <li data-n="3"><i>4</i><b class="ty-b4m">AI 코칭에 사용할 이력서 초안 생성</b><em class="ty-c1">대기</em></li>
+    </ol>
+    <div class="procbar"><span id="procBar"></span></div>
+
+    <div class="procnotice">
+      <i>!</i>
+      <div>
+        <b class="ty-b4b">이 화면을 닫아도 분석은 계속돼요</b>
+        <p class="ty-c1">완료되면 잡코리아 알림으로 알려드릴게요. 이력서 목록에서 언제든 진행 상태를 다시 열 수 있어요.</p>
+        <button id="procNoti" class="ty-c1"><span id="procNotiDot">🔔</span> <span id="procNotiTx">브라우저 알림 켜짐</span></button>
+      </div>
+    </div>
+
+    <div class="procfoot">
+      <button class="jbtn jbtn--primary" id="procBack">이력서 목록으로</button>
+    </div>
   </div></div>
 </div>
 
@@ -689,9 +797,9 @@ function bind(id,attr){
   const w=document.getElementById(id); if(!w) return;
   w.addEventListener('click',e=>{
     const b=e.target.closest('button'); if(!b) return;
+    if(attr==='screen'){ goScreen(b.dataset.screen); return; }
     document.body.dataset[attr]=b.dataset[attr];
     w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));
-    if(attr==='screen') window.scrollTo(0,0);
   });
 }
 bind('trackTabs','track'); bind('screenTabs','screen');
@@ -700,6 +808,7 @@ function goScreen(s){
   document.querySelectorAll('#screenTabs button')
     .forEach(x=>x.classList.toggle('is-on',x.dataset.screen===s));
   window.scrollTo(0,0);
+  syncStepper(s);
 }
 
 /* ── 동의 모달 ── */
@@ -796,12 +905,59 @@ $('pickList').addEventListener('click',e=>{
 });
 $('srcNext').addEventListener('click',()=>{
   if(step<3){step++;render();window.scrollTo(0,0);}
-  else alert('데모: 여기서 STEP 2 초안 생성(07 Processing) 화면으로 이어집니다.');
+  else goScreen('proc');
 });
 $('srcPrev').addEventListener('click',()=>{if(step>0){step--;render();window.scrollTo(0,0);}});
 $('srcExit').addEventListener('click',()=>goScreen('manage'));
 $('srcSkipAll').addEventListener('click',()=>goScreen('manage'));
 render();
+
+/* ── 07 초안 생성 진행 시뮬레이션 ── */
+const PROC=['연결한 자료 확인','경력·학력·프로젝트 정보 정리','중복 정보와 날짜 차이 확인','AI 코칭에 사용할 이력서 초안 생성'];
+let pIdx=0, pTimer=null;
+function renderProc(){
+  document.querySelectorAll('#procList li').forEach(li=>{
+    const n=+li.dataset.n, em=li.querySelector('em');
+    li.classList.toggle('is-done', n<pIdx);
+    li.classList.toggle('is-run',  n===pIdx);
+    em.textContent = n<pIdx ? '완료' : n===pIdx ? '진행 중' : '대기';
+    li.querySelector('i').textContent = n<pIdx ? '✓' : (n+1);
+  });
+  $('procBar').style.width = Math.min(100,(pIdx+0.5)/4*100)+'%';
+  const done = pIdx>=PROC.length;
+  $('procTitle').textContent = done ? 'AI 이력서 초안이 준비됐어요' : '연결한 자료로 이력서 초안을 만들고 있어요';
+  $('procDesc').textContent  = done
+    ? '항목별 개선 제안과 직접 수정이 가능한 AI 코칭 화면으로 이동합니다.'
+    : '여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.';
+  if(done){ $('procBar').style.width='100%'; $('procBack').textContent='AI 코칭 결과 확인'; }
+}
+function startProc(){
+  pIdx=0; renderProc(); clearInterval(pTimer);
+  pTimer=setInterval(()=>{
+    pIdx++; renderProc();
+    if(pIdx>=PROC.length) clearInterval(pTimer);
+  },1800);
+}
+$('procNoti').addEventListener('click',e=>{
+  const b=e.currentTarget, off=b.classList.toggle('is-off');
+  $('procNotiTx').textContent = off ? '브라우저 알림 꺼짐' : '브라우저 알림 켜짐';
+  $('procNotiDot').textContent = off ? '🔕' : '🔔';
+});
+$('procBack').addEventListener('click',()=>goScreen('manage'));
+
+/* ── 스텝퍼 상태 ── */
+const SCREEN_STEP={source:1,proc:2};
+function syncStepper(s){
+  const cur=SCREEN_STEP[s]||0;
+  document.querySelectorAll('#stepper li').forEach(li=>{
+    const n=+li.dataset.s;
+    li.classList.toggle('is-done',n<cur);
+    li.classList.toggle('is-current',n===cur);
+    li.querySelector('i').textContent = n<cur ? '✓' : n;
+  });
+  if(s==='proc') startProc(); else clearInterval(pTimer);
+}
+syncStepper('manage');
 </script>
 </body>
 </html>
