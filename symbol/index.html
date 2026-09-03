@@ -137,6 +137,27 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 @keyframes fanA{0%,100%{rotate:-9deg}50%{rotate:9deg}}
 @keyframes fanTurn{0%,100%{rotate:-7deg}50%{rotate:7deg}}
 
+/* ── 변형 G · 서포터 (클로버 ↔ 스파클 모프) ── */
+.orb--buddy .orb__skin,.orb--buddy .orb__core{display:none}
+.orb--buddy .orb__halo{inset:calc(var(--s)*-.34);opacity:calc(.6*var(--glow));
+  filter:blur(calc(var(--s)*.26))}
+.buddy{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+  animation:buddyFloat calc(var(--morph)*1.15) ease-in-out infinite}
+.buddy .shape{animation:buddyMorph var(--morph) cubic-bezier(.45,0,.55,1) infinite;
+  transform-origin:50px 50px;transform-box:view-box}
+.buddy .gwrap{transform-origin:50px 50px;transform-box:view-box;
+  animation:buddyTurn var(--spin) linear infinite}
+.buddy .eye{transform-origin:center;transform-box:fill-box;
+  animation:blink calc(var(--morph)*2.1) ease-in-out infinite}
+.buddy .eye.r{animation-delay:.04s}
+body[data-face="off"] .buddy .eyes{display:none}
+@keyframes buddyFloat{
+  0%,100%{transform:translate(-2%,1.5%) rotate(-2.5deg)}
+  50%    {transform:translate(2%,-1.5%) rotate(2.5deg)}
+}
+@keyframes buddyTurn{to{rotate:360deg}}
+@keyframes blink{0%,92%,100%{scale:1 1}96%{scale:1 .12}}
+
 /* 상태 */
 [data-state="idle"] .orb{--spin:9s;--morph:7s;--glow:.78}
 [data-state="work"] .orb{--spin:2.4s;--morph:2.6s;--glow:1.2}
@@ -144,6 +165,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 [data-state="done"] .orb *{animation:none!important}
 [data-state="done"] .orb__skin{border-radius:50% 50% 48% 52%/52% 48% 52% 48%}
 [data-state="done"] .petal g.lobe{scale:1}
+[data-state="done"] .buddy .shape{d:path(var(--pClover))}
 [data-state="done"] .spark .big{rotate:18deg;scale:1}
 [data-state="done"] .spark .sml{rotate:-24deg;scale:1;opacity:1}
 body.pause .orb *{animation-play-state:paused!important}
@@ -238,7 +260,7 @@ body.pause .orb *{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){.orb *{animation:none!important}}
 </style>
 </head>
-<body data-state="idle">
+<body data-state="idle" data-face="on">
 
 <div class="top">
   <span class="top__t">AI 심볼 <span>· Resume Agent</span></span>
@@ -250,6 +272,10 @@ body.pause .orb *{animation-play-state:paused!important}
   <div class="seg" id="playSeg">
     <button data-play="on" class="is-on">모션</button>
     <button data-play="off">정지</button>
+  </div>
+  <div class="seg" id="faceSeg">
+    <button data-face="on" class="is-on">표정</button>
+    <button data-face="off">없음</button>
   </div>
 </div>
 
@@ -264,12 +290,20 @@ body.pause .orb *{animation-play-state:paused!important}
 
   <section class="sec" style="margin-top:56px">
     <div class="sec__head">
-      <h2>여섯 가지 형태</h2>
+      <h2>일곱 가지 형태</h2>
       <p>같은 그라디언트 스톱과 같은 모션 원리를 쓰되, 채움 방식만 다릅니다.</p>
     </div>
     <div class="grid" id="grid">
 
-      <article class="cand is-pick" data-c="petal" tabindex="0">
+      <article class="cand is-pick" data-c="buddy" tabindex="0">
+        <div class="cand__stage" data-slot="buddy" data-size="120"></div>
+        <div class="cand__n"><h3>서포터</h3><small>SUPPORTER</small></div>
+        <p class="cand__d">클로버와 스파클 사이를 오가며 부드럽게 모프합니다.
+          <b>JK 기존 스파클로 수렴했다가 다시 풀리는</b> 형태라, 곁에 있는 서포터처럼 읽힙니다.</p>
+        <div class="cand__tags"><span class="tag tag--good">기존 마크 연결</span><span class="tag tag--good">서포터 인상</span></div>
+      </article>
+
+      <article class="cand" data-c="petal" tabindex="0">
         <div class="cand__stage" data-slot="petal" data-size="118"></div>
         <div class="cand__n"><h3>페탈</h3><small>PETAL</small></div>
         <p class="cand__d">여섯 로브가 겹치며 가운데가 하얗게 타오릅니다. 겹침 자체가 색을 만들어
@@ -414,10 +448,52 @@ const lensSVG=()=>{const u='l'+(++pid);
     </g>`).join('');
   return `<svg class="lens" viewBox="0 0 100 100" fill="none">${el}</svg>`;};
 
-const BODY={spark:sparkSVG,petal:petalSVG,lens:lensSVG};
+/* r(θ)=R0+A·cos4θ 로 같은 점 개수의 두 형태를 만들어 d 를 보간 */
+function lobePath(R0,A,n=72){
+  const pt=i=>{const t=i/n*Math.PI*2, r=R0+A*Math.cos(4*t);
+    return [50+r*Math.cos(t-Math.PI/2), 50+r*Math.sin(t-Math.PI/2)];};
+  const P=Array.from({length:n},(_,i)=>pt(i));
+  let d=`M${P[0][0].toFixed(2)} ${P[0][1].toFixed(2)}`;
+  for(let i=0;i<n;i++){
+    const p0=P[(i-1+n)%n],p1=P[i],p2=P[(i+1)%n],p3=P[(i+2)%n];
+    const c1=[p1[0]+(p2[0]-p0[0])/6, p1[1]+(p2[1]-p0[1])/6];
+    const c2=[p2[0]-(p3[0]-p1[0])/6, p2[1]-(p3[1]-p1[1])/6];
+    d+=`C${c1[0].toFixed(2)} ${c1[1].toFixed(2)} ${c2[0].toFixed(2)} ${c2[1].toFixed(2)} ${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
+  }
+  return d+'Z';
+}
+const P_CLOVER=lobePath(36,8), P_STAR=lobePath(25,21), P_MID=lobePath(31,14);
+(()=>{const st=document.createElement('style');
+  st.textContent=`:root{--pClover:"${P_CLOVER}"}
+  @keyframes buddyMorph{
+    0%,100%{d:path("${P_CLOVER}");scale:1}
+    38%    {d:path("${P_MID}");scale:1.04}
+    62%    {d:path("${P_STAR}");scale:.96}
+    82%    {d:path("${P_MID}");scale:1.03}
+  }`;
+  document.head.appendChild(st);})();
+
+const buddySVG=()=>{const u='b'+(++pid);return `<svg class="buddy" viewBox="0 0 100 100" fill="none">
+  <defs><linearGradient id="${u}g" x1="8%" y1="4%" x2="92%" y2="96%">
+    <stop offset="0%" stop-color="#DDDFFF"/><stop offset="15%" stop-color="#96B1FD"/>
+    <stop offset="34%" stop-color="#FF74AC"/><stop offset="72%" stop-color="#FEAB3F"/>
+    <stop offset="88%" stop-color="#96B1FD"/><stop offset="100%" stop-color="#DDDFFF"/>
+  </linearGradient>
+  <radialGradient id="${u}s" cx="34%" cy="26%" r="62%">
+    <stop offset="0%" stop-color="#fff" stop-opacity=".72"/>
+    <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient></defs>
+  <g class="gwrap"><path class="shape" d="${P_CLOVER}" fill="url(#${u}g)"/></g>
+  <path class="shape" d="${P_CLOVER}" fill="url(#${u}s)" style="animation-delay:inherit"/>
+  <g class="eyes">
+    <rect class="eye l" x="40" y="42" width="4.6" height="12" rx="2.3" fill="#fff"/>
+    <rect class="eye r" x="55.4" y="42" width="4.6" height="12" rx="2.3" fill="#fff"/>
+  </g></svg>`;};
+
+const BODY={buddy:buddySVG,spark:sparkSVG,petal:petalSVG,lens:lensSVG};
 const orb=(kind,s)=>`<span class="orb ${kind!=='orb'?'orb--'+kind:''}" style="--s:${s}px">
   <i class="orb__halo"></i>${BODY[kind]?BODY[kind]():'<i class="orb__skin"><i></i></i><i class="orb__core"></i>'}</span>`;
-let pick='petal';
+let pick='buddy';
 function paint(){
   document.querySelectorAll('[data-slot]').forEach(el=>{
     const k=el.dataset.slot==='pick'?pick:el.dataset.slot;
@@ -438,6 +514,7 @@ function seg(id,fn){const w=document.getElementById(id);
     w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));fn(b);});}
 seg('stateSeg',b=>document.body.dataset.state=b.dataset.state);
 seg('playSeg',b=>document.body.classList.toggle('pause',b.dataset.play==='off'));
+seg('faceSeg',b=>document.body.dataset.face=b.dataset.face);
 paint();
 </script>
 </body>
