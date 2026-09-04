@@ -584,10 +584,11 @@ img{display:block}
 
 /* 2단 */
 .cwgrid{margin-top:var(--unit-16);display:flex;gap:var(--unit-16);align-items:flex-start}
-.cwdraft{flex:1 0 0;min-width:0;background:#fff;border-radius:24px;padding:var(--unit-24);
+.cwdraft{flex:1 0 0;min-width:0;background:#fbfcfd;border-radius:24px;padding:var(--unit-24);
   box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
-.cwdraft__h{display:flex;align-items:flex-start;gap:var(--unit-12);
-  padding-bottom:var(--unit-16);border-bottom:1px solid var(--color-border-tertiary)}
+.cwdraft__h{display:flex;align-items:flex-start;gap:var(--unit-12);background:#fff;
+  margin:calc(var(--unit-24) * -1) calc(var(--unit-24) * -1) 0;padding:var(--unit-24);
+  border-radius:24px 24px 0 0;border-bottom:1px solid var(--color-border-tertiary)}
 .cwdraft__h div{flex:1;min-width:0}
 .cwdraft__h span{font-size:12px;font-weight:700;color:var(--color-brand-500);letter-spacing:.02em}
 .cwdraft__h h2{margin-top:var(--unit-4);font-size:19px;font-weight:700;letter-spacing:-.5px;
@@ -598,7 +599,9 @@ img{display:block}
 .cwfield{padding:var(--unit-20) 0;border-bottom:1px solid #f3f5f8}
 .cwfield:last-child{border-bottom:0;padding-bottom:0}
 .cwfield__h{display:flex;align-items:center;gap:var(--unit-8);margin-bottom:var(--unit-10)}
-.cwfield__h b{font-size:13px;font-weight:700;color:var(--color-text-secondary)}
+.cwfield__sec{height:22px;padding:0 8px;border-radius:6px;background:#f1f3f7;
+  font-size:11px;font-weight:700;color:var(--color-text-secondary);display:inline-flex;align-items:center}
+.cwfield__h b{font-size:13.5px;font-weight:700;color:var(--color-text-primary)}
 .cwfield__h .chg{height:20px;padding:0 7px;border-radius:6px;font-size:10.5px;font-weight:700;
   background:rgba(27,85,246,.1);color:var(--color-brand-500);display:none;align-items:center}
 .cwfield.is-applied .chg{display:inline-flex}
@@ -607,7 +610,7 @@ img{display:block}
   background:#fff;transition:.15s}
 .cwfield__edit:hover{background:#f7f8fa}
 .cwfield p{font-size:14.5px;line-height:24px;color:var(--color-text-primary);letter-spacing:-.2px}
-.cwfield.is-applied{background:linear-gradient(90deg,rgba(27,85,246,.05),transparent 72%);
+.cwfield.is-applied{background:linear-gradient(90deg,rgba(27,85,246,.06),rgba(27,85,246,.02) 72%);
   border-radius:14px;margin:var(--unit-8) -16px;padding:var(--unit-20) var(--unit-16);
   border-bottom:0;box-shadow:inset 2px 0 0 var(--color-brand-500)}
 .cwfield.is-applied + .cwfield{border-top:1px solid #f3f5f8}
@@ -1986,11 +1989,16 @@ document.querySelectorAll('[data-mark]').forEach(jkMark);
 
 /* ══ ⑤ AI 기반 검토 ══ */
 const CW_FIELDS=[
- {k:'title', label:'이력서 제목', v:'AI Product Owner / Career Agent / Enterprise SaaS'},
- {k:'intro', label:'자기소개',   v:'구직자와 채용 서비스의 문제를 구조화하고, 생성형 AI를 실제 제품 흐름에 연결하는 AI 프로덕트 오너입니다.'},
- {k:'career',label:'경력기술서',  v:'Career Agent 프로젝트 기획 및 개발'},
- {k:'project',label:'프로젝트',   v:'AI Agent 기능 기획 및 데모 제작'},
- {k:'skill', label:'보유기술',    v:'생성형 AI, RAG, 서비스 기획, UX, API, 품질 검증'}
+ {k:'title', sec:'인적사항', label:'이력서 제목', type:'input', sub:'',
+  v:'AI Product Owner / Career Agent / Enterprise SaaS'},
+ {k:'intro', sec:'자기소개서', label:'항목 제목', type:'ta', sub:'자기소개',
+  v:'구직자와 채용 서비스의 문제를 구조화하고, 생성형 AI를 실제 제품 흐름에 연결하는 AI 프로덕트 오너입니다.'},
+ {k:'career',sec:'경력',     label:'잡코리아(유) · AI Product', type:'ta', sub:'담당업무',
+  v:'Career Agent 프로젝트 기획 및 개발'},
+ {k:'project',sec:'인턴·대외활동', label:'Career Agent 프로젝트', type:'ta', sub:'활동내용',
+  v:'AI Agent 기능 기획 및 데모 제작'},
+ {k:'skill', sec:'스킬',     label:'내가 보유한 스킬', type:'tags', sub:'',
+  v:'생성형 AI, RAG, 서비스 기획, UX, API, 품질 검증'}
 ];
 const CW_SUG=[
  {id:'s1',cat:'career',field:'career',
@@ -2015,11 +2023,23 @@ const CW_LIMIT=5;
 function cwRenderFields(){
   document.getElementById('cwFields').innerHTML=CW_FIELDS.map(f=>{
     const done=cwApplied.includes(f.k);
+    let body='';
+    if(f.type==='input'){
+      body=`<div class="rw-f"><label>${f.label}</label><div class="v">${f.v}</div></div>`;
+    }else if(f.type==='ta'){
+      body=`<div class="rw-ta"><label>${f.sub}</label><div class="v">${f.v}</div></div>`;
+    }else{
+      body=`<div style="display:flex;gap:6px;flex-wrap:wrap">`+
+        f.v.split(/[,/]/).map(t=>t.trim()).filter(Boolean)
+          .map(t=>`<span class="rw-tag">${t} <em>✕</em></span>`).join('')+`</div>`;
+    }
     return `<div class="cwfield ${done?'is-applied':''}">
-      <div class="cwfield__h"><b>${f.label}</b>
+      <div class="cwfield__h">
+        <span class="cwfield__sec">${f.sec}</span>
+        <b>${f.type==='tags'?f.label:(f.sub||f.label)}</b>
         <span class="chg">AI가 다듬음</span>
         <button class="cwfield__edit">직접 수정</button></div>
-      <p>${f.v}</p></div>`;}).join('');
+      ${body}</div>`;}).join('');
 }
 function cwRenderSug(){
   const list=CW_SUG.filter(x=>cwFilter==='all'||x.cat===cwFilter);
