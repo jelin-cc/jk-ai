@@ -562,6 +562,17 @@ img{display:block}
 .cwuse__dots{display:flex;gap:4px;flex:none}
 .cwuse__dots i{width:16px;height:5px;border-radius:999px;background:var(--color-border-tertiary);display:block}
 .cwuse__dots i.on{background:var(--color-brand-500)}
+/* 잔여 1회 이하 경고 · JK 필수표시 레드 #f04452 */
+.cwuse.is-low{background:#fff4f4}
+.cwuse.is-low b{color:#f04452}
+.cwuse.is-low .cwuse__dots i.on{background:#f04452}
+.cwuse.is-low p{color:#c2374a}
+.cwuse.is-out b{color:#f04452}
+.cwuse.is-out .cwuse__dots i{background:#f2d3d7}
+.cwsug__regen{margin-top:var(--unit-8);font-size:12.5px;font-weight:600;
+  color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
+.cwsug__regen:hover{color:var(--color-brand-500)}
+.cwsug__regen:disabled{color:var(--typography-gray400);text-decoration:none;cursor:not-allowed}
 
 .cwmeta{margin-top:var(--unit-12);display:flex;align-items:center;gap:var(--unit-16);
   padding:0 var(--unit-4);font-size:12.5px;color:var(--typography-gray400);flex-wrap:wrap}
@@ -1204,7 +1215,7 @@ img{display:block}
         <button class="jbtn jbtn--primary" id="cwAll">적용 가능한 제안 3개 모두 반영</button>
       </div>
     </div>
-    <div class="cwuse">
+    <div class="cwuse" id="cwUse">
       <b id="cwUseTx">AI 코칭 1/5회 사용 · 4회 남음</b>
       <span class="cwuse__dots" id="cwUseDots"><i class="on"></i><i></i><i></i><i></i><i></i></span>
       <p>항목별 피드백 질의·응답 1세트마다 1회 사용돼요. 제안 반영과 직접 수정은 횟수에 포함되지 않아요.</p>
@@ -1634,7 +1645,8 @@ const CW_SUG=[
   before:'생성형 AI, RAG, 서비스 기획, UX, API, 품질 검증',
   after:'AI Product: 생성형 AI · RAG · 서비스 기획 / Product Delivery: UX · API · 품질 검증'}
 ];
-let cwApplied=[], cwFilter='all', cwHistory=[];
+let cwApplied=[], cwFilter='all', cwHistory=[], cwUsed=1;
+const CW_LIMIT=5;
 
 function cwRenderFields(){
   document.getElementById('cwFields').innerHTML=CW_FIELDS.map(f=>{
@@ -1662,6 +1674,7 @@ function cwRenderSug(){
         <button class="cwsug__yes">이 제안 반영</button>
       </div>
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
+      <button class="cwsug__regen">피드백으로 다시 생성</button>
     </article>`;}).join('') : '<p class="cwempty">이 항목에는 제안이 없어요</p>';
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
   document.getElementById('cwLeft').textContent=(3-cwApplied.length)+'개';
@@ -1671,6 +1684,21 @@ function cwRenderSug(){
     : `적용 가능한 제안 ${3-cwApplied.length}개 모두 반영`;
   document.getElementById('cwAll').disabled = cwApplied.length>=3;
   document.getElementById('cwUndo').disabled = cwHistory.length===0;
+  cwRenderUse();
+}
+function cwRenderUse(){
+  const left=CW_LIMIT-cwUsed, box=document.getElementById('cwUse');
+  box.classList.toggle('is-low', left<=1 && left>0);
+  box.classList.toggle('is-out', left<=0);
+  document.getElementById('cwUseTx').textContent = left>0
+    ? `AI 코칭 ${cwUsed}/${CW_LIMIT}회 사용 · ${left}회 남음`
+    : `무료 AI 코칭 ${CW_LIMIT}회를 모두 사용했어요`;
+  document.getElementById('cwUseDots').innerHTML =
+    Array.from({length:CW_LIMIT},(_,i)=>`<i class="${i<cwUsed?'on':''}"></i>`).join('');
+  document.querySelectorAll('.cwsug__regen').forEach(b=>{
+    b.disabled = left<=0;
+    b.textContent = left>0 ? `피드백으로 다시 생성 · ${left}회 남음` : '남은 코칭 횟수가 없어요';
+  });
 }
 function cwApply(id){
   const x=CW_SUG.find(a=>a.id===id); if(!x||cwApplied.includes(x.field)) return;
@@ -1684,6 +1712,10 @@ document.getElementById('cwSug').addEventListener('click',e=>{
   if(e.target.closest('.cwsug__yes')) cwApply(card.dataset.id);
   if(e.target.closest('.cwsug__no')){card.classList.add('is-done');
     card.querySelector('.cwsug__done').textContent='현재 문장 유지';}
+  if(e.target.closest('.cwsug__regen')){
+    if(cwUsed>=CW_LIMIT) return;
+    cwUsed++; cwRenderUse();
+  }
 });
 document.getElementById('cwAll').addEventListener('click',()=>CW_SUG.forEach(x=>cwApply(x.id)));
 document.getElementById('cwUndo').addEventListener('click',()=>{
