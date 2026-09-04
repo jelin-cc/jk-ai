@@ -578,8 +578,16 @@ img{display:block}
 .cwuse.is-low b{color:#f04452}
 .cwuse.is-low .cwuse__dots i.on{background:#f04452}
 .cwuse.is-low p{color:#c2374a}
+.cwuse.is-out{background:#fff4f4;border-color:#f7d6da}
 .cwuse.is-out b{color:#f04452}
+.cwuse.is-out p{color:#c2374a}
 .cwuse.is-out .cwuse__dots i{background:#f2d3d7}
+.cwuse p b{font-weight:700;color:inherit}
+/* 소진 시에는 막힌 상태로 끝내지 않고 직접 수정이라는 대체 경로를 준다 */
+.cwuse__act{display:none;flex:none;height:34px;padding:0 14px;border-radius:10px;background:#fff;
+  border:1px solid #f0c2c7;color:#f04452;font-size:12.5px;font-weight:700;transition:.15s}
+.cwuse__act:hover{background:#fff0f1}
+.cwuse.is-out .cwuse__act{display:inline-flex;align-items:center}
 /* 재생성 = 아이콘 버튼. 잔여 횟수는 상단 패널이 담당하고 여기선 반복하지 않음 */
 .cwsug__regen{flex:none;width:40px;height:40px;border-radius:12px;background:#f3f5f8;
   color:var(--color-text-secondary);display:grid;place-items:center;transition:.15s}
@@ -659,6 +667,44 @@ img{display:block}
 .cwdiff .b4 span{color:#c3c9d4}
 .cwdiff .af span{color:var(--color-brand-500)}
 .cwsug__act{margin-top:var(--unit-12);display:flex;gap:6px}
+/* 차감되는 행동에만 비용을 붙인다. 반영·유지는 무료라는 사실이 대비로 드러나야 함 */
+.cwsug__regen{margin-top:var(--unit-8);width:100%;height:34px;border-radius:10px;background:#fff;
+  border:1px solid var(--color-border-tertiary);color:var(--color-text-secondary);
+  font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;transition:.15s}
+.cwsug__regen svg{width:14px;height:14px;flex:none}
+.cwsug__regen em{font-style:normal;height:19px;padding:0 6px;border-radius:5px;background:#f1f3f7;
+  color:var(--typography-gray400);font-size:11px;font-weight:700;display:inline-flex;align-items:center}
+.cwsug__regen:hover:not(:disabled){border-color:#b9c6f5;color:var(--color-brand-500)}
+.cwsug__regen:hover:not(:disabled) em{background:rgba(27,85,246,.1);color:var(--color-brand-500)}
+.cwsug__regen:disabled,.cwsug__regen.is-off{background:#fafbfc;color:#c3c9d4;cursor:not-allowed}
+.cwsug__regen:disabled em,.cwsug__regen.is-off em{color:#c3c9d4}
+.cwsug__regen.is-last{border-color:#f7c9ce;color:#f04452}
+.cwsug__regen.is-last em{background:#fdeeee;color:#f04452}
+.cwsug.is-done .cwsug__regen{display:none}
+
+/* 생성 중 · 취소 가능. 끝나기 전에는 차감하지 않는다 */
+.cwsug__load{margin-top:var(--unit-12);display:flex;align-items:center;gap:var(--unit-10);
+  padding:var(--unit-12);border-radius:12px;background:#f6f8fc;border:1px solid #e6ecf7}
+.cwsug__load div{flex:1;min-width:0}
+.cwsug__load b{display:block;font-size:13px;font-weight:700;color:var(--color-text-primary)}
+.cwsug__load span.sub{font-size:11.5px;color:var(--typography-gray400)}
+.cwsug__cancel{flex:none;height:30px;padding:0 11px;border-radius:9px;background:#fff;
+  border:1px solid var(--color-border-tertiary);font-size:12px;font-weight:600;
+  color:var(--color-text-secondary)}
+.cwspin{width:18px;height:18px;flex:none;border-radius:50%;border:2px solid #d8e2f7;
+  border-top-color:var(--color-brand-500);animation:cwspin .7s linear infinite}
+@keyframes cwspin{to{transform:rotate(360deg)}}
+
+/* 실패 · 차감되지 않았다는 사실을 오류 문구 안에서 먼저 알린다 */
+.cwsug__err{margin-top:var(--unit-12);padding:var(--unit-12) var(--unit-14,14px);border-radius:12px;
+  background:#fff4f4;border:1px solid #f7d6da}
+.cwsug__err b{display:block;font-size:13px;font-weight:700;color:#f04452}
+.cwsug__err p{margin-top:3px;font-size:12px;line-height:18px;color:#c2374a}
+.cwsug__errAct{margin-top:var(--unit-10);display:flex;gap:6px}
+.cwsug__errAct button{height:32px;border-radius:9px;font-size:12.5px;font-weight:600;transition:.15s}
+.cwsug__retry{flex:1;background:#f04452;color:#fff}
+.cwsug__retry:hover{background:#dc3b48}
+.cwsug__keep{flex:none;padding:0 12px;background:#fff;border:1px solid #f0c2c7;color:#f04452}
 .cwsug__act button{height:40px;border-radius:12px;font-size:13.5px;font-weight:600;transition:.15s}
 .cwsug__no{flex:none;padding:0 14px;color:var(--color-text-secondary);background:#f3f5f8}
 .cwsug__no:hover{background:#eaedf2}
@@ -677,7 +723,36 @@ img{display:block}
 .cwsug__redo:hover{border-color:#b9c6f5;color:var(--color-brand-500)}
 .cwsug.is-keep .cwsug__redo{display:block}
 .cwsug.is-done .cwsug__done{display:flex}
-.cwempty{padding:var(--unit-24);text-align:center;color:var(--typography-gray400);font-size:13px}
+.cwempty{padding:var(--unit-24) var(--unit-16);text-align:center}
+.cwempty b{display:block;font-size:14px;font-weight:700;color:var(--color-text-primary)}
+.cwempty p{margin-top:5px;font-size:12.5px;line-height:19px;color:var(--typography-gray400)}
+.cwempty__act{margin-top:var(--unit-14,14px);height:36px;padding:0 16px;border-radius:10px;
+  border:1px solid var(--color-border-tertiary);background:#fff;font-size:12.5px;font-weight:600;
+  color:var(--color-text-secondary);transition:.15s}
+.cwempty__act:hover{border-color:#b9c6f5;color:var(--color-brand-500)}
+
+/* 저장 실패 · 두 저장 패널 공용 */
+.sverr{margin:var(--unit-12) 0;padding:var(--unit-14,14px);border-radius:12px;background:#fff4f4;
+  border:1px solid #f7d6da;text-align:left}
+.sverr b{display:block;font-size:13px;font-weight:700;color:#f04452}
+.sverr p{margin-top:3px;font-size:12px;line-height:18px;color:#c2374a}
+.sverr__retry{margin-top:var(--unit-10);width:100%;height:38px;border-radius:10px;background:#f04452;
+  color:#fff;font-size:13px;font-weight:700}
+.sverr__retry:hover{background:#dc3b48}
+
+/* 초안 생성 실패 */
+.procerr{margin-top:var(--unit-16);padding:var(--unit-16);border-radius:14px;background:#fff4f4;
+  border:1px solid #f7d6da;text-align:left;display:none}
+.procpanel.is-err + .procerr,.procerr.is-on{display:block}
+.procerr b{display:block;font-size:14px;font-weight:700;color:#f04452}
+.procerr p{margin-top:4px;font-size:12.5px;line-height:19px;color:#c2374a}
+.procerr__act{margin-top:var(--unit-12);display:flex;gap:8px}
+.procerr__act button{height:38px;padding:0 16px;border-radius:10px;font-size:13px;font-weight:700}
+#procRetry{background:#f04452;color:#fff}
+#procRetry:hover{background:#dc3b48}
+#procManual{background:#fff;border:1px solid #f0c2c7;color:#f04452}
+.proclist li.is-err i{background:#f04452;color:#fff}
+.proclist li.is-err em{color:#f04452;font-weight:700}
 
 [data-screen="manage"] .s-coach,[data-screen="source"] .s-coach,[data-screen="proc"] .s-coach{display:none}
 [data-screen="coach"] .s-manage,[data-screen="coach"] .s-source,[data-screen="coach"] .s-proc,
@@ -1114,6 +1189,17 @@ img{display:block}
     <button data-run="none" class="is-on">없음</button>
     <button data-run="busy">진행 중 1건</button>
   </div>
+  <span class="bar__sep"></span>
+  <span class="bar__label">케이스</span>
+  <div class="tabs" id="caseTabs">
+    <button data-case="ok" class="is-on">정상</button>
+    <button data-case="last">잔여 1회</button>
+    <button data-case="out">횟수 소진</button>
+    <button data-case="err">AI 재요청 실패</button>
+    <button data-case="none">제안 없음</button>
+    <button data-case="procerr">초안 생성 실패</button>
+    <button data-case="saveerr">저장 실패</button>
+  </div>
   <p class="bar__desc" id="desc">찾아 쓰는 AI가 아니라, 이미 나를 위해 작동하고 있는 Intelligence</p>
 </div>
 
@@ -1422,6 +1508,15 @@ img{display:block}
       </ol>
     </div>
 
+    <div class="procerr" id="procErr">
+      <b>초안 생성이 중단됐어요</b>
+      <p>연결한 자료 중 <b>포트폴리오.pdf</b>를 읽지 못했어요. 이미 정리한 내용은 그대로 남아 있어서, 다시 시도하면 중단된 단계부터 이어서 진행해요. 사용 횟수는 차감되지 않았어요.</p>
+      <div class="procerr__act">
+        <button id="procRetry">중단된 단계부터 다시 시도</button>
+        <button id="procManual">이 자료는 빼고 진행</button>
+      </div>
+    </div>
+
     <div class="procnotice">
       <img src="assets-jk/sys-info.svg" alt="" width="20" height="20">
       <div>
@@ -1467,7 +1562,8 @@ img{display:block}
     <div class="cwuse" id="cwUse">
       <b id="cwUseTx">AI 코칭 1/5회 사용 · 4회 남음</b>
       <span class="cwuse__dots" id="cwUseDots"><i class="on"></i><i></i><i></i><i></i><i></i></span>
-      <p>항목별 피드백 질의·응답 1세트마다 1회 사용돼요. 제안 반영과 직접 수정은 횟수에 포함되지 않아요.</p>
+      <p id="cwUseNote">초안을 만들 때 1회를 썼어요. 이후에는 <b>AI에 다시 요청</b>이 성공할 때만 1회씩 차감되고, 제안 반영과 직접 수정은 차감되지 않아요.</p>
+      <button class="cwuse__act" id="cwUseAct">직접 수정으로 이어가기</button>
     </div>
   </section>
 
@@ -2137,6 +2233,9 @@ const CW_SUG=[
   after:'AI Product: 생성형 AI · RAG · 서비스 기획 / Product Delivery: UX · API · 품질 검증'}
 ];
 let cwApplied=[], cwFilter='all', cwHistory=[], cwUsed=1;
+/* 엣지·에러 케이스 상태. cwCard 는 카드별 idle/loading/error */
+let cwCase='ok', cwNoSug=false, cwBusy=null, cwTimer=null, cwTouched=false;
+const cwCard=new Map();
 const CW_LIMIT=5;
 
 function cwRenderFields(){
@@ -2160,10 +2259,58 @@ function cwRenderFields(){
         <button class="cwfield__edit">직접 수정</button></div>
       ${body}</div>`;}).join('');
 }
+function cwPool(){ return cwNoSug ? [] : CW_SUG; }
+function cwLeft(){ return CW_LIMIT-cwUsed; }
+
+/* 카드 하단 액션 · 상태(대기/생성중/실패)에 따라 한 벌만 그린다 */
+function cwSugFoot(x,st){
+  if(st==='loading') return `<div class="cwsug__load">
+      <span class="cwspin"></span>
+      <div><b>제안을 다시 만드는 중이에요</b><span class="sub">완료되기 전에는 횟수가 차감되지 않아요</span></div>
+      <button class="cwsug__cancel">취소</button>
+    </div>`;
+  if(st==='error') return `<div class="cwsug__err">
+      <b>제안을 다시 만들지 못했어요</b>
+      <p>일시적인 오류로 중단됐어요. <b>사용 횟수는 차감되지 않았어요.</b></p>
+      <div class="cwsug__errAct">
+        <button class="cwsug__retry">다시 시도</button>
+        <button class="cwsug__keep">기존 제안 그대로 보기</button>
+      </div>
+    </div>`;
+  const out=cwLeft()<=0, last=cwLeft()===1;
+  return `<div class="cwsug__act">
+      <button class="cwsug__no">유지</button>
+      <button class="cwsug__yes">이 제안 반영</button>
+    </div>
+    <button class="cwsug__regen ${out?'is-off':''} ${last?'is-last':''}" aria-disabled="${out}"
+            title="${out?'남은 코칭 횟수가 없어요':'피드백을 반영해 제안을 다시 받아요'}">
+      <svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 8.5a6.5 6.5 0 1 1-1.9-4.6"/><path d="M15 2.2v3.9h-3.9"/></svg>
+      AI에 다시 요청<em>${out?'0회 남음':'1회 차감'}</em>
+    </button>`;
+}
+
+/* 빈 상태는 두 종류. 제안 자체가 없는 경우와 필터에 걸린 경우를 구분한다 */
+function cwEmpty(tot){
+  return tot===0
+    ? `<div class="cwempty">
+        <b>더 고칠 부분을 찾지 못했어요</b>
+        <p>연결한 자료 기준으로는 다듬을 문장이 없어요.<br>지금 초안 그대로 저장해도 괜찮고, 직접 수정은 언제든 할 수 있어요.</p>
+        <button class="cwempty__act" data-act="save">저장할 내용 확인</button>
+      </div>`
+    : `<div class="cwempty">
+        <b>이 항목에는 제안이 없어요</b>
+        <p>다른 항목에 제안 ${cwPool().length}개가 있어요.</p>
+        <button class="cwempty__act" data-act="all">전체 제안 보기</button>
+      </div>`;
+}
+
 function cwRenderSug(){
-  const list=CW_SUG.filter(x=>cwFilter==='all'||x.cat===cwFilter);
+  const pool=cwPool(), tot=pool.length;
+  const list=pool.filter(x=>cwFilter==='all'||x.cat===cwFilter);
   document.getElementById('cwSug').innerHTML = list.length ? list.map(x=>{
-    const done=cwApplied.includes(x.field);
+    const done=cwApplied.includes(x.field), st=cwCard.get(x.id)||'idle';
     return `<article class="cwsug ${done?'is-done':''}" data-id="${x.id}">
       <span class="cwsug__lab"><span class="jkm jkm--static jkm--noface" style="--s:12px" data-mark></span>AI 제안</span>
       <h3>${x.t}</h3>
@@ -2172,79 +2319,116 @@ function cwRenderSug(){
         <div class="b4"><span>현재</span>${x.before}</div>
         <div class="af"><span>제안</span>${x.after}</div>
       </div>
-      <div class="cwsug__act">
-        <button class="cwsug__regen" title="피드백으로 다시 생성" aria-label="피드백으로 다시 생성">
-          <svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 8.5a6.5 6.5 0 1 1-1.9-4.6"/><path d="M15 2.2v3.9h-3.9"/></svg>
-        </button>
-        <button class="cwsug__no">유지</button>
-        <button class="cwsug__yes">이 제안 반영</button>
-      </div>
+      ${cwSugFoot(x,st)}
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
       <button class="cwsug__redo">다시 검토</button>
-    </article>`;}).join('') : '<p class="cwempty">이 항목에는 제안이 없어요</p>';
+    </article>`;}).join('') : cwEmpty(tot);
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
-  document.getElementById('cwLeft').textContent=(3-cwApplied.length)+'개';
-  const allBtn=document.getElementById('cwAll'), done=cwApplied.length>=3;
-  allBtn.textContent = done ? '저장할 내용 확인' : `적용 가능한 제안 ${3-cwApplied.length}개 모두 반영`;
+
+  const applied=cwApplied.length, remain=Math.max(0,tot-applied), fin=remain<=0;
+  document.getElementById('cwLeft').textContent=remain+'개';
+  const allBtn=document.getElementById('cwAll');
+  allBtn.textContent = fin ? '저장할 내용 확인' : `적용 가능한 제안 ${remain}개 모두 반영`;
   allBtn.disabled = false;
-  allBtn.dataset.mode = done ? 'next' : 'apply';
-  document.getElementById('cwDockT').textContent = done
-    ? '적용 가능한 제안을 모두 반영했어요'
-    : `적용할 수 있는 제안이 ${3-cwApplied.length}개 있어요`;
+  allBtn.dataset.mode = fin ? 'next' : 'apply';
+  document.getElementById('cwDockT').textContent = tot===0
+    ? '지금 초안 그대로 저장할 수 있어요'
+    : fin ? '적용 가능한 제안을 모두 반영했어요'
+          : `적용할 수 있는 제안이 ${remain}개 있어요`;
   document.getElementById('cwDockS').textContent =
-    `초안 변경 ${cwApplied.length}개 · 제안 반영 ${cwApplied.length}/3 · 아직 잡코리아에 저장되지 않았어요`;
+    `초안 변경 ${applied}개 · 제안 반영 ${applied}/${tot} · 아직 잡코리아에 저장되지 않았어요`;
   document.getElementById('cwUndo').disabled = cwHistory.length===0;
   cwRenderUse();
 }
+
 function cwRenderUse(){
-  const left=CW_LIMIT-cwUsed, box=document.getElementById('cwUse');
-  box.classList.toggle('is-low', left<=1 && left>0);
+  const left=cwLeft(), box=document.getElementById('cwUse');
+  box.classList.toggle('is-low', left===1);
   box.classList.toggle('is-out', left<=0);
   document.getElementById('cwUseTx').textContent = left>0
     ? `AI 코칭 ${cwUsed}/${CW_LIMIT}회 사용 · ${left}회 남음`
     : `무료 AI 코칭 ${CW_LIMIT}회를 모두 사용했어요`;
+  document.getElementById('cwUseNote').innerHTML = left<=0
+    ? '더 요청할 수는 없지만 <b>이미 받은 제안 반영과 직접 수정은 그대로 할 수 있어요.</b> 횟수는 매월 1일에 다시 채워집니다.'
+    : left===1
+      ? '<b>마지막 1회</b>예요. 다음 요청이 성공하면 이번 달 재요청은 끝나요. 제안 반영과 직접 수정은 계속 차감되지 않아요.'
+      : '초안을 만들 때 1회를 썼어요. 이후에는 <b>AI에 다시 요청</b>이 성공했을 때만 1회씩 차감되고, 제안 반영과 직접 수정은 차감되지 않아요.';
   document.getElementById('cwUseDots').innerHTML =
     Array.from({length:CW_LIMIT},(_,i)=>`<i class="${i<cwUsed?'on':''}"></i>`).join('');
-  document.querySelectorAll('.cwsug__regen').forEach(b=>{
-    b.disabled = left<=0;
-    b.classList.toggle('is-last', left===1);
-    b.title = left>0 ? `피드백으로 다시 생성 · ${left}회 남음` : '남은 코칭 횟수가 없어요';
-  });
 }
+
 function cwApply(id){
+  cwTouched=true;
   const x=CW_SUG.find(a=>a.id===id); if(!x||cwApplied.includes(x.field)) return;
   const f=CW_FIELDS.find(a=>a.k===x.field);
   cwHistory.push({field:x.field,prev:f.v});
   f.v=x.after; cwApplied.push(x.field);
   cwRenderFields(); cwRenderSug();
 }
+function cwUndoOne(){
+  const h=cwHistory.pop(); if(!h) return false;
+  const f=CW_FIELDS.find(a=>a.k===h.field); f.v=h.prev;
+  cwApplied=cwApplied.filter(k=>k!==h.field);
+  return true;
+}
+
+/* 재요청 = 유일하게 차감되는 행동. 성공했을 때만 차감하고, 실패·취소는 되돌린다 */
+function cwRegen(id){
+  if(cwLeft()<=0){
+    toast('무료 AI 코칭 5회를 모두 사용했어요. 받은 제안 반영과 직접 수정은 계속 할 수 있어요.'); return; }
+  if(cwBusy && cwBusy!==id){
+    toast('먼저 요청한 제안이 완료된 뒤에 다시 요청할 수 있어요.'); return; }
+  if(cwBusy===id) return;
+  cwBusy=id; cwCard.set(id,'loading'); cwRenderSug();
+  cwTimer=setTimeout(()=>{
+    cwBusy=null; cwTimer=null;
+    if(cwCase==='err'){
+      cwCard.set(id,'error'); cwRenderSug();
+      toast('제안을 다시 만들지 못했어요. 사용 횟수는 차감되지 않았어요.'); return;
+    }
+    cwUsed=Math.min(CW_LIMIT,cwUsed+1);
+    cwCard.delete(id); cwRenderSug();
+    toast(cwLeft()<=0
+      ? `제안을 다시 만들었어요. 무료 AI 코칭 ${CW_LIMIT}회를 모두 사용했어요.`
+      : `피드백을 반영해 제안을 다시 만들었어요. ${cwLeft()}회 남음`);
+  },1500);
+}
+
 document.getElementById('cwSug').addEventListener('click',e=>{
+  if(e.target.closest('.cwempty__act')){
+    const a=e.target.closest('.cwempty__act').dataset.act;
+    if(a==='save') goScreen('save');
+    else{ cwFilter='all';
+      document.querySelectorAll('#cwFilter button').forEach(x=>x.classList.toggle('on',x.dataset.f==='all'));
+      cwRenderSug(); }
+    return;
+  }
   const card=e.target.closest('.cwsug'); if(!card) return;
-  if(e.target.closest('.cwsug__yes')) cwApply(card.dataset.id);
+  const id=card.dataset.id;
+  if(e.target.closest('.cwsug__yes')) cwApply(id);
   if(e.target.closest('.cwsug__no')){
     card.classList.add('is-done','is-keep');
     card.querySelector('.cwsug__done').textContent='현재 문장 유지 · 변경 없음';}
   if(e.target.closest('.cwsug__redo')){
     card.classList.remove('is-done','is-keep');}
-  if(e.target.closest('.cwsug__regen')){
-    if(cwUsed>=CW_LIMIT) return;
-    cwUsed++; cwRenderUse();
-    toast(cwUsed>=CW_LIMIT ? '무료 AI 코칭 5회를 모두 사용했어요.'
-                           : `피드백을 반영해 제안을 다시 만들었어요. ${CW_LIMIT-cwUsed}회 남음`);
-  }
+  if(e.target.closest('.cwsug__cancel')){
+    clearTimeout(cwTimer); cwTimer=null; cwBusy=null; cwCard.delete(id); cwRenderSug();
+    toast('요청을 취소했어요. 사용 횟수는 차감되지 않았어요.');}
+  if(e.target.closest('.cwsug__keep')){ cwCard.delete(id); cwRenderSug(); }
+  if(e.target.closest('.cwsug__retry')||e.target.closest('.cwsug__regen')) cwRegen(id);
 });
 document.getElementById('cwAll').addEventListener('click',e=>{
   if(e.currentTarget.dataset.mode==='next'){ goScreen('save'); return; }
-  CW_SUG.forEach(x=>cwApply(x.id));
-  toast('적용 가능한 제안을 모두 반영했어요.');
+  cwPool().forEach(x=>cwApply(x.id));
+  toast('적용 가능한 제안을 모두 반영했어요. 반영은 횟수에 포함되지 않아요.');
 });
 document.getElementById('cwUndo').addEventListener('click',()=>{
-  const h=cwHistory.pop(); if(!h) return;
-  const f=CW_FIELDS.find(a=>a.k===h.field); f.v=h.prev;
-  cwApplied=cwApplied.filter(k=>k!==h.field);
+  if(!cwUndoOne()){ toast('되돌릴 변경이 없어요.'); return; }
   cwRenderFields(); cwRenderSug();
+});
+document.getElementById('cwUseAct').addEventListener('click',()=>{
+  document.querySelector('.cwdraft').scrollIntoView({behavior:'smooth',block:'start'});
+  toast('각 항목의 “직접 수정”으로 이어서 다듬을 수 있어요.');
 });
 document.getElementById('cwFilter').addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
@@ -2262,6 +2446,9 @@ function goScreen(s){
     .forEach(x=>x.classList.toggle('is-on',x.dataset.screen===s));
   window.scrollTo(0,0);
   syncStepper(s);
+  /* 코치 화면을 한 번이라도 열면, 이후 검토·저장은 실제 반영 결과만 보여준다 */
+  if(s==='coach') cwTouched=true;
+  if(s==='save' && typeof svRender==='function'){ svRender(); if(typeof svBuildLegacy==='function') svBuildLegacy(); }
 }
 
 /* ── 동의 모달 ── */
@@ -2360,7 +2547,14 @@ $('pickList').addEventListener('click',e=>{
 });
 $('srcNext').addEventListener('click',()=>{
   if(step<3){step++;render();window.scrollTo(0,0);}
-  else { toast(`${picked.length||3}개 자료로 초안 생성을 시작했어요.`); goScreen('proc'); }
+  else if(picked.length===0){
+    toast('연결한 자료가 없어요. 잡코리아 이력서만으로 초안을 만들면 내용이 얕을 수 있어요.');
+    $('srcNext').textContent='자료 없이 그대로 진행하기';
+    $('srcNext').dataset.forced='1';
+    if(document.getElementById('srcNext').dataset.ack==='1'){ goScreen('proc'); }
+    else { document.getElementById('srcNext').dataset.ack='1'; }
+  }
+  else { toast(`${picked.length}개 자료로 초안 생성을 시작했어요.`); goScreen('proc'); }
 });
 $('srcPrev').addEventListener('click',()=>{if(step>0){step--;render();window.scrollTo(0,0);}});
 $('srcExit').addEventListener('click',()=>goScreen('manage'));
@@ -2369,34 +2563,54 @@ render();
 
 /* ── 07 초안 생성 진행 시뮬레이션 ── */
 const PROC=['연결한 자료 확인','경력·학력·프로젝트 정보 정리','중복 정보와 날짜 차이 확인','AI 코칭에 사용할 이력서 초안 생성'];
-let pIdx=0, pTimer=null;
+let pIdx=0, pTimer=null, procFail=false, procRetried=false;
 function renderProc(){
   document.querySelectorAll('#procList li').forEach(li=>{
     const n=+li.dataset.n, em=li.querySelector('em');
     li.classList.toggle('is-done', n<pIdx);
-    li.classList.toggle('is-run',  n===pIdx);
-    em.textContent = n<pIdx ? '완료' : n===pIdx ? '진행 중' : '대기';
-    li.querySelector('i').textContent = n<pIdx ? '✓' : (n+1);
+    li.classList.toggle('is-run',  n===pIdx && !procFail);
+    li.classList.toggle('is-err',  n===pIdx && procFail);
+    em.textContent = n<pIdx ? '완료' : n===pIdx ? (procFail?'실패':'진행 중') : '대기';
+    li.querySelector('i').textContent = n<pIdx ? '✓' : (procFail&&n===pIdx ? '!' : (n+1));
   });
   const pct=Math.min(100,Math.round((pIdx+0.5)/4*100));
   $('procBar').style.width = pct+'%'; $('procPct').textContent = pct+'%';
   const done = pIdx>=PROC.length;
-  $('procTitle').textContent = done ? 'AI 이력서 초안이 준비됐어요' : '연결한 자료로 이력서 초안을 만들고 있어요';
-  $('procDesc').textContent  = done
-    ? '항목별 개선 제안과 직접 수정이 가능한 AI 코칭 화면으로 이동합니다.'
-    : '여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.';
+  document.getElementById('procErr').classList.toggle('is-on',procFail);
+  $('procTitle').textContent = procFail ? '초안 생성을 마치지 못했어요'
+    : done ? 'AI 이력서 초안이 준비됐어요' : '연결한 자료로 이력서 초안을 만들고 있어요';
+  $('procDesc').textContent  = procFail
+    ? '자료 하나를 읽지 못해 중단했어요. 지금까지 정리한 내용은 그대로 남아 있어요.'
+    : done ? '항목별 개선 제안과 직접 수정이 가능한 AI 코칭 화면으로 이동합니다.'
+           : '여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.';
   $('procCard').classList.toggle('is-done',done);
-  if(done){ $('procBar').style.width='100%'; $('procPct').textContent='100%';
+  if(done && !procFail){ $('procBar').style.width='100%'; $('procPct').textContent='100%';
             $('procBack').textContent='확인이 필요한 내용 보기'; }
   else { $('procBack').textContent='이력서 목록으로'; }
 }
 function startProc(){
-  pIdx=0; renderProc(); clearInterval(pTimer);
+  pIdx=0; procFail=false; renderProc(); clearInterval(pTimer);
   pTimer=setInterval(()=>{
+    /* 3번째 단계에서 자료 하나를 읽지 못한 상황 */
+    if(cwCase==='procerr' && !procRetried && pIdx===2){
+      clearInterval(pTimer); procFail=true; renderProc();
+      toast('초안 생성이 중단됐어요. 사용 횟수는 차감되지 않았어요.'); return; }
     pIdx++; renderProc();
     if(pIdx>=PROC.length) clearInterval(pTimer);
   },1800);
 }
+document.getElementById('procRetry').addEventListener('click',()=>{
+  procRetried=true; procFail=false; clearInterval(pTimer); renderProc();
+  pTimer=setInterval(()=>{ pIdx++; renderProc();
+    if(pIdx>=PROC.length) clearInterval(pTimer); },1200);
+  toast('중단된 단계부터 다시 진행해요.');
+});
+document.getElementById('procManual').addEventListener('click',()=>{
+  procRetried=true; procFail=false; clearInterval(pTimer); renderProc();
+  pTimer=setInterval(()=>{ pIdx++; renderProc();
+    if(pIdx>=PROC.length) clearInterval(pTimer); },1200);
+  toast('포트폴리오.pdf를 빼고 나머지 자료로 진행해요.');
+});
 $('procNoti').addEventListener('click',e=>{
   const b=e.currentTarget, on=b.classList.toggle('is-on');
   b.setAttribute('aria-checked',String(on));
@@ -2444,8 +2658,11 @@ const SV=[
 let svFilter='must';
 const svBadge={must:['svbadge--must','꼭 확인'],chg:['svbadge--ai','AI가 다듬음'],
                opt:['svbadge--opt','선택 보완'],all:['svbadge--opt','확인 완료']};
+function svChgOn(){ return cwTouched ? cwApplied.slice() : CW_SUG.map(x=>x.field); }
+function svData(){ const on=svChgOn(); return SV.filter(x=>x.kind!=='chg'||on.includes(x.k)); }
 function svRender(){
-  const list=SV.filter(x=>svFilter==='all'||x.kind===svFilter);
+  const D=svData();
+  const list=D.filter(x=>svFilter==='all'||x.kind===svFilter);
   document.getElementById('svList').innerHTML=list.map(x=>{
     const [cls,txt]=svBadge[x.kind];
     const diff=x.before?`<div class="svdiff"><div class="b4"><span>현재</span>${x.before}</div>
@@ -2459,7 +2676,10 @@ function svRender(){
         ${x.kind==='must'?'<button class="svfield__act">지금 입력</button>':''}</div>
       ${val}${diff}${note}${inp}</div>`;}).join('')
     || '<div style="padding:32px;text-align:center;color:var(--typography-gray400);font-size:13px">해당하는 항목이 없어요</div>';
-  const must=SV.filter(x=>x.kind==='must').length;
+  const must=D.filter(x=>x.kind==='must').length;
+  const chg=D.filter(x=>x.kind==='chg').length;
+  document.getElementById('svAi').textContent=chg;
+  document.getElementById('svFchg').textContent=chg;
   const ready=document.getElementById('svReady');
   ready.classList.toggle('is-block',must>0);
   document.getElementById('svReadyIco').textContent = must>0?'!':'✓';
@@ -2467,7 +2687,7 @@ function svRender(){
     ? '저장 전에 꼭 필요한 정보가 남아 있어요' : '이력서를 저장할 준비가 됐어요';
   document.getElementById('svMust').textContent=must;
   document.getElementById('svFmust').textContent=must;
-  const opt=SV.filter(x=>x.kind==='opt').length;
+  const opt=D.filter(x=>x.kind==='opt').length;
   document.getElementById('svOpt').textContent=opt;
   document.getElementById('svFopt').textContent=opt;
   document.getElementById('svReadyD').textContent = must>0
@@ -2500,8 +2720,24 @@ document.getElementById('svSkip').addEventListener('click',()=>{
   SV.forEach(x=>{ if(x.kind==='opt') x.kind='all'; });
   svRender();
 });
-document.getElementById('svSaveBtn').addEventListener('click',()=>{
-  const n=SV.filter(x=>x.before).length;
+let svRetried=false;
+/* 저장 실패는 화면을 비우지 않는다. 다듬은 내용이 남아 있다는 사실을 먼저 알린다 */
+function svErr(on){
+  document.querySelectorAll('.sverr').forEach(e=>e.remove());
+  if(!on) return;
+  const mk=()=>{const d=document.createElement('div'); d.className='sverr';
+    d.innerHTML='<b>저장하지 못했어요</b>'+
+      '<p>네트워크가 끊겨 잡코리아 이력서에 반영하지 못했어요. 다듬은 내용은 이 화면에 그대로 남아 있어요.</p>'+
+      '<button class="sverr__retry">다시 저장하기</button>'; return d;};
+  const a=document.querySelector('.sv-xds .svsave'); if(a) a.parentNode.insertBefore(mk(),a);
+  const b=document.getElementById('svLgSave'); if(b) b.parentNode.insertBefore(mk(),b);
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.sverr__retry')) return;
+  svRetried=true; svErr(false); svDoSave();
+});
+function svDoSave(){
+  const n=svData().filter(x=>x.before).length;
   document.querySelectorAll('.item').forEach(row=>{
     const b=row.querySelector('.badge--ai'); if(!b) return;
     const d=row.querySelector('.item__date');
@@ -2511,7 +2747,18 @@ document.getElementById('svSaveBtn').addEventListener('click',()=>{
   document.querySelectorAll('#runTabs button').forEach(x=>x.classList.toggle('is-on',x.dataset.run==='none'));
   goScreen('manage');
   toast('잡코리아 이력서에 저장했어요. 이전 버전은 그대로 보존됩니다.');
-});
+}
+function svTrySave(){
+  if(cwCase==='saveerr' && !svRetried){
+    svErr(true);
+    toast('저장하지 못했어요. 다듬은 내용은 그대로 남아 있어요.');
+    document.querySelector('.sverr')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  svErr(false); svDoSave();
+}
+document.getElementById('svSaveBtn').addEventListener('click',svTrySave);
+document.getElementById('svLgSave').addEventListener('click',svTrySave);
 svRender();
 
 /* ══ 토스트 ══ */
@@ -2673,7 +2920,7 @@ function svBuildLegacy(){
   });
 
   /* 우측 저장 패널 수치는 XDS 적용본과 같은 소스(SV)를 쓴다 */
-  const cnt=k=>SV.filter(x=>x.kind===k).length;
+  const cnt=k=>svData().filter(x=>x.kind===k).length;
   const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
   set('svLgMust',cnt('must')); set('svLgOpt',cnt('opt')); set('svLgAi',cnt('chg'));
   set('svLgPanelT', cnt('must')>0?'확인할 항목이 남아 있어요':'저장할 준비가 됐어요');
@@ -2683,6 +2930,37 @@ function svBuildLegacy(){
   if(sk) sk.style.display=(cnt('must')===0&&cnt('opt')>0)?'inline':'none';
 }
 svBuildLegacy();
+
+/* ══ 엣지·에러 케이스 스위처 ══ */
+function setCase(c){
+  cwCase=c;
+  clearTimeout(cwTimer); cwTimer=null; cwBusy=null; cwCard.clear();
+  cwNoSug = (c==='none');
+  cwUsed  = c==='last' ? CW_LIMIT-1 : c==='out' ? CW_LIMIT : 1;
+  while(cwUndoOne()){}
+  cwFilter='all';
+  document.querySelectorAll('#cwFilter button').forEach(b=>b.classList.toggle('on',b.dataset.f==='all'));
+  procRetried=false; procFail=false; svRetried=false; svErr(false);
+  cwRenderFields(); cwRenderSug(); svRender(); svBuildLegacy();
+}
+document.getElementById('caseTabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#caseTabs button').forEach(x=>x.classList.toggle('is-on',x===b));
+  const c=b.dataset.case;
+  setCase(c);
+  const go={last:'coach',out:'coach',err:'coach',none:'coach',procerr:'proc',saveerr:'save'}[c];
+  if(go) goScreen(go);
+  const msg={
+    ok:'정상 흐름이에요.',
+    last:'남은 코칭이 1회인 상태예요.',
+    out:'무료 코칭을 모두 사용한 상태예요. 반영과 직접 수정은 계속 됩니다.',
+    err:'“AI에 다시 요청”을 누르면 실패하고 횟수가 차감되지 않아요.',
+    none:'AI가 제안을 찾지 못한 상태예요.',
+    procerr:'3단계에서 자료 하나를 읽지 못해 중단되는 상태예요.',
+    saveerr:'저장 버튼을 누르면 실패하고, 다듬은 내용은 남아 있어요.'
+  }[c];
+  if(msg) toast(msg);
+});
 </script>
 </body>
 </html>
