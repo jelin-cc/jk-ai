@@ -457,11 +457,11 @@ img{display:block}
 
 /* STEP 라벨 · 단계 번호 + 이름 두 덩어리로 분리 */
 .proceyebrow{display:inline-flex;align-items:center;gap:var(--unit-6);margin-top:var(--unit-20);
-  height:28px;padding:3px 12px 3px 4px;border-radius:999px;background:var(--bg-base);
+  padding:4px 14px 4px 4px;border-radius:999px;background:var(--bg-base);
   border:1px solid var(--color-border-tertiary);box-shadow:0 1px 4px rgba(18,32,54,.05);
   color:var(--color-text-secondary);font-size:12px;font-weight:600;letter-spacing:-.1px}
 .proceyebrow b{display:inline-flex;align-items:center;justify-content:center;
-  height:22px;padding:0 9px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;
+  height:24px;padding:0 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;
   color:#fff;background:linear-gradient(120deg,var(--color-brand-500),var(--ai-g1))}
 .proceyebrow em{font-style:normal;color:var(--color-text-primary);font-weight:700;font-size:12.5px}
 .proccard h1{margin-top:var(--unit-16);font-size:28px;font-weight:700;line-height:38px;
@@ -551,14 +551,14 @@ img{display:block}
   box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
 .cwhead__top{display:flex;align-items:center;gap:var(--unit-16)}
 .cwhead__tx{flex:1;min-width:0}
-.cwhead__tx h1{margin-top:var(--unit-6);font-size:24px;font-weight:700;letter-spacing:-.7px;
+.cwhead__tx h1{margin-top:var(--unit-12);font-size:24px;font-weight:700;letter-spacing:-.7px;
   color:var(--color-text-primary)}
 .cwhead__tx p{margin-top:var(--unit-6);font-size:14px;color:var(--color-text-secondary)}
 .cwhead__act{display:flex;gap:var(--unit-8);flex:none}
-.cwuse{margin-top:var(--unit-16);padding:var(--unit-12) var(--unit-16);border-radius:14px;
-  background:#f7f8fb;display:flex;align-items:center;gap:var(--unit-12)}
+.cwuse{margin-top:var(--unit-16);padding:var(--unit-14,14px) var(--unit-16);border-radius:14px;
+  background:#f4f6fa;border:1px solid #e8ecf3;display:flex;align-items:center;gap:var(--unit-12)}
 .cwuse b{font-size:13.5px;font-weight:700;color:var(--color-text-primary);white-space:nowrap}
-.cwuse p{flex:1;min-width:0;font-size:12.5px;color:var(--typography-gray400);line-height:17px}
+.cwuse p{flex:1;min-width:0;font-size:13px;color:var(--color-text-secondary);line-height:19px}
 .cwuse__dots{display:flex;gap:4px;flex:none}
 .cwuse__dots i{width:16px;height:5px;border-radius:999px;background:var(--color-border-tertiary);display:block}
 .cwuse__dots i.on{background:var(--color-brand-500)}
@@ -784,6 +784,91 @@ img{display:block}
 [data-screen="coach"] .s-write,[data-screen="manage"] .rw-head,[data-screen="source"] .rw-head,
 [data-screen="proc"] .rw-head,[data-screen="coach"] .rw-head{display:none}
 
+
+/* ══════════ ⑥ 검토·저장 · STEP 4 ══════════ */
+.svpage{width:1200px;margin:0 auto;padding:var(--unit-24) 0 96px}
+.svhead{text-align:center;margin-bottom:var(--unit-20)}
+.svhead h1{margin-top:var(--unit-12);font-size:26px;font-weight:700;letter-spacing:-.7px}
+.svhead>p{margin-top:var(--unit-8);font-size:15px;color:var(--color-text-secondary)}
+
+.svready{background:#fff;border-radius:24px;padding:var(--unit-24);
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05);
+  display:flex;align-items:center;gap:var(--unit-16)}
+.svready__ico{width:52px;height:52px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:#eaf7f1;color:#00875a;font-size:24px}
+.svready.is-block .svready__ico{background:#fff4f4;color:#f04452}
+.svready__tx{flex:1;min-width:0}
+.svready__tx b{display:block;font-size:18px;font-weight:700;letter-spacing:-.4px}
+.svready__tx p{margin-top:4px;font-size:13.5px;color:var(--color-text-secondary)}
+.svmetrics{display:flex;gap:var(--unit-8);flex:none}
+.svmetric{min-width:96px;padding:var(--unit-12) var(--unit-16);border-radius:14px;background:#f6f8fb;text-align:center}
+.svmetric b{display:block;font-size:20px;font-weight:700;letter-spacing:-.5px}
+.svmetric span{font-size:12px;color:var(--typography-gray400);font-weight:600}
+.svmetric.warn b{color:#f04452}
+.svmetric.ai b{color:var(--color-brand-500)}
+
+.svfilter{margin:var(--unit-20) 0 var(--unit-12);display:flex;gap:6px}
+.svfilter button{height:36px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;
+  color:var(--color-text-secondary);background:#fff;border:1px solid var(--color-border-tertiary)}
+.svfilter button.on{background:var(--color-text-primary);color:#fff;border-color:var(--color-text-primary)}
+.svfilter button em{font-style:normal;margin-left:5px;opacity:.7}
+
+.svlist{background:#fff;border-radius:24px;padding:var(--unit-8) var(--unit-24) var(--unit-16);
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
+.svfield{padding:var(--unit-16) 0;border-bottom:1px solid #f2f4f8}
+.svfield:last-child{border-bottom:0}
+.svfield__h{display:flex;align-items:center;gap:var(--unit-8);margin-bottom:var(--unit-8)}
+.svfield__h b{font-size:13px;font-weight:700;color:var(--color-text-secondary);min-width:92px}
+.svbadge{height:22px;padding:0 8px;border-radius:6px;font-size:11px;font-weight:700;
+  display:inline-flex;align-items:center;gap:4px}
+.svbadge--must{background:#fff4f4;color:#f04452}
+.svbadge--ai{background:var(--ai-tint);color:var(--ai-dark)}
+.svbadge--opt{background:#f3f5f8;color:var(--color-text-secondary)}
+.svfield__act{margin-left:auto;height:30px;padding:0 11px;border-radius:9px;font-size:12.5px;
+  font-weight:600;color:var(--color-brand-500);border:1px solid var(--ai-border);background:#fff}
+.svfield__v{font-size:14.5px;line-height:23px}
+.svfield__v.ph{color:#f04452}
+.svdiff{margin-top:var(--unit-8);border:1px solid #f0f2f6;border-radius:12px;overflow:hidden}
+.svdiff div{padding:9px 12px;font-size:12.5px;line-height:18px}
+.svdiff .b4{background:#fbfbfc;color:var(--typography-gray400);text-decoration:line-through}
+.svdiff .af{background:rgba(27,85,246,.05);color:var(--color-text-primary)}
+.svdiff span{display:block;font-size:10.5px;font-weight:700;margin-bottom:3px;text-decoration:none}
+.svdiff .b4 span{color:#c3c9d4}
+.svdiff .af span{color:var(--color-brand-500)}
+
+.svsave{margin-top:var(--unit-16);background:#fff;border-radius:24px;padding:var(--unit-24);
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05);
+  display:flex;align-items:center;gap:var(--unit-16)}
+.svsave__tx{flex:1;min-width:0}
+.svsave__tx b{display:block;font-size:15px;font-weight:700}
+.svsave__tx p{margin-top:3px;font-size:12.5px;color:var(--typography-gray400)}
+.svsave .jbtn{height:52px;padding:0 28px;border-radius:14px;font-size:16px}
+/* 자동 확인 요약 · 사용자가 할 일이 없는 항목은 한 줄로 */
+.svauto{margin-top:var(--unit-12);background:#fff;border:1px solid var(--color-border-tertiary);
+  border-radius:16px;padding:var(--unit-14,14px) var(--unit-20);display:flex;align-items:center;gap:var(--unit-10)}
+.svauto img{width:18px;height:18px;opacity:.5;flex:none}
+.svauto p{flex:1;min-width:0;font-size:13px;color:var(--color-text-secondary)}
+.svauto p b{color:var(--color-text-primary);font-weight:600}
+.svauto span{flex:none;font-size:12px;font-weight:700;color:#00875a;
+  background:#eaf7f1;height:24px;padding:0 9px;border-radius:7px;display:inline-flex;align-items:center}
+/* 인라인 입력 */
+.svinput{margin-top:var(--unit-8);display:flex;gap:8px;align-items:center}
+.svinput input{flex:1;max-width:280px;height:44px;padding:0 14px;border-radius:12px;
+  border:1.5px solid var(--ai-border);font:inherit;font-size:14px;background:#fbfcff}
+.svinput input:focus{outline:none;border-color:var(--color-brand-500)}
+.svinput button{height:44px;padding:0 16px;border-radius:12px;font-size:13.5px;font-weight:600;
+  background:var(--color-brand-500);color:#fff}
+.svfield.is-fixed{background:#f7fbf9;border-radius:12px;margin:0 -12px;padding:var(--unit-16) 12px}
+.svsave__sub{margin-top:var(--unit-8);font-size:12.5px;color:var(--color-text-secondary);
+  text-decoration:underline;text-underline-offset:2px}
+
+[data-screen="save"] .gnb,[data-screen="save"] .agentbar,[data-screen="save"] .rw-head,
+[data-screen="save"] .s-manage,[data-screen="save"] .s-source,[data-screen="save"] .s-proc,
+[data-screen="save"] .s-coach,[data-screen="save"] .s-write{display:none}
+[data-screen="manage"] .s-save,[data-screen="source"] .s-save,[data-screen="proc"] .s-save,
+[data-screen="coach"] .s-save,[data-screen="write"] .s-save{display:none}
+[data-screen="save"] .cwbar{display:block}
+
 /* ══ 화면 전환 ══ */
 [data-screen="manage"] .s-source,[data-screen="manage"] .s-proc,
 [data-screen="source"] .s-manage,[data-screen="source"] .s-proc,
@@ -847,7 +932,8 @@ img{display:block}
     <button data-screen="source">② 자료 연결</button>
     <button data-screen="proc">③ 초안 생성</button>
     <button data-screen="coach">④ AI 기반 검토</button>
-    <button data-screen="write">⑤ 이력서 작성</button>
+    <button data-screen="save">⑥ 검토·저장</button>
+    <button data-screen="write">이력서 작성</button>
   </div>
   <span class="bar__sep"></span>
   <span class="bar__label">AI PRESENCE LEVEL</span>
@@ -1520,6 +1606,55 @@ img{display:block}
 </aside>
 </div></div></div>
 
+
+<!-- ═══════════ ⑥ 검토·저장 ═══════════ -->
+<div class="s-save"><div class="svpage">
+  <div class="svhead">
+    <p class="proceyebrow"><b>STEP 4</b><em>검토·저장</em></p>
+    <h1>AI 점검 결과를 확인해주세요</h1>
+    <p>이력서 초안은 완성됐어요. 저장에 꼭 필요한 내용과 확인하면 더 좋아지는 부분만 먼저 보여드릴게요.</p>
+  </div>
+
+  <section class="svready is-block" id="svReady">
+    <span class="svready__ico" id="svReadyIco">!</span>
+    <div class="svready__tx">
+      <b id="svReadyT">저장 전에 꼭 필요한 정보가 남아 있어요</b>
+      <p id="svReadyD">이메일·휴대폰번호와 입력한 학력·경력의 핵심값만 확인해주세요. 나머지 선택 정보는 저장 후에도 보완할 수 있어요.</p>
+    </div>
+    <div class="svmetrics">
+      <div class="svmetric warn"><b id="svMust">2</b><span>꼭 확인</span></div>
+      <div class="svmetric"><b id="svOpt">3</b><span>선택 보완</span></div>
+      <div class="svmetric ai"><b id="svAi">3</b><span>AI가 다듬음</span></div>
+    </div>
+  </section>
+
+  <div class="svauto">
+    <img src="assets-jk/sys-info.svg" alt="">
+    <p><b>이름 · 생년월일 · 성별 · 주소</b>는 잡코리아 계정 정보로 자동 확인해요. 따로 입력할 필요 없어요.</p>
+    <span>확인 완료</span>
+  </div>
+
+  <div class="svfilter" id="svFilter">
+    <button class="on" data-f="must">필수 확인 <em id="svFmust">2</em></button>
+    <button data-f="opt">선택 보완 <em id="svFopt">3</em></button>
+    <button data-f="chg">AI가 다듬음 <em id="svFchg">3</em></button>
+    <button data-f="all">전체 내용</button>
+  </div>
+
+  <div class="svlist" id="svList"></div>
+
+  <section class="svsave">
+    <div class="svsave__tx">
+      <b>기본 이력서 업데이트 · 이전 버전 보존</b>
+      <p>현재 이력서를 덮어쓰지 않고 새 수정 버전으로 준비해요. 저장 후 이전 버전으로 되돌릴 수 있어요.</p>
+    </div>
+    <div style="text-align:right;flex:none">
+      <button class="jbtn jbtn--primary" id="svSaveBtn">이력서 저장하기</button>
+      <div><button class="svsave__sub" id="svSkip">선택 보완은 나중에 하고 저장</button></div>
+    </div>
+  </section>
+</div></div>
+
 <!-- ═══════════ ② AI 동의 모달 ═══════════ -->
 <div class="modal" id="consent">
   <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="consentTitle">
@@ -1730,7 +1865,7 @@ document.getElementById('cwFilter').addEventListener('click',e=>{
   document.getElementById('cwFilter').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
   cwRenderSug();
 });
-document.getElementById('cwSave').addEventListener('click',()=>alert('데모: STEP 4 검토·저장 화면으로 이어집니다.'));
+document.getElementById('cwSave').addEventListener('click',()=>goScreen('save'));
 cwRenderFields(); cwRenderSug();
 
 
@@ -1882,7 +2017,7 @@ $('procNoti').addEventListener('click',e=>{
 $('procBack').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
 
 /* ── 스텝퍼 상태 ── */
-const SCREEN_STEP={source:1,proc:2,coach:3};
+const SCREEN_STEP={source:1,proc:2,coach:3,save:4};
 function syncStepper(s){
   const cur=SCREEN_STEP[s]||0;
   document.querySelectorAll('#stepper li, #stepper2 li').forEach(li=>{
@@ -1894,6 +2029,95 @@ function syncStepper(s){
   if(s==='proc') startProc(); else clearInterval(pTimer);
 }
 syncStepper('manage');
+
+/* ══ ⑥ 검토·저장 ══ */
+const SV=[
+ {k:'email',  label:'이메일',    kind:'must', v:'입력이 필요해요', ph:'name@example.com',
+  note:'잡코리아 저장에 필요한 값이라 이것만 채우면 저장할 수 있어요.'},
+ {k:'phone',  label:'휴대폰번호', kind:'must', v:'입력이 필요해요', ph:'010-0000-0000',
+  note:'연결한 자료에서 확인되지 않아 비워뒀어요. AI가 임의로 채우지 않습니다.'},
+ {k:'career', label:'경력기술서', kind:'chg',
+  before:'Career Agent 프로젝트 기획 및 개발',
+  v:'구직자가 여러 경력 자료를 연결해 프로필을 만들고, 필요한 사실만 확인한 뒤 이력서를 완성하는 AI 작성 흐름을 기획했습니다.'},
+ {k:'project',label:'프로젝트',   kind:'chg',
+  before:'AI Agent 기능 기획 및 데모 제작',
+  v:'대화형 입력 대신 자료 연결·프로필 확인·Co-Pilot 상세 작성·저장으로 이어지는 PC Web 데모를 설계하고 사용 흐름을 검증했습니다.'},
+ {k:'skill',  label:'보유기술',   kind:'chg',
+  before:'생성형 AI, RAG, 서비스 기획, UX, API, 품질 검증',
+  v:'AI Product: 생성형 AI · RAG · 서비스 기획 / Product Delivery: UX · API · 품질 검증'},
+ {k:'edu',    label:'학력 졸업월', kind:'opt', v:'2016년 (월 미확인)',
+  note:'월까지 입력하면 경력 기간을 더 정확하게 보여줄 수 있어요.'},
+ {k:'salary', label:'희망연봉',   kind:'opt', v:'면접 후 결정',
+  note:'저장 후에도 보완할 수 있어요.'},
+ {k:'area',   label:'희망근무지', kind:'opt', v:'서울 강남구 · 서초구 · 경기 성남시 분당구',
+  note:'최대 3개 시도까지 선택할 수 있어요.'},
+ {k:'title',  label:'이력서 제목', kind:'all', v:'AI Product Owner / Career Agent / Enterprise SaaS'},
+ {k:'name',   label:'이름',       kind:'all', v:'홍길동'}
+];
+let svFilter='must';
+const svBadge={must:['svbadge--must','꼭 확인'],chg:['svbadge--ai','AI가 다듬음'],
+               opt:['svbadge--opt','선택 보완'],all:['svbadge--opt','확인 완료']};
+function svRender(){
+  const list=SV.filter(x=>svFilter==='all'||x.kind===svFilter);
+  document.getElementById('svList').innerHTML=list.map(x=>{
+    const [cls,txt]=svBadge[x.kind];
+    const diff=x.before?`<div class="svdiff"><div class="b4"><span>현재</span>${x.before}</div>
+      <div class="af"><span>반영</span>${x.v}</div></div>`:'';
+    const val=x.before?'':`<div class="svfield__v${x.kind==='must'?' ph':''}">${x.v}</div>`;
+    const note=x.note?`<div style="margin-top:6px;font-size:12.5px;color:var(--typography-gray400)">${x.note}</div>`:'';
+    const inp=x.kind==='must'
+      ? `<div class="svinput" style="display:none"><input placeholder="${x.ph||'입력해 주세요'}"><button>확인</button></div>`:'';
+    return `<div class="svfield" data-k="${x.k}">
+      <div class="svfield__h"><b>${x.label}</b><span class="svbadge ${cls}">${txt}</span>
+        ${x.kind==='must'?'<button class="svfield__act">지금 입력</button>':''}</div>
+      ${val}${diff}${note}${inp}</div>`;}).join('')
+    || '<div style="padding:32px;text-align:center;color:var(--typography-gray400);font-size:13px">해당하는 항목이 없어요</div>';
+  const must=SV.filter(x=>x.kind==='must').length;
+  const ready=document.getElementById('svReady');
+  ready.classList.toggle('is-block',must>0);
+  document.getElementById('svReadyIco').textContent = must>0?'!':'✓';
+  document.getElementById('svReadyT').textContent = must>0
+    ? '저장 전에 꼭 필요한 정보가 남아 있어요' : '이력서를 저장할 준비가 됐어요';
+  document.getElementById('svMust').textContent=must;
+  document.getElementById('svFmust').textContent=must;
+  const opt=SV.filter(x=>x.kind==='opt').length;
+  document.getElementById('svOpt').textContent=opt;
+  document.getElementById('svFopt').textContent=opt;
+  document.getElementById('svReadyD').textContent = must>0
+    ? `저장에 꼭 필요한 ${must}개만 입력하면 바로 저장할 수 있어요. 선택 보완은 저장 후에도 채울 수 있어요.`
+    : (opt>0 ? `선택 보완 ${opt}개가 남아 있지만, 지금 저장해도 괜찮아요.`
+             : '확인이 필요한 항목이 모두 정리됐어요.');
+  document.getElementById('svSaveBtn').textContent = must>0?`필수 ${must}개 먼저 입력`:'이력서 저장하기';
+  document.getElementById('svSaveBtn').disabled = must>0;
+  document.getElementById('svSkip').style.display = (must===0&&opt>0)?'inline':'none';
+}
+document.getElementById('svFilter').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  svFilter=b.dataset.f;
+  document.getElementById('svFilter').querySelectorAll('button')
+    .forEach(x=>x.classList.toggle('on',x===b));
+  svRender();
+});
+document.getElementById('svList').addEventListener('click',e=>{
+  const act=e.target.closest('.svfield__act');
+  if(act){ act.closest('.svfield').querySelector('.svinput').style.display='flex'; act.remove(); return; }
+  const ok=e.target.closest('.svinput button');
+  if(ok){
+    const fld=ok.closest('.svfield'), k=fld.dataset.k, val=fld.querySelector('input').value.trim();
+    if(!val) return;
+    const it=SV.find(x=>x.k===k); it.kind='all'; it.v=val; it.note='';
+    svRender();
+  }
+});
+document.getElementById('svSkip').addEventListener('click',()=>{
+  SV.forEach(x=>{ if(x.kind==='opt') x.kind='all'; });
+  svRender();
+});
+document.getElementById('svSaveBtn').addEventListener('click',()=>{
+  alert('데모: 잡코리아 저장 완료(resume_completion_committed) 후 이력서 목록으로 이동합니다.');
+  goScreen('manage');
+});
+svRender();
 </script>
 </body>
 </html>
