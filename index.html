@@ -237,18 +237,18 @@ img{display:block}
    surface = bg-base / border = ai-border / radius = radius-sm 10
    CTA = JAMS button primary (h44) / 배지 = Tag(radius 4) / 간격 = unit-*  */
 .aicard{margin:20px 39px 0;border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
-  /* 지정 스톱(DDDFFF·96B1FD·FF74AC·FEAB3F)을 흰색과 92% 섞은 파스텔 틴트 */
-  background:linear-gradient(100deg,#F1F4FF 0%,#F6F2FF 28%,#FFF0F6 60%,#FFF6EB 86%,#FFFCF7 100%);
+  /* 배경은 라벤더 단톤으로 조용하게. 대비는 마크가 만든다 */
+  background:linear-gradient(100deg,#F0F1FE 0%,#F5F4FF 46%,#FAFAFF 100%);
   padding:var(--unit-20);cursor:pointer;position:relative;overflow:hidden;
   display:flex;align-items:center;gap:var(--unit-20);
   transition:box-shadow .18s,border-color .18s,transform .18s}
 /* 색은 마크에만. 카드는 마크 주변 국소 발광만 아주 옅게 */
 .aicard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:280px;pointer-events:none;
-  background:radial-gradient(160px 140px at 66px 50%,rgba(150,177,253,.26),rgba(255,116,172,.10) 46%,transparent 74%)}
+  background:radial-gradient(190px 160px at 86px 50%,rgba(150,177,253,.42),rgba(255,116,172,.16) 44%,transparent 72%)}
 .aicard:hover{border-color:var(--ai-border);box-shadow:0 6px 20px rgba(18,32,54,.07);transform:translateY(-1px)}
-.aicard__tile{position:relative;width:52px;height:52px;flex:none;border-radius:var(--radius-sm);
+.aicard__tile{position:relative;width:76px;height:76px;flex:none;
   background:transparent;display:grid;place-items:center}
-.aicard__tile .jkm{width:30px;height:30px}
+
 .aicard__body{position:relative;flex:1;min-width:0}
 .aicard__b{background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);border-radius:var(--unit-4);
   height:24px;padding:0 var(--unit-8);color:var(--color-text-secondary);font-weight:600;
@@ -1163,7 +1163,7 @@ img{display:block}
     <!-- L2 Subtle · 진입점. 진행 중 작업이 있으면 같은 자리가 진행 카드로 바뀜 -->
     <section class="aicard has-lv" role="button" tabindex="0" id="aiEntry">
       <span class="lv lv--2">L2</span>
-      <span class="aicard__tile"><span class="jkm jkm--calm" style="--s:30px" data-mark></span></span>
+      <span class="aicard__tile"><span class="jkm jkm--calm" style="--s:68px" data-mark></span></span>
 
       <div class="aicard__body r-none">
         <span class="aicard__b ty-c2"><span class="aicard__dot"></span>경력 불러오기</span>
