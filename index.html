@@ -59,6 +59,7 @@
   --ai-dark:#002aff;                    /* = --link-blue. 뱃지·버튼 글자색을 하나로 */
   --ai-border:#a6c2ff;                  /* = --badge-line */
   --ai-tint:#f0f5ff;                    /* = --badge-bg */
+  --ai-mark:#96B1FD;                    /* = ai-g1. 단색 마크 전용 */
   --ai-grad:linear-gradient(100deg,var(--ai-g0),var(--ai-g1) 38%,var(--ai-g2) 74%,var(--ai-g3));
 }
 *{box-sizing:border-box}
@@ -811,12 +812,8 @@ img{display:block}
   background:var(--color-brand-500);color:#fff;font-size:13.5px;font-weight:700;transition:.15s}
 .svtodo__f .svinput button:hover{background:#1648d8}
 .svtodo__f p{margin-top:6px;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
-.svtodo__ok{margin-top:var(--unit-8);font-size:13.5px;color:var(--color-text-secondary)}
-.svtodo__f2{margin-top:var(--unit-20);padding-top:var(--unit-16);border-top:1px solid #f3f5f8;
-  display:flex;align-items:center;gap:var(--unit-16)}
-.svtodo__note{flex:1;min-width:0;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
-.svtodo__btns{flex:none;text-align:right}
-.svtodo__btns .svsave__sub{display:block;margin-top:6px}
+.svtodo__ok{margin-top:var(--unit-8);font-size:13.5px;line-height:21px;color:var(--color-text-secondary)}
+.svtodo__ok b{font-weight:700;color:var(--color-text-primary)}
 
 /* 저장을 막지 않는 내용은 접어둔다 */
 .svfold{margin-top:var(--unit-12);background:#fff;border-radius:16px;
@@ -828,12 +825,43 @@ img{display:block}
 .svfold__h em{height:22px;padding:0 8px;border-radius:999px;background:#f1f3f7;
   color:var(--color-text-secondary);font-style:normal;font-size:12px;font-weight:700;
   display:inline-flex;align-items:center}
-.svfold__ar{margin-left:auto;color:var(--typography-gray400);font-size:15px;transition:transform .2s}
+.svfold__ar{margin-left:auto;width:20px;height:20px;flex:none;color:var(--typography-gray400);
+  display:grid;place-items:center;transition:transform .2s}
+.svfold__ar svg{width:18px;height:18px;display:block}
 .svfold.is-open .svfold__ar{transform:rotate(180deg)}
-.svfold__b{display:none;padding:0 var(--unit-20) var(--unit-8);border-top:1px solid #f3f5f8}
+.svfold__b{display:none;padding:var(--unit-4) var(--unit-20) var(--unit-16);border-top:1px solid #f3f5f8}
+.svfold__b .svfield:first-child{padding-top:var(--unit-12)}
+.svfold__b .svfield__h b{min-width:78px}
 .svfold.is-open .svfold__b{display:block}
 .svfold__none{padding:var(--unit-20) 0;font-size:13px;color:var(--typography-gray400)}
 .svfield__n{margin-top:6px;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
+/* 상태 칩 · 남은 개수가 있으면 숫자, 없으면 완료. 세 섹션이 같은 규칙을 쓴다 */
+.svchip{flex:none;height:24px;padding:0 10px;border-radius:999px;background:#f1f3f7;
+  color:var(--color-text-secondary);font-style:normal;font-size:12px;font-weight:700;
+  display:inline-flex;align-items:center}
+.svchip.is-warn{background:#fff1f2;color:#f04452}
+.svchip.is-done{background:#eaf7f1;color:#00875a}
+
+.svtodo__foot{margin-top:var(--unit-20);padding-top:var(--unit-16);border-top:1px solid #f3f5f8;
+  display:flex;align-items:center;gap:var(--unit-20)}
+.svtodo__note{flex:1;min-width:0;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
+.svtodo__btns{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.svtodo__btns .jbtn--primary{height:48px;padding:0 26px;font-size:15px}
+.svtodo__sub{height:26px;padding:0;background:transparent;font-size:12.5px;font-weight:600;
+  color:var(--typography-gray400);transition:color .15s}
+.svtodo__sub:hover{color:var(--color-brand-500)}
+
+.svfold__i{opacity:.5;flex:none}
+.svfold__m{flex:none}
+.svfold__d{padding:var(--unit-12) 0 var(--unit-4);font-size:12.5px;line-height:19px;
+  color:var(--typography-gray400)}
+.svauto__list{padding-bottom:var(--unit-4)}
+.svauto__row{display:flex;align-items:center;gap:var(--unit-12);height:38px;
+  border-top:1px solid #f5f6f9}
+.svauto__row span{width:78px;flex:none;font-size:12.5px;font-weight:700;
+  color:var(--typography-gray400)}
+.svauto__row b{font-size:13.5px;font-weight:500;color:var(--color-text-primary)}
+
 
 /* ══════════ ⑥ 저장 완료 · ⑦ 맞춤 공고 ══════════ */
 [data-screen="done"] .gnb,[data-screen="done"] .agentbar,[data-screen="done"] .rw-head,
@@ -858,10 +886,8 @@ img{display:block}
 .donepage{width:840px;margin:0 auto;padding:var(--unit-40,40px) 0 96px}
 .donecard{background:#fff;border-radius:24px;padding:var(--unit-40,40px);text-align:center;
   box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
-.doneico{width:64px;height:64px;margin:0 auto;border-radius:20px;background:#eaf7f1;
-  display:grid;place-items:center}
-.doneico svg{width:30px;height:30px;stroke:#00875a;stroke-width:2.6;fill:none;
-  stroke-linecap:round;stroke-linejoin:round}
+.doneico{width:56px;height:56px;margin:0 auto;display:grid;place-items:center}
+.doneico svg{width:56px;height:56px;filter:drop-shadow(0 8px 20px rgba(27,85,246,.3))}
 .donecard .proceyebrow{margin-top:var(--unit-16);justify-content:center}
 .donecard h1{margin-top:var(--unit-10);font-size:26px;font-weight:700;letter-spacing:-.8px;
   color:var(--color-text-primary)}
@@ -874,7 +900,7 @@ img{display:block}
 .doneres b{display:block;font-size:14px;font-weight:700;color:var(--color-text-primary);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .doneres span{font-size:12.5px;color:var(--typography-gray400)}
-.doneres__st{flex:none;height:28px;padding:0 12px;border-radius:999px;background:#00875a;color:#fff;
+.doneres__st{flex:none;height:26px;padding:0 10px;border-radius:999px;background:#eaf7f1;color:#00875a;
   font-size:12px;font-weight:700;display:inline-flex;align-items:center}
 
 /* 저장과 공고 찾기를 한 화면에서 잇는다. 모달로 끊지 않는다 */
@@ -896,6 +922,9 @@ img{display:block}
 /* 맞춤 공고 */
 .matchpage{width:1000px;margin:0 auto;padding:var(--unit-32,32px) 0 96px}
 .matchpage>.proceyebrow{margin:0}
+/* 선택 단계 · 번호 없이 이름만 */
+.proceyebrow--opt{padding:4px 14px}
+.proceyebrow--opt em{color:var(--color-text-secondary)}
 .matchpage h1{margin-top:var(--unit-10);font-size:26px;font-weight:700;letter-spacing:-.8px;
   color:var(--color-text-primary)}
 .mtdesc{margin-top:var(--unit-6);font-size:14px;color:var(--color-text-secondary)}
@@ -1344,7 +1373,7 @@ img{display:block}
 .jkm .eye.r{animation-delay:.05s}
 .jkm--noface .eyes{display:none}
 /* 단색 · 버튼처럼 작게 쓰는 자리에서는 형태만 남기고 색은 글자색을 따른다 */
-.jkm--mono .gwrap .shape{fill:currentColor}
+.jkm--mono .gwrap .shape{fill:var(--ai-mark)}
 .jkm--mono>svg>.shape{display:none}
 .jkm--static *{animation:none!important}
 .jkm--static .jkm__halo{display:none}
@@ -1591,7 +1620,7 @@ img{display:block}
         <div class="item__b">
           <p class="item__t">
             <span class="lv lv--3">L3</span>
-            <span class="badge badge--ai"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:15px" data-mark></span>AI 작성 · 검토 완료</span>
+            <span class="badge badge--ai"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI 작성 · 검토 완료</span>
             <span class="item__name">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
           </p>
           <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
@@ -1664,8 +1693,7 @@ img{display:block}
     <li data-s="1"><i>1</i>자료 연결</li><span class="steps__ar">›</span>
     <li data-s="2"><i>2</i>초안 생성</li><span class="steps__ar">›</span>
     <li data-s="3"><i>3</i>AI 제안 반영</li><span class="steps__ar">›</span>
-    <li data-s="4"><i>4</i>저장 전 확인</li><span class="steps__ar">›</span>
-    <li data-s="5"><i>5</i>맞춤 공고</li>
+    <li data-s="4"><i>4</i>저장 전 확인</li>
   </ol>
   <span class="agentbar__safe ty-c1">
     <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -1772,8 +1800,7 @@ img{display:block}
     <li data-s="1"><i>1</i>자료 연결</li><span class="steps__ar">›</span>
     <li data-s="2"><i>2</i>초안 생성</li><span class="steps__ar">›</span>
     <li data-s="3"><i>3</i>AI 제안 반영</li><span class="steps__ar">›</span>
-    <li data-s="4"><i>4</i>저장 전 확인</li><span class="steps__ar">›</span>
-    <li data-s="5"><i>5</i>맞춤 공고</li>
+    <li data-s="4"><i>4</i>저장 전 확인</li>
   </ol>
   <span class="cwbar__note"><img src="assets-jk/sys-info.svg" alt="" width="15" height="15">아직 잡코리아에는 저장되지 않았어요</span>
   <button class="jbtn" id="cwSave">저장할 내용 확인</button>
@@ -2240,33 +2267,48 @@ img{display:block}
 
   <!-- 할 일을 맨 위에, 입력창을 연 채로 둔다 -->
   <section class="svtodo" id="svTodo">
-    <div class="svtodo__h"><b id="svTodoT">지금 채워야 저장할 수 있어요</b><em id="svTodoN">2개</em></div>
+    <div class="svtodo__h"><b id="svTodoT">지금 채워야 저장할 수 있어요</b>
+      <em class="svchip" id="svTodoN">2개</em></div>
     <div class="svtodo__list" id="svTodoList"></div>
-    <div class="svtodo__f">
+    <div class="svtodo__foot">
       <p class="svtodo__note">현재 이력서를 덮어쓰지 않고 새 수정 버전으로 저장해요. 이전 버전은 그대로 남아요.</p>
       <div class="svtodo__btns">
         <button class="jbtn jbtn--primary" id="svSaveBtn">이력서 저장하기</button>
-        <button class="svsave__sub" id="svSkip">선택 보완은 나중에 하고 저장</button>
+        <button class="svtodo__sub" id="svSkip">선택 보완은 나중에 하고 저장</button>
       </div>
     </div>
   </section>
 
-  <div class="svauto">
-    <img src="assets-jk/sys-info.svg" alt="">
-    <p><b>이름 · 생년월일 · 성별 · 주소</b>는 잡코리아 계정 정보로 자동 확인해요.</p>
-    <span>확인 완료</span>
-  </div>
+  <!-- 계정에서 가져온 값도 무엇인지 열어볼 수 있어야 한다 -->
+  <section class="svfold" id="svFoldAuto">
+    <button class="svfold__h" data-t="auto">
+      <img class="svfold__i" src="assets-jk/sys-info.svg" alt="" width="18" height="18">
+      <b>잡코리아 계정에서 확인한 정보</b>
+      <em class="svchip is-done">완료</em>
+      <span class="svfold__ar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.75 10 12.25l4.5-4.5"/></svg></span></button>
+    <div class="svfold__b">
+      <p class="svfold__d">계정 정보로 자동 확인한 값이에요. 따로 입력할 필요가 없고, 바꾸려면 잡코리아 회원정보에서 수정하면 돼요.</p>
+      <div class="svauto__list">
+        <div class="svauto__row"><span>이름</span><b>홍길동</b></div>
+        <div class="svauto__row"><span>생년월일</span><b>1995.12.10</b></div>
+        <div class="svauto__row"><span>성별</span><b>여자</b></div>
+        <div class="svauto__row"><span>주소</span><b>전남광주 북구 충효동</b></div>
+      </div>
+    </div>
+  </section>
 
   <!-- 저장을 막지 않는 내용은 접어둔다 -->
   <section class="svfold" id="svFoldChg">
-    <button class="svfold__h" data-t="chg"><b>AI가 다듬은 내용</b><em id="svFchg">3</em>
-      <span class="svfold__ar">⌄</span></button>
-    <div class="svfold__b"><div class="svlist" id="svListChg"></div></div>
+    <button class="svfold__h" data-t="chg">
+      <span class="jkm jkm--static jkm--noface jkm--mono svfold__m" style="--s:15px" data-mark></span>
+      <b>AI가 다듬은 내용</b><em class="svchip" id="svFchg">3</em>
+      <span class="svfold__ar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.75 10 12.25l4.5-4.5"/></svg></span></button>
+    <div class="svfold__b" id="svListChg"></div>
   </section>
   <section class="svfold" id="svFoldOpt">
-    <button class="svfold__h" data-t="opt"><b>선택 보완</b><em id="svFopt">3</em>
-      <span class="svfold__ar">⌄</span></button>
-    <div class="svfold__b"><div class="svlist" id="svListOpt"></div></div>
+    <button class="svfold__h" data-t="opt"><b>선택 보완</b><em class="svchip" id="svFopt">3</em>
+      <span class="svfold__ar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.75 10 12.25l4.5-4.5"/></svg></span></button>
+    <div class="svfold__b" id="svListOpt"></div>
   </section>
 </div></div>
 
@@ -2307,7 +2349,15 @@ img{display:block}
 <!-- ═══════════ ⑥ 저장 완료 ═══════════ -->
 <div class="s-done"><div class="donepage">
   <section class="donecard">
-    <span class="doneico"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.6 4.6L19 7.8"/></svg></span>
+    <span class="doneico" aria-hidden="true">
+      <svg viewBox="0 0 56 56" fill="none">
+        <circle cx="28" cy="28" r="27" fill="url(#doneG2)"/>
+        <defs><linearGradient id="doneG2" x1="6%" y1="4%" x2="94%" y2="96%">
+          <stop offset="0%" stop-color="#96B1FD"/><stop offset="100%" stop-color="#1b55f6"/>
+        </linearGradient></defs>
+        <path d="M16.5 28.8 24.4 36.4 39.5 20.6" stroke="#fff" stroke-width="4"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span>
     <p class="proceyebrow"><b>STEP 4</b><em>저장 완료</em></p>
     <h1>이력서를 저장했어요</h1>
     <p class="donedesc">AI가 다듬은 내용 <b id="doneN">3</b>개를 반영했어요.
@@ -2347,7 +2397,7 @@ img{display:block}
 
 <!-- ═══════════ ⑦ 맞춤 공고 ═══════════ -->
 <div class="s-match"><div class="matchpage">
-  <p class="proceyebrow"><b>STEP 5</b><em>맞춤 공고</em></p>
+  <p class="proceyebrow proceyebrow--opt"><em>맞춤 공고 추천 · 선택</em></p>
   <h1 id="mtTitle">이력서와 맞는 공고를 찾고 있어요</h1>
   <p class="mtdesc" id="mtDesc">이력서에서 확인된 직무·경력·기술만 사용해 현재 공개된 공고를 비교해요.</p>
 
@@ -3017,7 +3067,7 @@ $('procNoti').addEventListener('click',e=>{
 $('procBack').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
 
 /* ── 스텝퍼 상태 ── */
-const SCREEN_STEP={source:1,proc:2,fact:2,coach:3,save:4,done:4,match:5};
+const SCREEN_STEP={source:1,proc:2,fact:2,coach:3,save:4,done:4,match:4};
 function syncStepper(s){
   const cur=SCREEN_STEP[s]||0;
   document.querySelectorAll('#stepper li, #stepper2 li').forEach(li=>{
@@ -3076,14 +3126,19 @@ function svRender(){
   document.getElementById('svTodo').classList.toggle('is-clear',must.length===0);
   document.getElementById('svTodoT').textContent = must.length
     ? '지금 채워야 저장할 수 있어요' : '저장에 필요한 값이 모두 채워졌어요';
-  document.getElementById('svTodoN').textContent = must.length ? must.length+'개' : '완료';
+  const chip=(id,cnt,warn)=>{const e=document.getElementById(id);
+    e.textContent = cnt ? String(cnt) : '완료';
+    e.classList.toggle('is-warn', !!cnt && !!warn);
+    e.classList.toggle('is-done', !cnt);};
+  chip('svTodoN', must.length, true);
   document.getElementById('svTodoList').innerHTML = must.length
     ? must.map(x=>`<div class="svtodo__f" data-k="${x.k}">
         <label>${x.label}<b>*</b></label>
         <div class="svinput"><input placeholder="${x.ph||'입력해 주세요'}"><button>확인</button></div>
         ${x.note?`<p>${x.note}</p>`:''}
       </div>`).join('')
-    : '<p class="svtodo__ok">이대로 저장하면 잡코리아 이력서에 바로 반영돼요.</p>';
+    : `<p class="svtodo__ok">저장에 필요한 값이 모두 채워졌어요.
+         AI가 다듬은 내용 <b>${chg.length}개</b>가 함께 저장돼요${opt.length?`, 선택 보완 <b>${opt.length}개</b>는 저장한 뒤에도 채울 수 있어요`:''}.</p>`;
 
   document.getElementById('svH1').textContent = must.length
     ? `${must.length}개만 채우면 저장할 수 있어요` : '이력서를 저장할 준비가 됐어요';
@@ -3093,8 +3148,8 @@ function svRender(){
                   : '확인이 필요한 항목이 모두 정리됐어요.');
 
   /* 저장을 막지 않는 내용은 접어둔다 */
-  document.getElementById('svFchg').textContent=chg.length;
-  document.getElementById('svFopt').textContent=opt.length;
+  chip('svFchg', chg.length, false);
+  chip('svFopt', opt.length, false);
   document.getElementById('svListChg').innerHTML = chg.length
     ? chg.map(svField).join('') : '<p class="svfold__none">AI가 다듬은 내용이 없어요.</p>';
   document.getElementById('svListOpt').innerHTML = opt.length
