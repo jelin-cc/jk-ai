@@ -59,7 +59,6 @@
   --ai-dark:#002aff;                    /* = --link-blue. 뱃지·버튼 글자색을 하나로 */
   --ai-border:#a6c2ff;                  /* = --badge-line */
   --ai-tint:#f0f5ff;                    /* = --badge-bg */
-  --ai-mark:#96B1FD;                    /* = ai-g1. 단색 마크 전용 */
   --ai-grad:linear-gradient(100deg,var(--ai-g0),var(--ai-g1) 38%,var(--ai-g2) 74%,var(--ai-g3));
 }
 *{box-sizing:border-box}
@@ -1362,7 +1361,7 @@ img{display:block}
   background:conic-gradient(from 0deg,#DDDFFF,#96B1FD 15%,#FF74AC 30%,#FEAB3F 70%,#96B1FD 85%,#DDDFFF);
   filter:blur(calc(var(--s)*.34));opacity:calc(.46*var(--glow));
   animation:jkmTurn var(--spin) linear infinite}
-.jkm svg{position:relative;z-index:1;width:100%;height:100%;overflow:visible;
+.jkm svg{display:block;position:relative;z-index:1;width:100%;height:100%;overflow:visible;
   animation:jkmFloat calc(var(--morph)*1.15) ease-in-out infinite}
 .jkm .shape{animation:jkmMorph var(--morph) cubic-bezier(.45,0,.55,1) infinite;
   transform-origin:50px 50px;transform-box:view-box}
@@ -1373,7 +1372,7 @@ img{display:block}
 .jkm .eye.r{animation-delay:.05s}
 .jkm--noface .eyes{display:none}
 /* 단색 · 버튼처럼 작게 쓰는 자리에서는 형태만 남기고 색은 글자색을 따른다 */
-.jkm--mono .gwrap .shape{fill:var(--ai-mark)}
+/* 단색이 아니라 파랑 계열 그라데이션. 정지점은 jkMark 에서 넣는다 */
 .jkm--mono>svg>.shape{display:none}
 .jkm--static *{animation:none!important}
 .jkm--static .jkm__halo{display:none}
@@ -2300,7 +2299,7 @@ img{display:block}
   <!-- 저장을 막지 않는 내용은 접어둔다 -->
   <section class="svfold" id="svFoldChg">
     <button class="svfold__h" data-t="chg">
-      <span class="jkm jkm--static jkm--noface jkm--mono svfold__m" style="--s:15px" data-mark></span>
+      <span class="jkm jkm--static jkm--noface jkm--mono svfold__m" style="--s:13px" data-mark></span>
       <b>AI가 다듬은 내용</b><em class="svchip" id="svFchg">3</em>
       <span class="svfold__ar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.75 10 12.25l4.5-4.5"/></svg></span></button>
     <div class="svfold__b" id="svListChg"></div>
@@ -2580,14 +2579,17 @@ const JK_OPEN=jkLobe(36,8), JK_HALF=jkLobe(34,10.5);
 let jkId=0;
 function jkMark(el){
   const u='jk'+(++jkId);
+  /* 작게 쓰는 자리(--mono)는 파랑 한 계열 안에서만 도는 은은한 그라데이션 */
+  const stops = el.classList.contains('jkm--mono')
+    ? '<stop offset="0%" stop-color="#AFC5FE"/><stop offset="52%" stop-color="#7B9DFA"/>'+
+      '<stop offset="100%" stop-color="#4A78F7"/>'
+    : '<stop offset="0%" stop-color="#DDDFFF"/><stop offset="15%" stop-color="#96B1FD"/>'+
+      '<stop offset="34%" stop-color="#FF74AC"/><stop offset="72%" stop-color="#FEAB3F"/>'+
+      '<stop offset="88%" stop-color="#96B1FD"/><stop offset="100%" stop-color="#DDDFFF"/>';
   el.innerHTML=`<span class="jkm__halo"></span>
   <svg viewBox="0 0 100 100" fill="none">
     <defs>
-      <linearGradient id="${u}g" x1="8%" y1="4%" x2="92%" y2="96%">
-        <stop offset="0%" stop-color="#DDDFFF"/><stop offset="15%" stop-color="#96B1FD"/>
-        <stop offset="34%" stop-color="#FF74AC"/><stop offset="72%" stop-color="#FEAB3F"/>
-        <stop offset="88%" stop-color="#96B1FD"/><stop offset="100%" stop-color="#DDDFFF"/>
-      </linearGradient>
+      <linearGradient id="${u}g" x1="8%" y1="4%" x2="92%" y2="96%">${stops}</linearGradient>
       <radialGradient id="${u}s" cx="34%" cy="26%" r="62%">
         <stop offset="0%" stop-color="#fff" stop-opacity=".7"/>
         <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
@@ -3306,7 +3308,7 @@ const RWICO=(()=>{
 document.querySelectorAll('.rbtn--ai:not(.is-view)').forEach(b=>{
   if(b.querySelector('.jkm')) return;
   const m=document.createElement('span');
-  m.className='jkm jkm--static jkm--noface jkm--mono'; m.style.setProperty('--s','15px');
+  m.className='jkm jkm--static jkm--noface jkm--mono'; m.style.setProperty('--s','13px');
   b.insertBefore(m,b.firstChild); jkMark(m);
 });
 syncRunLabels();
