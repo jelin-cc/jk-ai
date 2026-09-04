@@ -1467,7 +1467,16 @@ img{display:block}
       <div id="cwSug"></div>
     </aside>
   </div>
-</div></div>
+</div>
+  <div class="cwdock"><div class="cwdock__in">
+    <div class="cwdock__t">
+      <b id="cwDockT">적용할 수 있는 제안이 3개 있어요</b>
+      <span id="cwDockS">초안 변경 0개 · 제안 반영 0/3 · 아직 잡코리아에 저장되지 않았어요</span>
+    </div>
+    <button class="jbtn" id="cwUndo">마지막 변경 되돌리기</button>
+    <button class="jbtn jbtn--primary" id="cwAll" data-mode="apply">적용 가능한 제안 3개 모두 반영</button>
+  </div></div>
+</div>
 
 
 <!-- ═══════════ ⑤ 이력서 작성 ═══════════ -->
@@ -2217,8 +2226,6 @@ function cwRenderSug(){
     </article>`;}).join('') : '<p class="cwempty">이 항목에는 제안이 없어요</p>';
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
   document.getElementById('cwLeft').textContent=(3-cwApplied.length)+'개';
-  document.getElementById('cwChg').textContent=cwApplied.length+'개';
-  document.getElementById('cwApp').textContent=cwApplied.length+'/3';
   const allBtn=document.getElementById('cwAll'), done=cwApplied.length>=3;
   allBtn.textContent = done ? '저장할 내용 확인' : `적용 가능한 제안 ${3-cwApplied.length}개 모두 반영`;
   allBtn.disabled = false;
