@@ -869,6 +869,70 @@ img{display:block}
 [data-screen="coach"] .s-save,[data-screen="write"] .s-save{display:none}
 [data-screen="save"] .cwbar{display:block}
 
+
+/* ══════════ 사실 확인 · 09 HITL ══════════ */
+.ftpage{width:840px;margin:0 auto;padding:var(--unit-32) 0 140px}
+.fthead{text-align:center;margin-bottom:var(--unit-20)}
+.fthead h1{margin-top:var(--unit-12);font-size:26px;font-weight:700;letter-spacing:-.7px}
+.fthead>p{margin-top:var(--unit-8);font-size:15px;color:var(--color-text-secondary)}
+.ftbar{margin-top:var(--unit-16);display:flex;align-items:center;gap:var(--unit-10);
+  justify-content:center;font-size:13px;font-weight:600;color:var(--color-text-secondary)}
+.ftbar i{width:34px;height:4px;border-radius:999px;background:var(--color-border-tertiary);display:block}
+.ftbar i.on{background:var(--color-brand-500)}
+
+.ftcard{background:#fff;border-radius:24px;padding:var(--unit-32);
+  box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.06)}
+.ftcard__sec{font-size:12px;font-weight:700;color:var(--color-brand-500);letter-spacing:.03em}
+.ftcard h2{margin-top:var(--unit-8);font-size:21px;font-weight:700;letter-spacing:-.5px;line-height:30px}
+.ftcard__why{margin-top:var(--unit-10);padding:var(--unit-12) var(--unit-16);border-radius:14px;
+  background:#f6f8fb;font-size:13px;color:var(--color-text-secondary);line-height:19px;
+  display:flex;gap:var(--unit-8)}
+.ftcard__why img{width:16px;height:16px;flex:none;opacity:.5;margin-top:1px}
+
+.ftopts{margin-top:var(--unit-20);display:flex;flex-direction:column;gap:var(--unit-8)}
+.ftopt{width:100%;text-align:left;border:1.5px solid var(--color-border-tertiary);border-radius:16px;
+  padding:var(--unit-16) var(--unit-20);background:#fff;display:flex;align-items:center;gap:var(--unit-12);
+  transition:border-color .16s,background .16s}
+.ftopt:hover{border-color:#b9c6f5}
+.ftopt.on{border-color:var(--color-brand-500);background:#f7f9ff}
+.ftopt__r{width:20px;height:20px;border-radius:50%;border:1.5px solid #c9cfd8;flex:none;
+  display:grid;place-items:center}
+.ftopt.on .ftopt__r{border-color:var(--color-brand-500)}
+.ftopt.on .ftopt__r::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--color-brand-500)}
+.ftopt__b{flex:1;min-width:0}
+.ftopt__b b{display:block;font-size:15px;font-weight:600}
+.ftopt__b span{display:block;margin-top:3px;font-size:12.5px;color:var(--typography-gray400)}
+.ftopt__src{flex:none;height:24px;padding:0 9px;border-radius:7px;background:#f3f5f8;
+  font-size:11.5px;font-weight:600;color:var(--color-text-secondary)}
+.ftopt--skip{border-style:dashed}
+.ftopt--skip .ftopt__b b{color:var(--color-text-secondary);font-weight:500}
+
+.ftsafe{margin-top:var(--unit-16);font-size:12.5px;color:var(--typography-gray400);
+  display:flex;gap:var(--unit-6);align-items:flex-start}
+.ftsafe img{width:15px;height:15px;opacity:.5;flex:none;margin-top:1px}
+
+.ftsticky{position:fixed;left:0;right:0;bottom:0;z-index:120;background:#fff;
+  border-top:1px solid var(--color-border-tertiary);box-shadow:0 -4px 20px rgba(18,32,54,.06)}
+.ftsticky__in{width:840px;margin:0 auto;height:84px;display:flex;align-items:center;gap:var(--unit-12)}
+.ftsticky__t{flex:1;min-width:0;font-size:13px;color:var(--color-text-secondary)}
+.ftsticky__t b{color:var(--color-text-primary);font-weight:700}
+
+/* 토스트 */
+.toast{position:fixed;left:50%;bottom:32px;transform:translate(-50%,20px);z-index:400;
+  background:#14161c;color:#fff;border-radius:14px;padding:14px 20px;font-size:14px;font-weight:600;
+  display:flex;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(18,32,54,.28);
+  opacity:0;pointer-events:none;transition:opacity .22s ease,transform .28s cubic-bezier(.34,1.3,.6,1)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast i{width:20px;height:20px;border-radius:50%;background:#00c274;color:#14161c;font-style:normal;
+  font-size:12px;font-weight:700;display:grid;place-items:center;flex:none}
+
+[data-screen="fact"] .gnb,[data-screen="fact"] .cwbar,[data-screen="fact"] .rw-head,
+[data-screen="fact"] .s-manage,[data-screen="fact"] .s-source,[data-screen="fact"] .s-proc,
+[data-screen="fact"] .s-coach,[data-screen="fact"] .s-save,[data-screen="fact"] .s-write{display:none}
+[data-screen="manage"] .s-fact,[data-screen="source"] .s-fact,[data-screen="proc"] .s-fact,
+[data-screen="coach"] .s-fact,[data-screen="save"] .s-fact,[data-screen="write"] .s-fact{display:none}
+[data-screen="fact"] .agentbar{display:block}
+
 /* ══ 화면 전환 ══ */
 [data-screen="manage"] .s-source,[data-screen="manage"] .s-proc,
 [data-screen="source"] .s-manage,[data-screen="source"] .s-proc,
@@ -931,6 +995,7 @@ img{display:block}
     <button class="is-on" data-screen="manage">① 이력서 관리</button>
     <button data-screen="source">② 자료 연결</button>
     <button data-screen="proc">③ 초안 생성</button>
+    <button data-screen="fact">③-1 사실 확인</button>
     <button data-screen="coach">④ AI 기반 검토</button>
     <button data-screen="save">⑥ 검토·저장</button>
     <button data-screen="write">이력서 작성</button>
@@ -1783,6 +1848,28 @@ img{display:block}
   </section>
 </div></div>
 
+
+<!-- ═══════════ 사실 확인 (HITL) ═══════════ -->
+<div class="s-fact">
+  <div class="ftpage">
+    <div class="fthead">
+      <p class="proceyebrow"><b>STEP 2</b><em>사실 확인</em></p>
+      <h1>초안 완성에 꼭 필요한 정보가 있어요</h1>
+      <p>자료마다 내용이 다르거나 저장에 필요한 값만 확인해주세요. 확인하기 전에는 AI가 임의로 채우지 않아요.</p>
+      <div class="ftbar" id="ftBar"></div>
+    </div>
+    <div id="ftCard"></div>
+  </div>
+  <div class="ftsticky"><div class="ftsticky__in">
+    <button class="jbtn" id="ftPrev">이전</button>
+    <p class="ftsticky__t" id="ftNote">선택한 사실만 이력서 초안에 사용합니다.</p>
+    <button class="jbtn" id="ftLater">나중에 확인</button>
+    <button class="jbtn jbtn--primary" id="ftNext" disabled>확인하고 다음</button>
+  </div></div>
+</div>
+
+<div class="toast" id="toast"><i>✓</i><span id="toastTx"></span></div>
+
 <!-- ═══════════ ② AI 동의 모달 ═══════════ -->
 <div class="modal" id="consent">
   <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="consentTitle">
@@ -2101,7 +2188,7 @@ $('pickList').addEventListener('click',e=>{
 });
 $('srcNext').addEventListener('click',()=>{
   if(step<3){step++;render();window.scrollTo(0,0);}
-  else goScreen('proc');
+  else { toast(`${picked.length||3}개 자료로 초안 생성을 시작했어요.`); goScreen('proc'); }
 });
 $('srcPrev').addEventListener('click',()=>{if(step>0){step--;render();window.scrollTo(0,0);}});
 $('srcExit').addEventListener('click',()=>goScreen('manage'));
@@ -2128,7 +2215,7 @@ function renderProc(){
     : '여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.';
   $('procCard').classList.toggle('is-done',done);
   if(done){ $('procBar').style.width='100%'; $('procPct').textContent='100%';
-            $('procBack').textContent='AI 기반 검토 결과 확인'; }
+            $('procBack').textContent='확인이 필요한 내용 보기'; }
   else { $('procBack').textContent='이력서 목록으로'; }
 }
 function startProc(){
@@ -2145,7 +2232,7 @@ $('procNoti').addEventListener('click',e=>{
 $('procBack').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
 
 /* ── 스텝퍼 상태 ── */
-const SCREEN_STEP={source:1,proc:2,coach:3,save:4};
+const SCREEN_STEP={source:1,proc:2,fact:2,coach:3,save:4};
 function syncStepper(s){
   const cur=SCREEN_STEP[s]||0;
   document.querySelectorAll('#stepper li, #stepper2 li').forEach(li=>{
@@ -2242,10 +2329,79 @@ document.getElementById('svSkip').addEventListener('click',()=>{
   svRender();
 });
 document.getElementById('svSaveBtn').addEventListener('click',()=>{
-  alert('데모: 잡코리아 저장 완료(resume_completion_committed) 후 이력서 목록으로 이동합니다.');
+  const n=SV.filter(x=>x.before).length;
+  document.querySelectorAll('.item').forEach(row=>{
+    const b=row.querySelector('.badge--ai'); if(!b) return;
+    const d=row.querySelector('.item__date');
+    if(d) d.innerHTML=`방금 저장 · AI가 다듬은 내용 <b>${n}개</b> 반영 · 근거 자료 <b>3건</b>`;
+  });
+  document.body.dataset.run='none';
+  document.querySelectorAll('#runTabs button').forEach(x=>x.classList.toggle('is-on',x.dataset.run==='none'));
   goScreen('manage');
+  toast('잡코리아 이력서에 저장했어요. 이전 버전은 그대로 보존됩니다.');
 });
 svRender();
+
+/* ══ 토스트 ══ */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  document.getElementById('toastTx').textContent=msg;
+  el.classList.add('on'); clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove('on'),2600);
+}
+
+/* ══ 사실 확인 · 09 HITL ══ */
+const FT=[
+ {sec:'경력', q:'Worxphere의 실제 재직 시작일은 언제인가요?',
+  why:'기존 JK 이력서에는 2025.03, 업로드한 PDF에는 2024.11 로 적혀 있어 값이 서로 달라요.',
+  opts:[{v:'2025.03',d:'기존 잡코리아 이력서 기준',src:'JK 이력서'},
+        {v:'2024.11',d:'업로드한 PDF 기준',src:'PDF'}]},
+ {sec:'프로젝트', q:'Career Agent 프로젝트에서 직접 담당한 범위를 선택해주세요.',
+  why:'자료에 여러 역할이 함께 적혀 있어요. 선택한 범위만 경력기술에 반영하고, 선택하지 않은 역할은 AI가 추가하지 않아요.',
+  opts:[{v:'사용자 문제 정의 · 요구사항 정리',d:'',src:'포트폴리오'},
+        {v:'이력서 작성 흐름 · 화면 설계',d:'',src:'포트폴리오'},
+        {v:'AI 작성 항목 · 저장 기준 정의',d:'',src:'PDF'}]}
+];
+let ftIdx=0; const ftAns=[];
+function ftRender(){
+  const it=FT[ftIdx];
+  document.getElementById('ftBar').innerHTML =
+    `<span>꼭 확인할 내용 ${ftIdx+1}/${FT.length}개</span>` +
+    FT.map((_,i)=>`<i class="${i<=ftIdx?'on':''}"></i>`).join('');
+  document.getElementById('ftCard').innerHTML=`<div class="ftcard">
+    <p class="ftcard__sec">${it.sec}</p>
+    <h2>${it.q}</h2>
+    <div class="ftcard__why"><img src="assets-jk/sys-info.svg" alt="">${it.why}</div>
+    <div class="ftopts">
+      ${it.opts.map((o,i)=>`<button class="ftopt ${ftAns[ftIdx]===i?'on':''}" data-i="${i}">
+        <span class="ftopt__r"></span>
+        <span class="ftopt__b"><b>${o.v}</b>${o.d?`<span>${o.d}</span>`:''}</span>
+        <span class="ftopt__src">${o.src}</span></button>`).join('')}
+      <button class="ftopt ftopt--skip ${ftAns[ftIdx]==='unknown'?'on':''}" data-i="unknown">
+        <span class="ftopt__r"></span>
+        <span class="ftopt__b"><b>잘 모르겠어요</b><span>이 항목은 비워둔 채로 초안을 만들어요</span></span></button>
+    </div>
+    <p class="ftsafe"><img src="assets-jk/sys-info.svg" alt="">
+      선택한 사실만 이력서 변경안에 사용합니다. 선택하지 않은 값은 AI가 추측해 채우지 않아요.</p>
+  </div>`;
+  document.getElementById('ftPrev').style.visibility = ftIdx===0?'hidden':'visible';
+  document.getElementById('ftNext').disabled = ftAns[ftIdx]===undefined;
+  document.getElementById('ftNext').textContent = ftIdx===FT.length-1?'확인하고 초안 이어가기':'확인하고 다음';
+}
+document.getElementById('ftCard').addEventListener('click',e=>{
+  const b=e.target.closest('.ftopt'); if(!b) return;
+  const v=b.dataset.i; ftAns[ftIdx]= v==='unknown'?'unknown':+v; ftRender();
+});
+document.getElementById('ftPrev').addEventListener('click',()=>{if(ftIdx>0){ftIdx--;ftRender();}});
+document.getElementById('ftLater').addEventListener('click',()=>{
+  toast('확인을 보류했어요. 저장 전에 다시 안내할게요.'); goScreen('proc');
+});
+document.getElementById('ftNext').addEventListener('click',()=>{
+  if(ftIdx<FT.length-1){ftIdx++;ftRender();window.scrollTo(0,0);}
+  else{ toast('확인한 내용을 초안에 반영했어요.'); goScreen('coach'); }
+});
+ftRender();
 </script>
 </body>
 </html>
