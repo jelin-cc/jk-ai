@@ -645,10 +645,18 @@ img{display:block}
 .cwsug__no:hover{background:#eaedf2}
 .cwsug__yes{flex:1;color:#fff;background:var(--color-brand-500)}
 .cwsug__yes:hover{background:#1648d8}
-.cwsug.is-done{opacity:.5;border-color:#eef0f4}
+.cwsug.is-done{opacity:.62;border-color:#eef0f4}
+.cwsug.is-done:hover{opacity:1}
 .cwsug.is-done .cwsug__act{display:none}
+/* 반영 = 변경 발생(초록) · 유지 = 변경 없음(중립) — 두 결정을 구분해서 남김 */
 .cwsug__done{display:none;margin-top:var(--unit-12);height:36px;border-radius:10px;background:#eaf7f1;
   color:#00875a;font-size:12.5px;font-weight:700;align-items:center;justify-content:center;gap:6px}
+.cwsug.is-keep .cwsug__done{background:#f3f5f8;color:var(--color-text-secondary)}
+.cwsug__redo{display:none;margin-top:var(--unit-8);width:100%;height:32px;border-radius:9px;
+  font-size:12.5px;font-weight:600;color:var(--color-text-secondary);border:1px solid var(--color-border-tertiary);
+  background:#fff;transition:.15s}
+.cwsug__redo:hover{border-color:#b9c6f5;color:var(--color-brand-500)}
+.cwsug.is-keep .cwsug__redo{display:block}
 .cwsug.is-done .cwsug__done{display:flex}
 .cwempty{padding:var(--unit-24);text-align:center;color:var(--typography-gray400);font-size:13px}
 
@@ -2024,6 +2032,7 @@ function cwRenderSug(){
         <button class="cwsug__yes">이 제안 반영</button>
       </div>
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
+      <button class="cwsug__redo">다시 검토</button>
       <button class="cwsug__regen">피드백으로 다시 생성</button>
     </article>`;}).join('') : '<p class="cwempty">이 항목에는 제안이 없어요</p>';
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
@@ -2060,8 +2069,11 @@ function cwApply(id){
 document.getElementById('cwSug').addEventListener('click',e=>{
   const card=e.target.closest('.cwsug'); if(!card) return;
   if(e.target.closest('.cwsug__yes')) cwApply(card.dataset.id);
-  if(e.target.closest('.cwsug__no')){card.classList.add('is-done');
-    card.querySelector('.cwsug__done').textContent='현재 문장 유지';}
+  if(e.target.closest('.cwsug__no')){
+    card.classList.add('is-done','is-keep');
+    card.querySelector('.cwsug__done').textContent='현재 문장 유지 · 변경 없음';}
+  if(e.target.closest('.cwsug__redo')){
+    card.classList.remove('is-done','is-keep');}
   if(e.target.closest('.cwsug__regen')){
     if(cwUsed>=CW_LIMIT) return;
     cwUsed++; cwRenderUse();
