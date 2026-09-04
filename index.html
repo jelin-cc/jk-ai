@@ -572,10 +572,13 @@ img{display:block}
 .cwuse.is-low p{color:#c2374a}
 .cwuse.is-out b{color:#f04452}
 .cwuse.is-out .cwuse__dots i{background:#f2d3d7}
-.cwsug__regen{margin-top:var(--unit-8);font-size:12.5px;font-weight:600;
-  color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
-.cwsug__regen:hover{color:var(--color-brand-500)}
-.cwsug__regen:disabled{color:var(--typography-gray400);text-decoration:none;cursor:not-allowed}
+/* 재생성 = 아이콘 버튼. 잔여 횟수는 상단 패널이 담당하고 여기선 반복하지 않음 */
+.cwsug__regen{flex:none;width:40px;height:40px;border-radius:12px;background:#f3f5f8;
+  color:var(--color-text-secondary);display:grid;place-items:center;transition:.15s}
+.cwsug__regen svg{width:17px;height:17px}
+.cwsug__regen:hover{background:#e9edf3;color:var(--color-brand-500)}
+.cwsug__regen:disabled{opacity:.4;cursor:not-allowed}
+.cwsug__regen.is-last{background:#fdeeee;color:#f04452}
 
 .cwmeta{margin-top:var(--unit-12);display:flex;align-items:center;gap:var(--unit-16);
   padding:0 var(--unit-4);font-size:12.5px;color:var(--typography-gray400);flex-wrap:wrap}
@@ -2199,12 +2202,16 @@ function cwRenderSug(){
         <div class="af"><span>제안</span>${x.after}</div>
       </div>
       <div class="cwsug__act">
+        <button class="cwsug__regen" title="피드백으로 다시 생성" aria-label="피드백으로 다시 생성">
+          <svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 8.5a6.5 6.5 0 1 1-1.9-4.6"/><path d="M15 2.2v3.9h-3.9"/></svg>
+        </button>
         <button class="cwsug__no">유지</button>
         <button class="cwsug__yes">이 제안 반영</button>
       </div>
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
       <button class="cwsug__redo">다시 검토</button>
-      <button class="cwsug__regen">피드백으로 다시 생성</button>
     </article>`;}).join('') : '<p class="cwempty">이 항목에는 제안이 없어요</p>';
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
   document.getElementById('cwLeft').textContent=(3-cwApplied.length)+'개';
@@ -2230,7 +2237,8 @@ function cwRenderUse(){
     Array.from({length:CW_LIMIT},(_,i)=>`<i class="${i<cwUsed?'on':''}"></i>`).join('');
   document.querySelectorAll('.cwsug__regen').forEach(b=>{
     b.disabled = left<=0;
-    b.textContent = left>0 ? `피드백으로 다시 생성 · ${left}회 남음` : '남은 코칭 횟수가 없어요';
+    b.classList.toggle('is-last', left===1);
+    b.title = left>0 ? `피드백으로 다시 생성 · ${left}회 남음` : '남은 코칭 횟수가 없어요';
   });
 }
 function cwApply(id){
@@ -2251,6 +2259,8 @@ document.getElementById('cwSug').addEventListener('click',e=>{
   if(e.target.closest('.cwsug__regen')){
     if(cwUsed>=CW_LIMIT) return;
     cwUsed++; cwRenderUse();
+    toast(cwUsed>=CW_LIMIT ? '무료 AI 코칭 5회를 모두 사용했어요.'
+                           : `피드백을 반영해 제안을 다시 만들었어요. ${CW_LIMIT-cwUsed}회 남음`);
   }
 });
 document.getElementById('cwAll').addEventListener('click',e=>{
