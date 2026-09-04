@@ -69,6 +69,7 @@ body{margin:0;background:var(--page-bg);color:var(--row-text);
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
 a{color:inherit;text-decoration:none}
 h1,h2,h3,h4,p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
 img{display:block}
 :focus-visible{outline:3px solid rgba(27,85,246,.28);outline-offset:2px}
 
@@ -426,7 +427,7 @@ img{display:block}
 .srcsticky__t span{display:block;color:var(--typography-gray400);margin-top:var(--unit-2)}
 
 /* ══ AgentSubheader 4단계 스텝퍼 ══ */
-.steps{position:absolute;left:50%;transform:translateX(-50%);
+.steps{position:absolute;left:50%;transform:translateX(-50%);list-style:none;
   display:flex;align-items:center;gap:var(--unit-8);margin:0;padding:0}
 .steps li{display:flex;align-items:center;gap:var(--unit-6);color:var(--typography-gray400);
   list-style:none;white-space:nowrap}
@@ -483,7 +484,8 @@ img{display:block}
   transition:width .6s cubic-bezier(.4,0,.2,1)}
 
 /* 단계 목록 · 구분선 없이 간격으로 */
-.proclist{text-align:left;display:flex;flex-direction:column;gap:2px}
+.proclist{margin:0;padding:0;list-style:none;text-align:left;
+  display:flex;flex-direction:column;gap:2px}
 .proclist li{display:flex;align-items:center;gap:var(--unit-12);height:56px;
   padding:0 var(--unit-12);margin:0 calc(var(--unit-12) * -1);border-radius:14px;
   transition:background .22s ease}
@@ -1830,8 +1832,6 @@ function renderProc(){
     ? '항목별 개선 제안과 직접 수정이 가능한 AI 코칭 화면으로 이동합니다.'
     : '여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.';
   $('procCard').classList.toggle('is-done',done);
-  const chip=$('procChip');
-  chip.querySelector('em').textContent = done ? '초안 생성 완료' : '초안 생성';
   if(done){ $('procBar').style.width='100%'; $('procPct').textContent='100%';
             $('procBack').textContent='AI 기반 검토 결과 확인'; }
   else { $('procBack').textContent='이력서 목록으로'; }
