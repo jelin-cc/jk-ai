@@ -56,9 +56,9 @@
      (b) 디자이너 지정 그라디언트 스톱 : DDDFFF · 96B1FD · FF74AC · FEAB3F
      이전의 #1b55f6(민트)은 career-agent 번들의 임의값이라 전량 제거함 */
   --ai-g0:#DDDFFF; --ai-g1:#96B1FD; --ai-g2:#FF74AC; --ai-g3:#FEAB3F;
-  --ai-dark:#083ccc;                    /* JAMS color-icon-brand */
-  --ai-border:#CFDAFE;                  /* ai-g1 기반 파생 */
-  --ai-tint:#F4F7FF;                    /* ai-g1 기반 파생 */
+  --ai-dark:#002aff;                    /* = --link-blue. 뱃지·버튼 글자색을 하나로 */
+  --ai-border:#a6c2ff;                  /* = --badge-line */
+  --ai-tint:#f0f5ff;                    /* = --badge-bg */
   --ai-grad:linear-gradient(100deg,var(--ai-g0),var(--ai-g1) 38%,var(--ai-g2) 74%,var(--ai-g3));
 }
 *{box-sizing:border-box}
@@ -194,15 +194,16 @@ img{display:block}
 /* AI 액션 = JAMS 2.0 기준 (radius-sm 10 · 600 weight · brand tint) */
 .rbtn--ai{background:var(--ai-tint);border-color:var(--ai-border);color:var(--ai-dark);
   border-radius:var(--radius-sm);font-weight:600;display:inline-flex;align-items:center;gap:6px}
-.rbtn--ai:hover{background:#eaf0ff;border-color:#b9caff}
-.rbtn--ai:active{background:#dfe8ff}
+.rbtn--ai:hover{background:#e4edff;border-color:#8db0ff}
+.rbtn--ai:active{background:#d8e4ff}
 .rbtn--ai .jkm{flex:none}
 /* 조회형(…보기)은 실행이 아니므로 마크를 빼고 톤을 한 단 낮춘다 */
 .rbtn--ai.is-view{background:#fff;color:var(--color-text-primary)}
 .rbtn--ai.is-view .jkm{display:none}
 /* ··· = JAMS ButtonIcononly (44×40) */
-.rbtn--dots{width:44px;padding:0}
-.rbtn--dots img{width:13px;height:3px}
+.rbtn--dots{width:44px;padding:0;color:var(--color-text-secondary)}
+.rbtn--dots:hover{color:var(--color-text-primary)}
+.rbtn__dots{width:16px;height:4px;display:block}
 
 .badge{height:24px;padding:0 7.5px;border-radius:4px;border:1px solid var(--badge-line);
   background:var(--badge-bg);color:var(--link-blue);font-size:12px;font-weight:600;line-height:22px;
@@ -1529,7 +1530,7 @@ img{display:block}
       <div class="aicard__body r-none">
         <span class="aicard__b ty-c2"><span class="aicard__dot"></span>경력 불러오기</span>
         <h2 class="ty-h5">가지고 있는 자료로 이력서를 채워드릴게요</h2>
-        <p class="ty-c1">기존 이력서·PDF·건강보험 경력을 연결하면 초안까지 만들어 드려요. 직접 작성할 수도 있어요.</p>
+        <p class="ty-c1">이력서 파일이나 건강보험 경력을 연결하면 AI가 초안을 만들어드려요. AI 없이 직접 작성해도 괜찮아요.</p>
       </div>
       <div class="aicard__body r-busy">
         <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 작업 진행 중</span>
@@ -1571,7 +1572,7 @@ img{display:block}
           <div class="item__a">
             <button class="rbtn rbtn--ai">AI로 다듬기</button>
             <button class="rbtn">수정</button>
-            <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+            <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
           </div>
         </div>
         <div class="promo">
@@ -1596,7 +1597,7 @@ img{display:block}
         <div class="item__a">
           <button class="rbtn rbtn--ai is-view">AI 변경 내역 보기</button>
           <button class="rbtn">수정</button>
-          <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+          <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
       </div></article>
       <div class="line"></div>
@@ -1625,7 +1626,7 @@ img{display:block}
         <div class="item__a">
           <button class="rbtn rbtn--ai">AI로 다듬기</button>
           <button class="rbtn">수정</button>
-          <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+          <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
       </div></article>
       <div class="line"></div>
@@ -1638,7 +1639,7 @@ img{display:block}
         <div class="item__a">
           <button class="rbtn rbtn--ai">AI로 다듬기</button>
           <button class="rbtn">수정</button>
-          <button class="rbtn rbtn--dots" aria-label="더보기"><img src="assets-jk/ico-dots.png" alt="" width="13" height="3"></button>
+          <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
       </div></article>
       <div class="line"></div>
