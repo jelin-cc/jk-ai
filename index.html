@@ -1343,6 +1343,9 @@ img{display:block}
   animation:jkmBlink calc(var(--morph)*2.3) ease-in-out infinite}
 .jkm .eye.r{animation-delay:.05s}
 .jkm--noface .eyes{display:none}
+/* 단색 · 버튼처럼 작게 쓰는 자리에서는 형태만 남기고 색은 글자색을 따른다 */
+.jkm--mono .gwrap .shape{fill:currentColor}
+.jkm--mono>svg>.shape{display:none}
 .jkm--static *{animation:none!important}
 .jkm--static .jkm__halo{display:none}
 @keyframes jkmTurn{to{rotate:360deg}}
@@ -1588,7 +1591,7 @@ img{display:block}
         <div class="item__b">
           <p class="item__t">
             <span class="lv lv--3">L3</span>
-            <span class="badge badge--ai"><span class="jkm jkm--static jkm--noface" style="--s:15px" data-mark></span>AI 작성 · 검토 완료</span>
+            <span class="badge badge--ai"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:15px" data-mark></span>AI 작성 · 검토 완료</span>
             <span class="item__name">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
           </p>
           <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
@@ -2692,7 +2695,7 @@ function cwRenderSug(){
   document.getElementById('cwSug').innerHTML = list.length ? list.map(x=>{
     const done=cwApplied.includes(x.field), st=cwCard.get(x.id)||'idle';
     return `<article class="cwsug ${done?'is-done':''}" data-id="${x.id}">
-      <span class="cwsug__lab"><span class="jkm jkm--static jkm--noface" style="--s:12px" data-mark></span>AI 제안</span>
+      <span class="cwsug__lab"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:12px" data-mark></span>AI 제안</span>
       <h3>${x.t}</h3>
       <p>${x.why}</p>
       <button class="cwsug__goto" data-field="${x.field}">${ICO_LINK}초안 항목 보기</button>
@@ -3248,7 +3251,7 @@ const RWICO=(()=>{
 document.querySelectorAll('.rbtn--ai:not(.is-view)').forEach(b=>{
   if(b.querySelector('.jkm')) return;
   const m=document.createElement('span');
-  m.className='jkm jkm--static jkm--noface'; m.style.setProperty('--s','15px');
+  m.className='jkm jkm--static jkm--noface jkm--mono'; m.style.setProperty('--s','15px');
   b.insertBefore(m,b.firstChild); jkMark(m);
 });
 syncRunLabels();
