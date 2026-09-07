@@ -89,6 +89,13 @@ img{display:block}
 /* ══ 상단 컨트롤 ══ */
 .bar{position:sticky;top:0;z-index:300;background:#14161c;color:#fff;
   padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar__case-toggle{height:30px;padding:0 11px;border-radius:8px;background:#2b303b;color:#d9dee8;
+  font-size:12px;font-weight:700;white-space:nowrap}
+.bar__case-toggle:hover{background:#383f4c;color:#fff}
+.bar.is-cases-collapsed{display:none}
+.bar__case-reopen{display:none;position:fixed;top:12px;right:16px;z-index:301;height:36px;padding:0 14px;
+  border-radius:10px;background:#14161c;color:#fff;font-size:12px;font-weight:700;box-shadow:0 4px 14px rgba(18,22,32,.22)}
+.bar.is-cases-collapsed + .bar__case-reopen{display:inline-flex;align-items:center}
 .bar__label{font-size:11.5px;font-weight:700;color:#8f96a6;letter-spacing:.04em}
 .tabs{display:flex;gap:4px;background:#22252e;border-radius:10px;padding:4px}
 .tabs button{padding:6px 15px;border-radius:8px;font-size:13px;font-weight:600;color:#a8aebd;
@@ -756,6 +763,7 @@ img{display:block}
 .cwsug__redo:hover{border-color:#b9c6f5;color:var(--color-brand-500)}
 .cwsug.is-keep .cwsug__redo{display:block}
 .cwsug.is-done .cwsug__done{display:flex}
+.cwsug.is-done .cwsug__regen--applied{display:flex}
 /* ══ 사실 확인 · 덮지 않고 해당 항목 자리에서 펼친다 ══ */
 .cwfield__need{height:22px;padding:0 8px;border-radius:6px;background:#fff6ec;color:#c2570a;
   font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;flex:none}
@@ -1405,6 +1413,8 @@ img{display:block}
 .cwdock__t span{display:block;margin-top:3px;font-size:12.5px;color:var(--typography-gray400)}
 .cwdock .jbtn{height:48px}
 .cwdock .jbtn--primary{padding:0 24px;font-size:15px;box-shadow:0 4px 14px rgba(27,85,246,.26)}
+.cwdock__t span.cwdock__need{display:none}
+.cwdock__t span.cwdock__need.is-on{display:inline-flex}
 [data-screen="coach"] .cwdock{display:block}
 .cwdock{display:none}
 
@@ -1572,8 +1582,10 @@ img{display:block}
     <button data-case="missing">누락 값 입력</button>
     <button data-case="conflict">저장 충돌</button>
   </div>
+  <button class="bar__case-toggle" id="caseToggle" aria-expanded="true">케이스 접기</button>
   <p class="bar__desc" id="desc">찾아 쓰는 AI가 아니라, 이미 나를 위해 작동하고 있는 Intelligence</p>
 </div>
+<button class="bar__case-reopen" id="caseReopen" aria-label="개발 케이스 펼치기">케이스 펼치기</button>
 
 <!-- 잡코리아 GNB -->
 <header class="gnb">
@@ -2905,6 +2917,8 @@ function cwRenderSug(){
   const list=pool.filter(x=>cwFilter==='all'||x.cat===cwFilter);
   document.getElementById('cwSug').innerHTML = list.length ? list.map(x=>{
     const done=cwApplied.includes(x.field), st=cwCard.get(x.id)||'idle';
+    const out=cwLeft()<=0, last=cwLeft()===1;
+    const appliedRegen=done?`<button class="cwsug__regen cwsug__regen--applied ${out?'is-off':''} ${last?'is-last':''}" aria-disabled="${out}" title="${out?'남은 AI 요청 횟수가 없어요':'현재 문장을 바탕으로 새 제안을 만들어요'}"><svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8.5a6.5 6.5 0 1 1-1.9-4.6"/><path d="M15 2.2v3.9h-3.9"/></svg>AI에 다시 요청<em>${out?'0회 남음':'1회 차감'}</em></button>`:'';
     return `<article class="cwsug ${done?'is-done':''}" data-id="${x.id}">
       <span class="cwsug__lab"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:12px" data-mark></span>AI 제안</span>
       <h3>${x.t}</h3>
@@ -2916,6 +2930,7 @@ function cwRenderSug(){
       </div>
       ${cwSugFoot(x,st)}
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
+      ${appliedRegen}
       <button class="cwsug__redo">다시 검토</button>
     </article>`;}).join('') : cwEmpty(tot);
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
@@ -3829,6 +3844,14 @@ document.getElementById('caseTabs').addEventListener('click',e=>{
     conflict:'저장을 누르면 다른 창의 수정과 충돌하는 상태예요.'
   }[c];
   if(msg) toast(msg);
+});
+document.getElementById('caseToggle').addEventListener('click',e=>{
+  const bar=e.currentTarget.closest('.bar'); bar.classList.add('is-cases-collapsed');
+  e.currentTarget.setAttribute('aria-expanded','false');
+});
+document.getElementById('caseReopen').addEventListener('click',()=>{
+  const bar=document.querySelector('.bar'); bar.classList.remove('is-cases-collapsed');
+  document.getElementById('caseToggle').setAttribute('aria-expanded','true');
 });
 </script>
 </body>
