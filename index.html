@@ -690,10 +690,11 @@ img{display:block}
 .cwsug h3{margin-top:var(--unit-8);font-size:14.5px;font-weight:700;letter-spacing:-.3px;
   color:var(--color-text-primary);line-height:21px}
 .cwsug>p{margin-top:var(--unit-6);font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
-.cwdiff{margin-top:var(--unit-12);border-radius:12px;overflow:hidden;border:1px solid #f0f2f6}
-.cwdiff div{padding:var(--unit-10) var(--unit-12);font-size:12.5px;line-height:18px}
-.cwdiff .b4{background:#fbfbfc;color:var(--typography-gray400);text-decoration:line-through}
-.cwdiff .af{background:rgba(27,85,246,.05);color:var(--color-text-primary);font-weight:500}
+.cwdiff{margin-top:var(--unit-12);display:grid;grid-template-columns:1fr 1fr;gap:1px;border-radius:12px;
+  overflow:hidden;border:1px solid #e3e9f7;background:#e3e9f7}
+.cwdiff div{padding:var(--unit-10);font-size:12.5px;line-height:18px}
+.cwdiff .b4{background:#fafbfc;color:var(--color-text-secondary)}
+.cwdiff .af{background:#f4f7ff;color:var(--color-text-primary);font-weight:500}
 .cwdiff span{display:block;font-size:10.5px;font-weight:700;letter-spacing:.03em;margin-bottom:3px;
   text-decoration:none}
 .cwdiff .b4 span{color:#c3c9d4}
@@ -1495,11 +1496,13 @@ img{display:block}
 /* 검토·저장 미적용본 · 기존 작성 폼 위에 얹는 검토 표시 */
 .rwwrap{position:relative}
 .rwwrap+.rwwrap,.rw-row .rwwrap{min-width:0}
-.rwmark{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:4px;
+.rwmark{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:6px;
   font-size:11px;font-weight:700;margin-bottom:6px}
 .rwmark--must{background:#fff1f2;color:#f04452}
 .rwmark--opt{background:#f2f4f7;color:var(--color-text-secondary)}
-.rwmark--ai{background:var(--ai-tint);color:var(--ai-dark)}
+.rwmark--ai{border:1px solid transparent;background:linear-gradient(#f0f5ff,#f0f5ff) padding-box,
+  linear-gradient(115deg,#7b9dfa 8%,#96b1fd 43%,#ff74ac 72%,#feab3f) border-box;color:var(--ai-dark)}
+.rwmark__spark{width:12px;height:12px;flex:none;display:block}
 .rwnote{margin-top:6px;font-size:12px;line-height:18px;color:var(--typography-gray400)}
 .rw-f--must,.rw-ta--must{border-color:#f7b6bc;box-shadow:inset 0 0 0 1px #fdeaec}
 .rw-f--ai,.rw-ta--ai{border-color:#c7d2fb;box-shadow:inset 0 0 0 1px #eef3ff}
@@ -1507,13 +1510,10 @@ img{display:block}
 .rw-skill__mine.rw-f--ai,.rw-skill__pool.rw-f--ai,.rw-sa.rw-f--ai{box-shadow:none;
   border:1px solid #c7d2fb;background:#fbfcff;padding:14px}
 /* 네비 상태 표시 */
-.rw-side__i .st{width:20px;height:20px;border-radius:50%;font-style:normal;display:grid;
-  place-items:center;font-size:11px;font-weight:700;line-height:1;flex:none}
-.st--must{background:#fff1f2;color:#f04452}
-.st--ok{background:#f1f3f6;color:#9aa3b0}
-.st--opt{background:#f1f3f6;color:#9aa3b0}
-.st--ai{background:conic-gradient(from 210deg,var(--ai-g1),var(--ai-g2) 32%,var(--ai-g3) 62%,var(--ai-g1));
-  width:9px;height:9px;margin:0 5px}
+.rw-side__i .st{width:20px;height:20px;font-style:normal;display:grid;place-items:center;
+  line-height:1;flex:none}
+.rw-side__i .st svg{width:20px;height:20px;display:block}
+.st--must{color:#c2570a}.st--ok{color:#6b7280}.st--opt{color:#8b95a7}.st--ai{color:var(--color-brand-500)}
 #svNav{margin-bottom:12px}
 </style>
 </head>
@@ -2925,8 +2925,8 @@ function cwRenderSug(){
       <p>${x.why}</p>
       <button class="cwsug__goto" data-field="${x.field}">${ICO_LINK}초안 항목 보기</button>
       <div class="cwdiff">
-        <div class="b4"><span>현재</span>${x.before}</div>
-        <div class="af"><span>제안</span>${x.after}</div>
+        <div class="b4"><span>기존 문장</span>${x.before}</div>
+        <div class="af"><span>AI 추천 문장</span>${x.after}</div>
       </div>
       ${cwSugFoot(x,st)}
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
@@ -3554,6 +3554,12 @@ const RWICO=(()=>{
     '희망근무조건': w('<path d="M4.6 8.2h14.8"/><path d="M4.6 15.8h14.8"/><circle cx="10" cy="8.2" r="2.3"/><circle cx="15" cy="15.8" r="2.3"/>')
   };
 })();
+const SVSTATE={
+  must:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg>',
+  ok:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="m6.4 10 2.35 2.35 4.9-5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  opt:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M7 10h6" stroke-linecap="round"/></svg>',
+  ai:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m10 2.7 1.25 4.05L15.3 8 11.25 9.25 10 13.3 8.75 9.25 4.7 8l4.05-1.25z" fill="currentColor" stroke="none"/><path d="m15.4 13.2.55 1.8 1.8.55-1.8.55-.55 1.8-.55-1.8-1.8-.55 1.8-.55z" fill="currentColor" stroke="none"/></svg>'
+};
 /* AI 실행 버튼에는 뱃지·헤더와 같은 마크를 쓴다 */
 document.querySelectorAll('.rbtn--ai:not(.is-view)').forEach(b=>{
   if(b.querySelector('.jkm')) return;
@@ -3591,7 +3597,8 @@ function svWrap(node,kind,note){
   const [cls,txt]=SVKIND[kind];
   const w=document.createElement('div'); w.className='rwwrap rwwrap--'+kind;
   node.parentNode.insertBefore(w,node);
-  const m=document.createElement('span'); m.className='rwmark '+cls; m.textContent=txt;
+  const m=document.createElement('span'); m.className='rwmark '+cls;
+  m.innerHTML=kind==='ai' ? `<svg class="rwmark__spark" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="m8 1 1.1 4.1L13.2 6.2 9.1 7.3 8 11.4 6.9 7.3 2.8 6.2l4.1-1.1z"/><path fill="currentColor" d="m12.7 10.3.45 1.55 1.55.45-1.55.45-.45 1.55-.45-1.55-1.55-.45 1.55-.45z"/></svg><span>${txt}</span>` : txt;
   w.appendChild(m); w.appendChild(node);
   node.classList.add('rw-f--'+kind);
   if(note){const p=document.createElement('p'); p.className='rwnote'; p.textContent=note; w.appendChild(p);}
@@ -3627,8 +3634,8 @@ function svBuildLegacy(){
     const name=sec.querySelector('h2').textContent.trim();
     const must=sec.querySelector('.rwwrap--must'), ai=sec.querySelector('.rwwrap--ai'),
           opt=sec.querySelector('.rwwrap--opt');
-    const st = must?'<em class="st st--must">!</em>' : (ai?'<em class="st st--ai"></em>'
-             : (opt?'<em class="st st--opt">·</em>':'<em class="st st--ok">✓</em>'));
+    const st = must?`<em class="st st--must">${SVSTATE.must}</em>` : (ai?`<em class="st st--ai">${SVSTATE.ai}</em>`
+             : (opt?`<em class="st st--opt">${SVSTATE.opt}</em>`:`<em class="st st--ok">${SVSTATE.ok}</em>`));
     nav.insertAdjacentHTML('beforeend',
       `<div class="rw-side__i on"><span></span><b>${name}</b>${st}</div>`);
   });
