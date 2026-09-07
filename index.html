@@ -338,7 +338,7 @@ img{display:block}
 .dialog__li{display:flex;gap:var(--unit-12);align-items:flex-start}
 .dialog__li i{width:24px;height:24px;flex:none;color:#667085;font-style:normal;font-size:12px;
   font-weight:700;display:grid;place-items:center;margin-top:1px}
-.dialog__li i svg{width:22px;height:22px;display:block}
+.dialog__li i svg{width:20px;height:20px;display:block}
 .dialog__li b{display:block;color:var(--color-text-primary)}
 .dialog__li span{display:block;color:var(--color-text-secondary);margin-top:2px}
 .consent{margin-top:var(--unit-20);display:flex;flex-direction:column;gap:var(--unit-8)}
@@ -368,9 +368,7 @@ img{display:block}
 .dialog__detail svg{width:16px;height:16px;display:block}
 .dialog__notice{margin-top:var(--unit-16);display:flex;gap:var(--unit-8);align-items:flex-start;
   color:var(--typography-gray400)}
-.dialog__notice i{width:18px;height:18px;flex:none;border-radius:50%;
-  border:1px solid var(--typography-gray400);color:var(--typography-gray400);
-  font-style:normal;font-size:11px;font-weight:700;display:grid;place-items:center}
+.dialog__notice-ico{width:18px;height:18px;flex:none;color:var(--typography-gray400);display:block}
 .dialog__f{margin-top:var(--unit-24);display:flex;gap:var(--unit-8);justify-content:flex-end}
 .dialog--sm{width:520px}
 .busyrun{margin-top:var(--unit-20);display:flex;align-items:center;gap:var(--unit-12);
@@ -1115,16 +1113,21 @@ img{display:block}
 .mtwhy__from:hover{background:#eaf0ff}
 .mtjob__act{margin-top:var(--unit-12);display:flex;gap:6px;justify-content:flex-end}
 
-.mtempty,.mterr{display:none;margin-top:var(--unit-16);padding:var(--unit-24);border-radius:16px;
-  background:#fff;border:1px solid var(--color-border-tertiary);text-align:center}
+.mtempty,.mterr{display:none;margin-top:var(--unit-32);padding:28px;border-radius:20px;
+  background:#fff;border:1px solid var(--color-border-tertiary);text-align:left}
 .mtempty.is-on,.mterr.is-on{display:block}
 /* 실패는 진행 중과 같은 톤으로 그리지 않는다 */
-.mterr{background:#fff4f4;border-color:#f7d6da}
-.mterr b,.mtempty b{display:block;font-size:16px;font-weight:700;color:#f04452}
+.mterr{background:#fff8f8;border-color:#f3c7cc}
+.mtstate__top{display:flex;align-items:flex-start;gap:var(--unit-12)}
+.mtstate__ico{width:40px;height:40px;flex:none;border-radius:12px;display:grid;place-items:center}
+.mtstate__ico svg{width:22px;height:22px;display:block}
+.mterr .mtstate__ico{background:#fff0f1;color:#d83d4a}
+.mtempty .mtstate__ico{background:#f2f4f7;color:#667085}
+.mterr b,.mtempty b{display:block;font-size:17px;font-weight:700;color:#f04452}
 .mtempty b{color:var(--color-text-primary)}
 .mterr p,.mtempty p{margin-top:6px;font-size:13px;line-height:20px;color:#c2374a}
 .mtempty p{color:var(--typography-gray400)}
-.mterr__act,.mtempty__act{margin-top:var(--unit-16);display:flex;gap:8px;justify-content:center}
+.mterr__act,.mtempty__act{margin-top:var(--unit-20);display:flex;gap:8px;padding-left:52px}
 .mterr__act .jbtn--primary{background:#f04452;box-shadow:none}
 .mterr__act .jbtn--primary:hover{background:#dc3b48}
 
@@ -2547,9 +2550,10 @@ img{display:block}
   <div class="mtlist" id="mtList"></div>
 
   <div class="mtempty" id="mtEmpty">
-    <b>지금 조건에 맞는 공고를 찾지 못했어요</b>
-    <p>공개된 공고 중에서는 맞는 곳이 없었어요. 희망 근무지나 연봉 조건을 넓히면 결과가 달라질 수 있어요.<br>
-       새 공고가 올라오면 이력서 목록에서 알려드릴게요.</p>
+    <div class="mtstate__top"><span class="mtstate__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.5"/><path d="m16 16 4.1 4.1"/><path d="M8.2 10.7h5"/></svg></span><div>
+      <b>조건에 맞는 공고를 찾지 못했어요</b>
+      <p>현재 공개된 공고 중 조건과 모두 맞는 공고가 없어요. 조건을 넓히거나 새 공고 알림을 받을 수 있어요.</p>
+    </div></div>
     <div class="mtempty__act">
       <button class="jbtn" id="mtWiden">조건 넓혀 다시 찾기</button>
       <button class="jbtn jbtn--primary" id="mtEmptyList">이력서 목록으로</button>
@@ -2557,9 +2561,10 @@ img{display:block}
   </div>
 
   <div class="mterr" id="mtErr">
-    <b>맞춤 공고 찾기를 완료하지 못했어요</b>
-    <p id="mtErrD">공고 정보를 불러오는 중 연결이 끊겼어요. 저장한 이력서는 그대로예요.<br>
-       잠시 후 다시 시도하거나, 지금은 직접 검색으로 공고를 찾아볼 수 있어요.</p>
+    <div class="mtstate__top"><span class="mtstate__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5" stroke-linecap="round"/><circle cx="12" cy="16.2" r=".8" fill="currentColor" stroke="none"/></svg></span><div>
+      <b>공고를 불러오지 못했어요</b>
+      <p id="mtErrD">공고 정보를 불러오는 중 연결이 끊겼어요. 저장한 이력서는 안전하게 저장되어 있어요.</p>
+    </div></div>
     <div class="mterr__act">
       <button class="jbtn" id="mtSearch">공고 직접 검색하기</button>
       <button class="jbtn jbtn--primary" id="mtRetry">다시 찾기</button>
@@ -2627,7 +2632,7 @@ img{display:block}
     <p class="dialog__p ty-b4m">선택한 이력서와 업무 자료를 분석해 잡코리아 이력서 초안과 항목별 제안을 만들어드려요. AI 이용은 선택이며, 동의하지 않아도 직접 작성할 수 있어요.</p>
 
     <div class="dialog__list">
-      <div class="dialog__li"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h7l4 4v13H6.5z"/><path d="M13.5 3.5v4h4"/><path d="M9 12h6M9 15.5h6"/></svg></i><div>
+      <div class="dialog__li"><i><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.5h7l4.5 4.5v10.5H4.25z"/><path d="M11.25 2.5V7h4.5"/><path d="M7 11h6M7 14h4.5"/></svg></i><div>
         <b class="ty-b4b">이력서 초안과 항목별 AI 제안</b>
         <span class="ty-c1">연결한 경력 자료를 잡코리아 이력서 항목에 맞춰 정리해요.</span>
       </div></div>
@@ -2644,7 +2649,7 @@ img{display:block}
 
     <button class="dialog__detail ty-b4m">AI 이용 상세 안내 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 7.75 4.5 4.5 4.5-4.5"/></svg></button>
 
-    <p class="dialog__notice ty-c1"><i><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg></i><span>기능 검증용 안내예요. 실제 서비스 적용 전 개인정보·법무 검토와 보유 기간·철회 절차를 확정해야 해요.</span></p>
+    <p class="dialog__notice ty-c1"><img class="dialog__notice-ico" src="assets-jk/sys-info.svg" alt=""><span>기능 검증용 안내예요. 실제 서비스 적용 전 개인정보·법무 검토와 보유 기간·철회 절차를 확정해야 해요.</span></p>
 
     <div class="dialog__f">
       <button class="jbtn" id="consentNo">AI 없이 직접 작성</button>
