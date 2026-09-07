@@ -339,6 +339,7 @@ img{display:block}
 .dialog__li i{width:24px;height:24px;flex:none;border-radius:50%;background:var(--ai-tint);
   border:1px solid var(--ai-border);color:var(--ai-dark);font-style:normal;font-size:12px;
   font-weight:700;display:grid;place-items:center;margin-top:1px}
+.dialog__li i img{width:15px;height:15px;display:block}
 .dialog__li b{display:block;color:var(--color-text-primary)}
 .dialog__li span{display:block;color:var(--color-text-secondary);margin-top:2px}
 .consent{margin-top:var(--unit-20);display:flex;flex-direction:column;gap:var(--unit-8)}
@@ -2603,7 +2604,7 @@ img{display:block}
     <p class="dialog__p ty-b4m">선택한 이력서와 업무 자료를 분석해 잡코리아 이력서 초안과 항목별 제안을 만들어드려요. AI 이용은 선택이며, 동의하지 않아도 직접 작성할 수 있어요.</p>
 
     <div class="dialog__list">
-      <div class="dialog__li"><i>1</i><div>
+      <div class="dialog__li"><i><img src="assets-jk/ico-doc.svg" alt=""></i><div>
         <b class="ty-b4b">이력서 초안과 항목별 AI 제안</b>
         <span class="ty-c1">연결한 경력 자료를 잡코리아 이력서 항목에 맞춰 정리해요.</span>
       </div></div>
@@ -2611,11 +2612,11 @@ img{display:block}
 
     <div class="consent">
       <label id="agree1L"><input type="checkbox" id="agree1"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
-        <b class="ty-b4b">[선택] AI 이력서 작성 및 코칭을 위한 정보 처리 동의</b>
+        <b class="ty-b4b">[필수] AI 이력서 작성 및 코칭을 위한 정보 처리 동의</b>
         <span class="ty-c1">AI 자료 연결을 계속하려면 이 항목에 동의해주세요.</span></span></label>
       <label id="agree2L"><input type="checkbox" id="agree2"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
-        <b class="ty-b4b">[선택] 이력서 기반 맞춤 공고 추천 동의</b>
-        <span class="ty-c1">동의하지 않아도 AI 이력서 작성과 코칭은 이용할 수 있어요.</span></span></label>
+        <b class="ty-b4b">[필수] 이력서 기반 맞춤 공고 추천 동의</b>
+        <span class="ty-c1">연결한 이력서 정보를 바탕으로 맞춤 공고를 추천해드려요.</span></span></label>
     </div>
 
     <button class="dialog__detail ty-b4m">AI 이용 상세 안내 <span>⌄</span></button>
@@ -3121,7 +3122,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
   const cb=document.getElementById(c), lb=document.getElementById(l);
   cb.addEventListener('change',()=>{
     lb.classList.toggle('is-on',cb.checked);
-    go.disabled=!document.getElementById('agree1').checked;
+    go.disabled=!(document.getElementById('agree1').checked&&document.getElementById('agree2').checked);
   });
 });
 go.addEventListener('click',()=>{closeModal();goScreen('source');});
