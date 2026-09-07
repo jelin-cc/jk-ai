@@ -89,9 +89,9 @@ img{display:block}
 /* ══ 상단 컨트롤 ══ */
 .bar{position:sticky;top:0;z-index:300;background:#14161c;color:#fff;
   padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.bar__case-toggle{height:30px;padding:0 11px;border-radius:8px;background:#2b303b;color:#d9dee8;
+.bar__case-toggle{height:30px;padding:0 11px;border-radius:8px;background:#8a4217;color:#fff;
   font-size:12px;font-weight:700;white-space:nowrap}
-.bar__case-toggle:hover{background:#383f4c;color:#fff}
+.bar__case-toggle:hover{background:#a9521e;color:#fff}
 .bar.is-cases-collapsed{display:none}
 .bar__case-reopen{display:none;position:fixed;top:12px;right:16px;z-index:301;height:36px;padding:0 14px;
   border-radius:10px;background:#14161c;color:#fff;font-size:12px;font-weight:700;box-shadow:0 4px 14px rgba(18,22,32,.22)}
@@ -187,6 +187,10 @@ img{display:block}
 .item__date{margin-top:12px;font-size:12px;color:var(--row-date)}
 .item__date b{color:var(--ai-dark);font-weight:700}
 .item__a{display:flex;gap:8px;align-items:center;margin-right:20px;flex:none}
+.item__run{display:none;margin-top:10px;max-width:420px}
+.item__run b{display:block;font-size:12.5px;font-weight:700;color:var(--ai-dark)}
+.item__run span{display:block;margin-top:4px;height:5px;border-radius:999px;background:rgba(27,85,246,.14);overflow:hidden}
+.item__run span i{display:block;width:46%;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--color-brand-500),var(--ai-g1));animation:progSlide 2.4s cubic-bezier(.45,0,.55,1) infinite}
 
 /* 행 액션 버튼 = JAMS 2.0 button
    h40 · radius-sm 10 · B4 14 semibold · border color-bg-interactive-secondary */
@@ -298,6 +302,7 @@ img{display:block}
 /* 작업 상태별 표시 */
 .r-none,.r-busy{display:none}
 [data-run="none"] .r-none,[data-run="busy"] .r-busy{display:revert}
+[data-run="busy"] .item__run{display:block}
 [data-run="none"] .aicard__body.r-none,[data-run="busy"] .aicard__body.r-busy{display:block}
 [data-run="none"] .aicard__cta.r-none,[data-run="busy"] .aicard__cta.r-busy{display:inline-flex}
 [data-run="busy"] .aicard .jkm{--spin:3s;--morph:1.7s;--glow:1.1}
@@ -894,20 +899,17 @@ img{display:block}
 .svtodo__h em{flex:none;height:26px;padding:0 11px;border-radius:999px;background:#fff1f2;color:#f04452;
   font-style:normal;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center}
 .svtodo.is-clear .svtodo__h em{background:#eaf7f1;color:#00875a}
-.svtodo__list{margin-top:var(--unit-16)}
+.svtodo__list{margin-top:var(--unit-24)}
 .svtodo__f{border-top:1px solid #f3f5f8;padding-top:var(--unit-14);margin-top:var(--unit-14)}
 .svtodo__list>.svtodo__f:first-child{border-top:0;padding-top:0;margin-top:0}
 .svtodo__f label{display:block;font-size:13px;font-weight:700;color:var(--color-text-primary)}
 .svtodo__f label b{color:#f04452;margin-left:2px}
-.svtodo__f .svinput{margin-top:7px;display:flex;gap:6px}
+.svtodo__f .svinput{margin-top:7px;display:flex}
 .svtodo__f .svinput input{flex:1;min-width:0;height:44px;padding:0 14px;border-radius:10px;
   border:1px solid var(--color-border-tertiary);font-size:14px;color:var(--color-text-primary);
   background:#fff;transition:.15s}
 .svtodo__f .svinput input:focus{outline:none;border-color:var(--color-brand-500);
   box-shadow:0 0 0 3px rgba(27,85,246,.12)}
-.svtodo__f .svinput button{flex:none;height:44px;padding:0 18px;border-radius:10px;
-  background:var(--color-brand-500);color:#fff;font-size:13.5px;font-weight:700;transition:.15s}
-.svtodo__f .svinput button:hover{background:#1648d8}
 .svtodo__f p{margin-top:6px;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
 .svtodo__ok{margin-top:var(--unit-8);font-size:13.5px;line-height:21px;color:var(--color-text-secondary)}
 .svtodo__ok b{font-weight:700;color:var(--color-text-primary)}
@@ -939,14 +941,17 @@ img{display:block}
 .svchip.is-warn{background:#fff1f2;color:#f04452}
 .svchip.is-done{background:#eaf7f1;color:#00875a}
 
-.svtodo__foot{margin-top:var(--unit-20);padding-top:var(--unit-16);border-top:1px solid #f3f5f8;
-  display:flex;align-items:center;gap:var(--unit-20)}
-.svtodo__note{flex:1;min-width:0;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
-.svtodo__btns{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.svtodo__btns .jbtn--primary{height:48px;padding:0 26px;font-size:15px}
-.svtodo__sub{height:26px;padding:0;background:transparent;font-size:12.5px;font-weight:600;
-  color:var(--typography-gray400);transition:color .15s}
-.svtodo__sub:hover{color:var(--color-brand-500)}
+.svdock{display:none;position:fixed;z-index:160;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);
+  border-top:1px solid var(--color-border-tertiary);box-shadow:0 -8px 24px rgba(18,32,54,.08);backdrop-filter:blur(10px)}
+[data-screen="save"][data-ds="on"] .svdock{display:block}
+.svdock__in{width:min(960px,calc(100% - 48px));min-height:88px;margin:0 auto;display:flex;align-items:center;
+  justify-content:space-between;gap:var(--unit-20)}
+.svdock__note{min-width:0;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
+.svdock__act{flex:none;display:flex;align-items:center;gap:var(--unit-12)}
+.svdock .jbtn--primary{height:48px;padding:0 26px;font-size:15px}
+.svdock__sub{height:34px;padding:0 4px;background:transparent;font-size:12.5px;font-weight:600;
+  color:var(--color-text-secondary);transition:color .15s}
+.svdock__sub:hover{color:var(--color-brand-500)}
 
 .svfold__i{opacity:.5;flex:none}
 .svfold__m{flex:none}
@@ -1255,7 +1260,7 @@ img{display:block}
 
 
 /* ══════════ ⑥ 검토·저장 · STEP 4 ══════════ */
-.svpage{width:1200px;margin:0 auto;padding:var(--unit-24) 0 96px}
+.svpage{width:min(960px,calc(100% - 48px));margin:0 auto;padding:var(--unit-24) 0 136px}
 .svhead{text-align:center;margin-bottom:var(--unit-20)}
 .svhead h1{margin-top:var(--unit-12);font-size:26px;font-weight:700;letter-spacing:-.7px}
 .svhead>p{margin-top:var(--unit-8);font-size:15px;color:var(--color-text-secondary)}
@@ -1673,15 +1678,8 @@ img{display:block}
         <h2 class="ty-h5">가지고 있는 자료로 이력서를 채워드릴게요</h2>
         <p class="ty-c1">이력서 파일이나 건강보험 경력을 연결하면 초안을 만들어드려요. 직접 작성도 가능해요.</p>
       </div>
-      <div class="aicard__body r-busy">
-        <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 작업 진행 중</span>
-        <h2 class="ty-h5">AI가 이력서 초안을 만들고 있어요</h2>
-        <p class="ty-c1">2단계 초안 생성 · 연결한 자료 3개 정리 중 · 다른 메뉴를 이용해도 계속 진행돼요</p>
-        <div class="aicard__prog"><span></span></div>
-      </div>
-
       <span class="aicard__cta ty-b4s r-none">시작하기</span>
-      <span class="aicard__cta aicard__cta--ghost ty-b4s r-busy">이어보기</span>
+      <span class="aicard__cta ty-b4s r-busy">시작하기</span>
     </section>
     <p class="aicard__lock ty-c1 r-busy">
       AI 이력서 작업은 <b>한 번에 하나만</b> 진행할 수 있어요. 진행 중인 작업을 마치면 새로 시작할 수 있어요.
@@ -1733,6 +1731,7 @@ img{display:block}
             <span class="item__name">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
           </p>
           <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
+          <div class="item__run r-busy"><b>2단계 · 초안 생성 중 · 연결한 자료 3개 정리 중</b><span><i></i></span></div>
           <div class="mtinline" id="mtInline"></div>
         </div>
         <div class="item__a">
@@ -2370,22 +2369,15 @@ img{display:block}
 <div class="sv-xds"><div class="svpage">
   <div class="svhead">
     <p class="proceyebrow"><b>STEP 4</b><em>저장 전 확인</em></p>
-    <h1 id="svH1">2개만 채우면 저장할 수 있어요</h1>
-    <p id="svHd">잡코리아 이력서로 저장하려면 아래 값이 필요해요. 나머지 내용은 지금 그대로 저장돼요.</p>
+    <h1 id="svH1">이메일과 휴대폰 번호만 입력해 주세요</h1>
+    <p id="svHd">저장을 위해 이메일과 휴대폰 번호가 필요해요. 입력하면 바로 저장할 수 있어요.</p>
   </div>
 
   <!-- 할 일을 맨 위에, 입력창을 연 채로 둔다 -->
   <section class="svtodo" id="svTodo">
-    <div class="svtodo__h"><b id="svTodoT">지금 채워야 저장할 수 있어요</b>
+    <div class="svtodo__h"><b id="svTodoT">저장에 필요한 정보</b>
       <em class="svchip" id="svTodoN">2개</em></div>
     <div class="svtodo__list" id="svTodoList"></div>
-    <div class="svtodo__foot">
-      <p class="svtodo__note">현재 이력서를 덮어쓰지 않고 새 수정 버전으로 저장해요. 이전 버전은 그대로 남아요.</p>
-      <div class="svtodo__btns">
-        <button class="jbtn jbtn--primary" id="svSaveBtn">이력서 저장하기</button>
-        <button class="svtodo__sub" id="svSkip">선택 보완은 나중에 하고 저장</button>
-      </div>
-    </div>
   </section>
 
   <!-- 계정에서 가져온 값도 무엇인지 열어볼 수 있어야 한다 -->
@@ -2420,6 +2412,15 @@ img{display:block}
     <div class="svfold__b" id="svListOpt"></div>
   </section>
 </div></div>
+  <div class="svdock" aria-label="이력서 저장">
+    <div class="svdock__in">
+      <p class="svdock__note">현재 이력서를 덮어쓰지 않고 새 수정 버전으로 저장해요. 이전 버전은 그대로 남아요.</p>
+      <div class="svdock__act">
+        <button class="svdock__sub" id="svSkip">선택 보완은 나중에 하고 저장</button>
+        <button class="jbtn jbtn--primary" id="svSaveBtn">이력서 저장하기</button>
+      </div>
+    </div>
+  </div>
 
   <!-- XDS 미적용 · 기존 이력서 작성 폼 -->
   <div class="sv-legacy">
@@ -2604,8 +2605,11 @@ img{display:block}
 
     <div class="consent">
       <label id="agree1L"><input type="checkbox" id="agree1"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
-        <b class="ty-b4b">AI 이력서 작성을 위한 자료 처리 동의</b>
-        <span class="ty-c1">동의하지 않으면 직접 작성으로 이어갈 수 있어요. 건강보험 경력정보는 본인인증 전에 별도로 동의받아요.</span></span></label>
+        <b class="ty-b4b">[선택] AI 이력서 작성 및 코칭을 위한 정보 처리 동의</b>
+        <span class="ty-c1">AI 자료 연결을 계속하려면 이 항목에 동의해주세요.</span></span></label>
+      <label id="agree2L"><input type="checkbox" id="agree2"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
+        <b class="ty-b4b">[선택] 이력서 기반 맞춤 공고 추천 동의</b>
+        <span class="ty-c1">동의하지 않아도 AI 이력서 작성과 코칭은 이용할 수 있어요.</span></span></label>
     </div>
 
     <button class="dialog__detail ty-b4m">AI 이용 상세 안내 <span>⌄</span></button>
@@ -3084,7 +3088,7 @@ document.getElementById('busyX').addEventListener('click',closeBusy);
 document.getElementById('busyClose').addEventListener('click',closeBusy);
 document.getElementById('busyGo').addEventListener('click',()=>{closeBusy();goScreen('proc');});
 busyM.addEventListener('click',e=>{if(e.target===busyM)closeBusy();});
-aiEntry.addEventListener('click',()=>{document.body.dataset.run==='busy'?goScreen('proc'):openModal();});
+aiEntry.addEventListener('click',()=>{document.body.dataset.run==='busy'?openBusy():openModal();});
 /* 목록의 AI 실행 버튼도 같은 제약을 받는다 */
 document.addEventListener('click',e=>{
   const b=e.target.closest('.rbtn--ai:not(.is-view)');
@@ -3098,7 +3102,7 @@ document.getElementById('consentX').addEventListener('click',closeModal);
 document.getElementById('consentNo').addEventListener('click',()=>{closeModal();goScreen('write');});
 modal.addEventListener('click',e=>{if(e.target===modal) closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
-[['agree1','agree1L']].forEach(([c,l])=>{
+[['agree1','agree1L'],['agree2','agree2L']].forEach(([c,l])=>{
   const cb=document.getElementById(c), lb=document.getElementById(l);
   cb.addEventListener('change',()=>{
     lb.classList.toggle('is-on',cb.checked);
@@ -3325,30 +3329,26 @@ function svField(x){
 }
 function svRender(){
   const D=svData();
-  const must=D.filter(x=>x.kind==='must'), opt=D.filter(x=>x.kind==='opt'), chg=D.filter(x=>x.kind==='chg');
+  const required=D.filter(x=>x.kind==='must'), must=required.filter(x=>x.v==='입력이 필요해요'), opt=D.filter(x=>x.kind==='opt'), chg=D.filter(x=>x.kind==='chg');
 
   /* 할 일: 입력창을 처음부터 열어둔다 */
   document.getElementById('svTodo').classList.toggle('is-clear',must.length===0);
-  document.getElementById('svTodoT').textContent = must.length
-    ? '지금 채워야 저장할 수 있어요' : '저장에 필요한 값이 모두 채워졌어요';
+  document.getElementById('svTodoT').textContent = must.length ? '저장에 필요한 정보' : '저장할 준비가 됐어요';
   const chip=(id,cnt,warn)=>{const e=document.getElementById(id);
     e.textContent = cnt ? String(cnt) : '완료';
     e.classList.toggle('is-warn', !!cnt && !!warn);
     e.classList.toggle('is-done', !cnt);};
   chip('svTodoN', must.length, true);
-  document.getElementById('svTodoList').innerHTML = must.length
-    ? must.map(x=>`<div class="svtodo__f" data-k="${x.k}">
+  document.getElementById('svTodoList').innerHTML = required.map(x=>`<div class="svtodo__f" data-k="${x.k}">
         <label>${x.label}<b>*</b></label>
-        <div class="svinput"><input placeholder="${x.ph||'입력해 주세요'}"><button>확인</button></div>
+        <div class="svinput"><input value="${x.v==='입력이 필요해요'?'':x.v}" placeholder="${x.ph||'입력해 주세요'}"></div>
         ${x.note?`<p>${x.note}</p>`:''}
-      </div>`).join('')
-    : `<p class="svtodo__ok">저장에 필요한 값이 모두 채워졌어요.
-         AI가 다듬은 내용 <b>${chg.length}개</b>가 함께 저장돼요${opt.length?`, 선택 보완 <b>${opt.length}개</b>는 저장한 뒤에도 채울 수 있어요`:''}.</p>`;
+      </div>`).join('') + (must.length===0?`<p class="svtodo__ok">입력한 정보와 AI가 다듬은 내용 <b>${chg.length}개</b>를 함께 저장해요.</p>`:'');
 
   document.getElementById('svH1').textContent = must.length
-    ? `${must.length}개만 채우면 저장할 수 있어요` : '이력서를 저장할 준비가 됐어요';
+    ? '이메일과 휴대폰 번호만 입력해 주세요' : '이력서를 저장할 준비가 됐어요';
   document.getElementById('svHd').textContent = must.length
-    ? '잡코리아 이력서로 저장하려면 아래 값이 필요해요. 나머지 내용은 지금 그대로 저장돼요.'
+    ? '저장을 위해 이메일과 휴대폰 번호가 필요해요. 입력하면 바로 저장할 수 있어요.'
     : (opt.length ? `선택 보완 ${opt.length}개가 남아 있지만 지금 저장해도 괜찮아요.`
                   : '확인이 필요한 항목이 모두 정리됐어요.');
 
@@ -3370,12 +3370,19 @@ function svRender(){
 document.querySelectorAll('.svfold__h').forEach(h=>h.addEventListener('click',()=>{
   h.closest('.svfold').classList.toggle('is-open');
 }));
-document.getElementById('svTodoList').addEventListener('click',e=>{
-  const ok=e.target.closest('.svinput button'); if(!ok) return;
-  const fld=ok.closest('.svtodo__f'), k=fld.dataset.k, val=fld.querySelector('input').value.trim();
-  if(!val){ toast('값을 입력한 뒤 확인을 눌러 주세요.'); return; }
-  const it=SV.find(x=>x.k===k); it.kind='all'; it.v=val; it.note='';
-  svRender(); svBuildLegacy();
+document.getElementById('svTodoList').addEventListener('input',e=>{
+  const input=e.target.closest('.svinput input'); if(!input) return;
+  const it=SV.find(x=>x.k===input.closest('.svtodo__f').dataset.k);
+  it.v=input.value.trim() || '입력이 필요해요';
+  const left=SV.filter(x=>x.kind==='must'&&x.v==='입력이 필요해요').length;
+  const b=document.getElementById('svSaveBtn');
+  b.disabled=left>0; b.textContent=left?`먼저 ${left}개를 채워 주세요`:'이력서 저장하기';
+  document.getElementById('svTodoN').textContent=left?String(left):'완료';
+  document.getElementById('svTodoN').classList.toggle('is-warn',left>0);
+  document.getElementById('svTodoN').classList.toggle('is-done',left===0);
+  document.getElementById('svTodoT').textContent=left?'저장에 필요한 정보':'저장할 준비가 됐어요';
+  document.getElementById('svH1').textContent=left?'이메일과 휴대폰 번호만 입력해 주세요':'이력서를 저장할 준비가 됐어요';
+  document.getElementById('svHd').textContent=left?'저장을 위해 이메일과 휴대폰 번호가 필요해요. 입력하면 바로 저장할 수 있어요.':'입력한 연락처와 이력서 내용을 새 수정 버전으로 저장해요.';
 });
 document.getElementById('svSkip').addEventListener('click',()=>{
   SV.forEach(x=>{ if(x.kind==='opt') x.kind='all'; });
