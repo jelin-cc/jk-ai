@@ -755,6 +755,35 @@ img{display:block}
 .cwsug__redo:hover{border-color:#b9c6f5;color:var(--color-brand-500)}
 .cwsug.is-keep .cwsug__redo{display:block}
 .cwsug.is-done .cwsug__done{display:flex}
+/* ══ 사실 확인 · 덮지 않고 해당 항목 자리에서 펼친다 ══ */
+.cwfield__need{height:22px;padding:0 8px;border-radius:6px;background:#fff6ec;color:#c2570a;
+  font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;flex:none}
+.cwfield.is-need .cwfield__ln{box-shadow:inset 2px 0 0 #f0a04b}
+.cwfact{margin-top:var(--unit-10);border-radius:14px;background:#fffaf4;border:1px solid #f6dcbe;
+  padding:var(--unit-16)}
+.cwfact__q{font-size:14.5px;font-weight:700;line-height:21px;color:var(--color-text-primary)}
+.cwfact__why{margin-top:6px;font-size:12.5px;line-height:19px;color:#96622a}
+.cwfact__opts{margin-top:var(--unit-12);display:flex;flex-direction:column;gap:6px}
+.cwfact__opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:11px 12px;border-radius:10px;background:#fff;border:1px solid #f0e0cd;transition:.15s}
+.cwfact__opt:hover{border-color:#1b55f6;background:#f7f9ff}
+.cwfact__opt i{width:16px;height:16px;flex:none;border-radius:50%;border:1.5px solid #d5d8de;
+  display:block}
+.cwfact__opt:hover i{border-color:#1b55f6}
+.cwfact__opt b{flex:1;min-width:0;font-size:13.5px;font-weight:600;color:var(--color-text-primary)}
+.cwfact__opt em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--typography-gray400);
+  background:#f3f5f8;height:22px;padding:0 8px;border-radius:6px;display:inline-flex;
+  align-items:center;flex:none}
+.cwfact__opt--skip b{color:var(--typography-gray400);font-weight:500}
+.cwfact__safe{margin-top:var(--unit-10);font-size:12px;line-height:18px;color:#96622a}
+/* 확인이 끝난 항목은 무엇을 확정했는지 한 줄로 남긴다 */
+.cwfield__ok{margin-top:8px;display:flex;align-items:center;gap:6px;font-size:12.5px;
+  color:#00875a;font-weight:600}
+.cwfield__ok s{text-decoration:none;color:var(--typography-gray400);font-weight:500}
+.cwdock__need{margin-left:8px;height:22px;padding:0 8px;border-radius:6px;background:#fff6ec;
+  color:#c2570a;font-size:11.5px;font-weight:700;display:none;align-items:center}
+.cwdock__need.is-on{display:inline-flex}
+
 .cwempty{padding:var(--unit-24) var(--unit-16);text-align:center}
 .cwempty b{display:block;font-size:14px;font-weight:700;color:var(--color-text-primary)}
 .cwempty p{margin-top:5px;font-size:12.5px;line-height:19px;color:var(--typography-gray400)}
@@ -1856,7 +1885,7 @@ img{display:block}
 </div>
   <div class="cwdock"><div class="cwdock__in">
     <div class="cwdock__t">
-      <b id="cwDockT">적용할 수 있는 제안이 3개 있어요</b>
+      <b id="cwDockT">적용할 수 있는 제안이 3개 있어요</b><span class="cwdock__need" id="cwDockNeed"></span>
       <span id="cwDockS">초안 변경 0개 · 제안 반영 0/3 · 아직 잡코리아에 저장되지 않았어요</span>
     </div>
     <button class="jbtn" id="cwUndo">마지막 변경 되돌리기</button>
@@ -2606,6 +2635,20 @@ function jkMark(el){
 document.querySelectorAll('[data-mark]').forEach(jkMark);
 
 /* ══ ⑤ AI 기반 검토 ══ */
+/* 사실 확인 문항 · 코치 화면에서도 인라인으로 쓰이므로 먼저 선언한다 */
+const FT=[
+ {sec:'경력', field:'career', label:'재직 시작일', q:'Worxphere의 실제 재직 시작일은 언제인가요?',
+  why:'기존 JK 이력서에는 2025.03, 업로드한 PDF에는 2024.11 로 적혀 있어 값이 서로 달라요.',
+  opts:[{v:'2025.03',d:'기존 잡코리아 이력서 기준',src:'JK 이력서'},
+        {v:'2024.11',d:'업로드한 PDF 기준',src:'PDF'}]},
+ {sec:'프로젝트', field:'project', label:'담당 범위', q:'Career Agent 프로젝트에서 직접 담당한 범위를 선택해주세요.',
+  why:'자료에 여러 역할이 함께 적혀 있어요. 선택한 범위만 경력기술에 반영하고, 선택하지 않은 역할은 AI가 추가하지 않아요.',
+  opts:[{v:'사용자 문제 정의 · 요구사항 정리',d:'',src:'포트폴리오'},
+        {v:'이력서 작성 흐름 · 화면 설계',d:'',src:'포트폴리오'},
+        {v:'AI 작성 항목 · 저장 기준 정의',d:'',src:'PDF'}]}
+];
+let ftIdx=0; const ftAns=[];
+
 const CW_FIELDS=[
  {k:'title', sec:'인적사항', label:'이력서 제목', type:'input', sub:'',
   v:'AI Product Owner / Career Agent / Enterprise SaaS'},
@@ -2654,17 +2697,38 @@ function cwRenderFields(){
         f.v.split(/[,/]/).map(t=>t.trim()).filter(Boolean)
           .map(t=>`<span class="rw-tag">${t} <em>✕</em></span>`).join('')+`</div>`;
     }
+    /* 이 항목에 걸린 사실 확인 (미해결 / 해결) */
+    const fi=FT.findIndex(x=>x.field===f.k);
+    const ft=fi>=0?FT[fi]:null, ans=fi>=0?ftAns[fi]:undefined;
+    const need=!!ft && ans===undefined;
+    const okLine = ft && ans!==undefined
+      ? (ans==='unknown'
+          ? `<p class="cwfield__ok">✓ ${ft.label} <s>· 확인 보류. 비워둔 채로 저장돼요</s></p>`
+          : `<p class="cwfield__ok">✓ ${ft.label} ${ft.opts[ans].v} <s>· ${ft.opts[ans].src} 기준</s></p>`)
+      : '';
+    const factPanel = need ? `<div class="cwfact">
+        <p class="cwfact__q">${ft.q}</p>
+        <p class="cwfact__why">${ft.why}</p>
+        <div class="cwfact__opts">
+          ${ft.opts.map((o,i)=>`<button class="cwfact__opt" data-ft="${fi}" data-o="${i}">
+            <i></i><b>${o.v}</b><em>${o.src}</em></button>`).join('')}
+          <button class="cwfact__opt cwfact__opt--skip" data-ft="${fi}" data-o="unknown">
+            <i></i><b>잘 모르겠어요 · 비워둔 채로 저장</b></button>
+        </div>
+        <p class="cwfact__safe">선택한 사실만 이력서에 사용해요. 선택하지 않은 값은 AI가 추측해 채우지 않습니다.</p>
+      </div>` : '';
     const links=cwPool().filter(x=>x.field===f.k);
     const link=links.length
       ? `<button class="cwfield__link" data-sug="${links[0].id}">${ICO_LINK}연결된 제안 ${links.length}개 보기</button>`
       : '';
-    return `<div class="cwfield ${done?'is-applied':''}" data-k="${f.k}">
+    return `<div class="cwfield ${done?'is-applied':''} ${need?'is-need':''}" data-k="${f.k}">
       <div class="cwfield__h">
         <span class="cwfield__sec">${f.sec}</span>
         <b>${f.type==='tags'?f.label:(f.sub||f.label)}</b>
         <span class="chg">AI가 다듬음</span>
+        ${need?'<span class="cwfield__need">확인 필요</span>':''}
         <span class="cwfield__acts">${link}<button class="cwfield__edit">직접 수정</button></span></div>
-      ${body}</div>`;}).join('');
+      ${body}${okLine}${factPanel}</div>`;}).join('');
 }
 const ICO_LINK='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"'+
   ' stroke-linecap="round"><path d="M6.6 9.4a2.9 2.9 0 0 0 4.3.3l1.8-1.8a2.9 2.9 0 0 0-4.1-4.1l-1 1"/>'+
@@ -2691,6 +2755,16 @@ function cwFocusField(k){
   el.scrollIntoView({behavior:'smooth',block:'center'}); cwFlash(el);
 }
 document.getElementById('cwFields').addEventListener('click',e=>{
+  const o=e.target.closest('.cwfact__opt');
+  if(o){
+    const i=+o.dataset.ft, v=o.dataset.o;
+    ftAns[i] = v==='unknown' ? 'unknown' : +v;
+    cwRenderFields(); cwRenderSug();
+    toast(v==='unknown'
+      ? '확인을 보류했어요. 이 값은 비워둔 채로 저장돼요.'
+      : `${FT[i].label}을(를) ${FT[i].opts[+v].v}로 확인했어요.`);
+    return;
+  }
   const b=e.target.closest('.cwfield__link'); if(!b) return;
   cwFocusSug(b.dataset.sug);
 });
@@ -2773,6 +2847,10 @@ function cwRenderSug(){
           : `적용할 수 있는 제안이 ${remain}개 있어요`;
   document.getElementById('cwDockS').textContent =
     `초안 변경 ${applied}개 · 제안 반영 ${applied}/${tot} · 아직 잡코리아에 저장되지 않았어요`;
+  const needCnt = FT.filter((_,i)=>ftAns[i]===undefined).length;
+  const nb=document.getElementById('cwDockNeed');
+  nb.classList.toggle('is-on', needCnt>0);
+  nb.textContent = needCnt>0 ? `확인 필요 ${needCnt}개` : '';
   document.getElementById('cwUndo').disabled = cwHistory.length===0;
   cwRenderUse();
 }
@@ -3231,18 +3309,6 @@ function toast(msg){
 }
 
 /* ══ 사실 확인 · 09 HITL ══ */
-const FT=[
- {sec:'경력', q:'Worxphere의 실제 재직 시작일은 언제인가요?',
-  why:'기존 JK 이력서에는 2025.03, 업로드한 PDF에는 2024.11 로 적혀 있어 값이 서로 달라요.',
-  opts:[{v:'2025.03',d:'기존 잡코리아 이력서 기준',src:'JK 이력서'},
-        {v:'2024.11',d:'업로드한 PDF 기준',src:'PDF'}]},
- {sec:'프로젝트', q:'Career Agent 프로젝트에서 직접 담당한 범위를 선택해주세요.',
-  why:'자료에 여러 역할이 함께 적혀 있어요. 선택한 범위만 경력기술에 반영하고, 선택하지 않은 역할은 AI가 추가하지 않아요.',
-  opts:[{v:'사용자 문제 정의 · 요구사항 정리',d:'',src:'포트폴리오'},
-        {v:'이력서 작성 흐름 · 화면 설계',d:'',src:'포트폴리오'},
-        {v:'AI 작성 항목 · 저장 기준 정의',d:'',src:'PDF'}]}
-];
-let ftIdx=0; const ftAns=[];
 function ftRender(){
   const it=FT[ftIdx];
   document.getElementById('ftBar').innerHTML =
@@ -3274,11 +3340,12 @@ document.getElementById('ftCard').addEventListener('click',e=>{
 });
 document.getElementById('ftPrev').addEventListener('click',()=>{if(ftIdx>0){ftIdx--;ftRender();}});
 document.getElementById('ftLater').addEventListener('click',()=>{
-  toast('확인을 보류했어요. 저장 전에 다시 안내할게요.'); goScreen('proc');
+  toast('확인을 보류했어요. 초안 화면의 해당 항목에서 이어서 확인할 수 있어요.');
+  goScreen('coach'); cwRenderFields(); cwRenderSug();
 });
 document.getElementById('ftNext').addEventListener('click',()=>{
   if(ftIdx<FT.length-1){ftIdx++;ftRender();window.scrollTo(0,0);}
-  else{ toast('확인한 내용을 초안에 반영했어요.'); goScreen('coach'); }
+  else{ toast('확인한 내용을 초안에 반영했어요.'); goScreen('coach'); cwRenderFields(); cwRenderSug(); }
 });
 ftRender();
 
