@@ -101,6 +101,7 @@ img{display:block}
 .tabs button{padding:6px 15px;border-radius:8px;font-size:13px;font-weight:600;color:#a8aebd;
   transition:background .16s,color .16s;white-space:nowrap}
 .tabs button.is-on{background:#fff;color:#14161c}
+.tabs button:disabled{opacity:.38;cursor:not-allowed}
 .bar__desc{font-size:13px;color:#a8aebd;flex:1;min-width:180px}
 .bar__sep{width:1px;height:22px;background:#3a3f4c}
 
@@ -1235,7 +1236,8 @@ img{display:block}
   color:var(--color-text-secondary)}
 .rw-skill__mine p{font-size:12.5px;color:var(--typography-gray400);margin:4px 0 12px}
 .rw-side{width:280px;flex:none;position:sticky;top:16px}
-.s-save .rw-side{top:76px}
+.s-save .sv-legacy .rw-side{position:fixed;top:20px;right:max(24px,calc((100vw - 1200px)/2));z-index:30;
+  max-height:calc(100vh - 40px);overflow-y:auto}
 .rw-side__box{background:#fff;border:1px solid var(--color-border-tertiary);padding:16px 0 8px}
 .rw-side__t{padding:0 16px 12px;border-bottom:1px solid #eef1f4;font-size:13px;color:var(--typography-gray400)}
 .rw-side__i{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:14px;color:var(--typography-gray400)}
@@ -1247,6 +1249,11 @@ img{display:block}
 .rw-side__i em{width:20px;height:20px;border-radius:50%;border:1px solid #c9cfd8;
   color:var(--typography-gray400);font-style:normal;display:grid;place-items:center;font-size:13px;line-height:1}
 .rw-side__i.on em{border-color:#9fb4fb;color:var(--color-brand-500)}
+.svnav__must{width:calc(100% - 24px);height:38px;margin:0 12px 10px;padding:0 10px;border-radius:8px;
+  display:flex;align-items:center;justify-content:space-between;background:#fff4f4;color:#d83d4a;font-size:12.5px;font-weight:700}
+.svnav__must span{color:var(--color-brand-500);font-size:12px}
+.s-save .sv-legacy .rw-side__i{width:100%;text-align:left;cursor:pointer;background:#fff}
+.s-save .sv-legacy .rw-side__i:hover{background:#f7f9ff}
 .rw-save{margin-top:12px;width:100%;height:52px;background:var(--color-brand-500);color:#fff;
   font-size:16px;font-weight:700}
 .rw-save:hover{background:#1648d8}
@@ -1551,7 +1558,6 @@ img{display:block}
     <button data-screen="coach">④ AI 제안 반영</button>
     <button data-screen="save">⑤ 저장 전 확인</button>
     <button data-screen="done">⑥ 저장 완료</button>
-    <button data-screen="write">이력서 작성</button>
   </div>
   <span class="bar__sep"></span>
   <span class="bar__label">XDS</span>
@@ -3070,11 +3076,20 @@ function goScreen(s){
   document.querySelectorAll('#screenTabs button')
     .forEach(x=>x.classList.toggle('is-on',x.dataset.screen===s));
   window.scrollTo(0,0);
+  const dsEnabled=s==='save';
+  document.querySelectorAll('#dsTabs button').forEach(b=>{
+    b.disabled=!dsEnabled;
+    b.setAttribute('aria-disabled',String(!dsEnabled));
+  });
   syncStepper(s);
   /* 코치 화면을 한 번이라도 열면, 이후 검토·저장은 실제 반영 결과만 보여준다 */
   if(s==='coach') cwTouched=true;
   if(s==='save' && typeof svRender==='function'){ svRender(); if(typeof svBuildLegacy==='function') svBuildLegacy(); }
 }
+document.querySelectorAll('#dsTabs button').forEach(b=>{
+  b.disabled=document.body.dataset.screen!=='save';
+  b.setAttribute('aria-disabled',String(b.disabled));
+});
 
 /* ── 동의 모달 ── */
 const modal=document.getElementById('consent'), go=document.getElementById('consentGo');
@@ -3542,6 +3557,7 @@ const RWICO=(()=>{
     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   return {
     '희망직무': w('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/>'),
+    '인적사항': w('<circle cx="12" cy="8" r="3.2"/><path d="M5.2 20c0-3.7 3-6.2 6.8-6.2s6.8 2.5 6.8 6.2"/>'),
     '스킬':     w('<path d="M12 3.2 19.4 7.4v9.2L12 20.8 4.6 16.6V7.4z"/><path d="M12 9.2v5.6"/>'),
     '핵심 역량': w('<path d="M12 3.8l2.55 5.35 5.85.8-4.25 4.05 1.05 5.8L12 17.05 6.8 19.8l1.05-5.8L3.6 9.95l5.85-.8z"/>'),
     '학력':     w('<path d="M12 4 2.9 8.5 12 13l9.1-4.5z"/><path d="M6.6 10.6v4.7c0 1.6 2.4 2.9 5.4 2.9s5.4-1.3 5.4-2.9v-4.7"/>'),
@@ -3584,7 +3600,7 @@ document.querySelectorAll('.rw-side__i').forEach(el=>{
 const SVMARK=[
   {sec:'인적사항',  label:'이메일',     kind:'must', note:'잡코리아 저장에 필요한 값이라 이것만 채우면 저장할 수 있어요.'},
   {sec:'인적사항',  label:'휴대폰번호', kind:'must', note:'연결한 자료에서 확인되지 않아 비워뒀어요. AI가 임의로 채우지 않아요.'},
-  {sec:'학력',      label:'입학년월',   kind:'must', note:'자료에서 연도까지만 확인했어요. 월만 확인해 주세요.'},
+  {sec:'학력',      label:'입학년월',   kind:'opt', note:'자료에서 연도까지만 확인했어요. 월을 보완하면 경력 기간을 더 정확히 보여드려요.'},
   {sec:'경력',      label:'담당업무',   kind:'ai',   note:'역할의 범위와 사용자가 얻는 가치가 함께 보이도록 다듬었어요.'},
   {sec:'희망근무조건', label:'희망연봉', kind:'opt',  note:'선택 보완이에요. 저장 후에도 채울 수 있어요.'},
   {sec:'어학',      label:'급수·점수',  kind:'opt',  note:'자료에 점수가 없어 직접 입력한 값이에요. 한 번만 확인해 주세요.'},
@@ -3636,20 +3652,25 @@ function svBuildLegacy(){
 
   /* 우측 항목 네비 — 섹션별 검토 상태를 그대로 옮긴다 */
   const nav=document.getElementById('svNav');
-  nav.innerHTML='<div class="rw-side__t">이력서 항목</div>';
-  [...form.querySelectorAll('.rw-sec')].forEach(sec=>{
+  const sections=[...form.querySelectorAll('.rw-sec')];
+  nav.innerHTML='<div class="rw-side__t">이력서 항목</div><button type="button" class="svnav__must" data-target="sv-section-0">확인 필요 2개 <span>확인하기</span></button>';
+  sections.forEach((sec,i)=>{
+    sec.id=`sv-section-${i}`;
     const name=sec.querySelector('h2').textContent.trim();
     const must=sec.querySelector('.rwwrap--must'), ai=sec.querySelector('.rwwrap--ai'),
           opt=sec.querySelector('.rwwrap--opt');
     const st = must?`<em class="st st--must">${SVSTATE.must}</em>` : (ai?`<em class="st st--ai">${SVSTATE.ai}</em>`
              : (opt?`<em class="st st--opt">${SVSTATE.opt}</em>`:`<em class="st st--ok">${SVSTATE.ok}</em>`));
     nav.insertAdjacentHTML('beforeend',
-      `<div class="rw-side__i on"><span></span><b>${name}</b>${st}</div>`);
+      `<button type="button" class="rw-side__i on" data-target="sv-section-${i}"><span></span><b>${name}</b>${st}</button>`);
   });
   nav.querySelectorAll('.rw-side__i').forEach(el=>{
     const k=el.querySelector('b').textContent.trim(), ico=el.querySelector('span');
     if(RWICO[k]) ico.innerHTML=RWICO[k];
   });
+  nav.querySelectorAll('[data-target]').forEach(el=>el.addEventListener('click',()=>{
+    document.getElementById(el.dataset.target)?.scrollIntoView({behavior:'smooth',block:'start'});
+  }));
 
   /* 우측 저장 패널 수치는 XDS 적용본과 같은 소스(SV)를 쓴다 */
   const cnt=k=>svData().filter(x=>x.kind===k).length;
