@@ -1653,7 +1653,7 @@ img{display:block}
       <div class="aicard__body r-none">
         <span class="aicard__b ty-c2"><span class="aicard__dot"></span>경력 불러오기</span>
         <h2 class="ty-h5">가지고 있는 자료로 이력서를 채워드릴게요</h2>
-        <p class="ty-c1">이력서 파일이나 건강보험 경력을 연결하면 AI가 초안을 만들어드려요. AI 없이 직접 작성해도 괜찮아요.</p>
+        <p class="ty-c1">이력서 파일이나 건강보험 경력을 연결하면 초안을 만들어드려요. 직접 작성도 가능해요.</p>
       </div>
       <div class="aicard__body r-busy">
         <span class="aicard__b ty-c2"><span class="aicard__dot"></span>AI 작업 진행 중</span>
@@ -3792,6 +3792,12 @@ document.getElementById('mtInline').addEventListener('click',e=>{
   else goScreen('match');
 });
 mtRender();
+
+/* 임시 링크는 화면 이동용이 아니므로 URL 끝에 #을 남기지 않는다. */
+document.addEventListener('click',e=>{
+  const link=e.target.closest('a[href="#"]');
+  if(link) e.preventDefault();
+});
 
 /* ══ 엣지·에러 케이스 스위처 ══ */
 function setCase(c){
