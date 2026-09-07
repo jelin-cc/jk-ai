@@ -1057,8 +1057,8 @@ img{display:block}
 .mtdesc{margin-top:var(--unit-6);font-size:14px;color:var(--color-text-secondary)}
 
 /* 기준이 된 이력서를 계속 데리고 다닌다 = 한 세트라는 신호 */
-.mtsrc{margin-top:var(--unit-16);display:flex;align-items:center;gap:var(--unit-12);
-  padding:var(--unit-14,14px) var(--unit-16);border-radius:14px;background:#fff;
+.mtsrc{margin-top:var(--unit-24);display:flex;align-items:center;gap:var(--unit-12);
+  padding:var(--unit-20) var(--unit-16);border-radius:14px;background:#fff;
   border:1px solid var(--color-border-tertiary)}
 .mtsrc__b{flex:1;min-width:0}
 .mtsrc b{display:block;font-size:13.5px;font-weight:700;color:var(--color-text-primary);
@@ -1132,8 +1132,8 @@ img{display:block}
 .mterr p,.mtempty p{margin-top:6px;font-size:13px;line-height:20px;color:#c2374a}
 .mtempty p{color:var(--typography-gray400)}
 .mterr__act,.mtempty__act{margin-top:var(--unit-20);display:flex;gap:8px;padding-left:52px}
-.mterr__act .jbtn--primary{background:#f04452;box-shadow:none}
-.mterr__act .jbtn--primary:hover{background:#dc3b48}
+.mterr__act .jbtn--primary{background:#f04452;border-color:#f04452;box-shadow:none}
+.mterr__act .jbtn--primary:hover{background:#dc3b48;border-color:#dc3b48}
 
 /* 목록 안 축약 표시 */
 .mtinline{display:none;margin-top:var(--unit-10);padding:var(--unit-12) var(--unit-14,14px);
@@ -1236,6 +1236,7 @@ img{display:block}
   display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;color:var(--typography-gray400)}
 .rw-pref button i{width:18px;height:18px;border-radius:50%;border:1.5px solid #c9cfd8;
   display:grid;place-items:center;font-size:10px;color:#fff}
+.rw-pref button i svg{width:12px;height:12px;display:block}
 .rw-pref button.on{border-color:var(--color-brand-500);color:var(--color-brand-500)}
 .rw-pref button.on i{background:var(--color-brand-500);border-color:var(--color-brand-500)}
 .rw-prefbody{margin-top:8px;background:#f7f9fb;padding:14px;display:flex;align-items:center;gap:8px}
@@ -2321,9 +2322,9 @@ img{display:block}
   <section class="rw-sec"><div class="rw-sec__h"><h2>취업우대 · 병역</h2></div>
     <div class="rw-card">
       <div class="rw-pref">
-        <button><i></i>보훈대상</button><button class="on"><i>✓</i>취업보호 대상</button>
+        <button><i></i>보훈대상</button><button class="on"><i><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5.6 10.3 3 2.9 5.8-6.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>취업보호 대상</button>
         <button><i></i>고용지원금 대상</button><button><i></i>장애</button>
-        <button class="on"><i>✓</i>병역</button>
+        <button class="on"><i><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5.6 10.3 3 2.9 5.8-6.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>병역</button>
       </div>
       <div class="rw-prefbody"><b>병역</b>
         <div class="rw-f rw-f--md rw-sel"><label>병역</label><div class="v">군필</div></div>
