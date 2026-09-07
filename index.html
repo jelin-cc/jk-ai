@@ -190,6 +190,7 @@ img{display:block}
 .item__a{display:flex;gap:8px;align-items:center;margin-right:20px;flex:none}
 .item__run{display:none;margin-top:10px;max-width:420px}
 .item__run b{display:block;font-size:12.5px;font-weight:700;color:var(--ai-dark)}
+.item__run small{display:block;margin-top:3px;font-size:12px;line-height:18px;color:var(--color-text-secondary)}
 .item__run span{display:block;margin-top:4px;height:5px;border-radius:999px;background:rgba(27,85,246,.14);overflow:hidden}
 .item__run span i{display:block;width:46%;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--color-brand-500),var(--ai-g1));animation:progSlide 2.4s cubic-bezier(.45,0,.55,1) infinite}
 
@@ -304,7 +305,7 @@ img{display:block}
 .r-none,.r-busy{display:none}
 [data-run="none"] .r-none,[data-run="busy"] .r-busy{display:revert}
 [data-run="busy"] .item__run{display:block}
-[data-run="none"] .aicard__body.r-none,[data-run="busy"] .aicard__body.r-busy{display:block}
+[data-run="none"] .aicard__body.r-none,[data-run="busy"] .aicard__body.r-none{display:block}
 [data-run="none"] .aicard__cta.r-none,[data-run="busy"] .aicard__cta.r-busy{display:inline-flex}
 [data-run="busy"] .aicard .jkm{--spin:3s;--morph:1.7s;--glow:1.1}
 [data-run="busy"] .rbtn--ai:not(.is-view){background:#f3f5f8;border-color:var(--color-border-tertiary);
@@ -1713,7 +1714,7 @@ img{display:block}
         <img src="assets-jk/ico-chevron.svg" alt="" width="24" height="24"></span>
     </div>
 
-    <!-- L2 Subtle · 진입점. 진행 중 작업이 있으면 같은 자리가 진행 카드로 바뀜 -->
+    <!-- L2 Subtle · 진입점. 진행 중에도 같은 시작 카드에서 제약 안내를 연다 -->
     <section class="aicard has-lv" role="button" tabindex="0" id="aiEntry">
       <span class="lv lv--2">L2</span>
       <span class="aicard__tile"><span class="jkm jkm--calm" style="--s:50px" data-mark></span></span>
@@ -1726,11 +1727,6 @@ img{display:block}
       <span class="aicard__cta ty-b4s r-none">시작하기</span>
       <span class="aicard__cta ty-b4s r-busy">시작하기</span>
     </section>
-    <p class="aicard__lock ty-c1 r-busy">
-      AI 이력서 작업은 <b>한 번에 하나만</b> 진행할 수 있어요. 진행 중인 작업을 마치면 새로 시작할 수 있어요.
-    </p>
-
-
     <div class="lvnote">
       <b>AI Presence Level · 이 화면의 적용</b>
       <ul>
@@ -1772,11 +1768,12 @@ img{display:block}
         <div class="item__b">
           <p class="item__t">
             <span class="lv lv--3">L3</span>
-            <span class="badge badge--ai"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI 작성 · 검토 완료</span>
+            <span class="badge badge--ai r-none"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI 작성 · 검토 완료</span>
+            <span class="badge badge--ai r-busy"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI 초안 작성 중</span>
             <span class="item__name">AI Product Owner / Career Agent / LLM / Enterprise SaaS</span>
           </p>
-          <p class="item__date">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
-          <div class="item__run r-busy"><b>2단계 · 초안 생성 중 · 연결한 자료 3개 정리 중</b><span><i></i></span></div>
+          <p class="item__date r-none">2026.08.28 업데이트 · AI가 다듬은 내용 <b>6개</b> 반영 · 근거 자료 <b>3건</b></p>
+          <div class="item__run r-busy"><b>2단계 · AI 초안 작성 중</b><small>연결한 자료 3개를 이력서 항목에 맞춰 정리하고 있어요.</small><span><i></i></span></div>
           <div class="mtinline" id="mtInline"></div>
         </div>
         <div class="item__a">
@@ -2624,11 +2621,10 @@ img{display:block}
       </div>
     </div>
 
-    <div class="dialog__notice"><i>i</i><span class="ty-c1">이 창을 닫아도 진행 중인 작업은 계속돼요.
+    <div class="dialog__notice"><img class="dialog__notice-ico" src="assets-jk/sys-info.svg" alt=""><span class="ty-c1">이 창을 닫아도 진행 중인 작업은 계속돼요.
       완료되면 잡코리아 알림으로 알려드릴게요.</span></div>
 
     <div class="dialog__f">
-      <button class="jbtn" id="busyClose">닫기</button>
       <button class="jbtn jbtn--primary" id="busyGo">진행 중인 작업 보기</button>
     </div>
   </div>
@@ -3149,7 +3145,7 @@ const busyM=document.getElementById('busyM');
 const openBusy=()=>busyM.classList.add('is-open');
 const closeBusy=()=>busyM.classList.remove('is-open');
 document.getElementById('busyX').addEventListener('click',closeBusy);
-document.getElementById('busyClose').addEventListener('click',closeBusy);
+document.getElementById('busyClose')?.addEventListener('click',closeBusy);
 document.getElementById('busyGo').addEventListener('click',()=>{closeBusy();goScreen('proc');});
 busyM.addEventListener('click',e=>{if(e.target===busyM)closeBusy();});
 aiEntry.addEventListener('click',()=>{document.body.dataset.run==='busy'?openBusy():openModal();});
