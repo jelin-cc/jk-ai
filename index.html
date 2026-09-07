@@ -923,6 +923,9 @@ img{display:block}
   background:#fff;transition:.15s}
 .svtodo__f .svinput input:focus{outline:none;border-color:var(--color-brand-500);
   box-shadow:0 0 0 3px rgba(27,85,246,.12)}
+.svtodo__f .svinput input:-webkit-autofill,.svtodo__f .svinput input:-webkit-autofill:hover,
+.svtodo__f .svinput input:-webkit-autofill:focus{-webkit-text-fill-color:var(--color-text-primary);
+  -webkit-box-shadow:0 0 0 1000px #fff inset;box-shadow:0 0 0 1000px #fff inset}
 .svtodo__f p{margin:10px 0 18px;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
 .svtodo__ok{margin-top:var(--unit-8);font-size:13.5px;line-height:21px;color:var(--color-text-secondary)}
 .svtodo__ok b{font-weight:700;color:var(--color-text-primary)}
@@ -1009,18 +1012,20 @@ img{display:block}
 .donecard h1{margin-top:var(--unit-10);font-size:26px;font-weight:700;letter-spacing:-.8px;
   color:var(--color-text-primary)}
 .donedesc{margin-top:var(--unit-16);font-size:14.5px;line-height:22px;color:var(--color-text-secondary)}
-.donedesc span{display:block;margin-top:10px}
+.donedesc span{display:block}
+.donedesc span + span{display:inline-block;margin-top:12px;padding:8px 12px;border-radius:8px;background:#f3f5f8;
+  font-size:13px;color:var(--color-text-secondary)}
 .donedesc b{font-weight:700;color:var(--color-text-primary)}
 
 .doneres{margin-top:var(--unit-32);display:flex;align-items:center;gap:var(--unit-12);text-align:left;
-  padding:20px;border-radius:14px;background:#f7f8fb;border:1px solid #eceef3}
+  padding:20px;border-radius:14px;background:#f1f5ff;border:1px solid #c9d7ff}
 .doneres__b{flex:1;min-width:0}
 .doneres b{display:block;font-size:14px;font-weight:700;color:var(--color-text-primary);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .doneres span{font-size:12.5px;color:var(--typography-gray400)}
-.doneres__st{flex:none;height:26px;padding:0 10px;border-radius:999px;background:#eaf7f1;color:#00875a;
+.doneres__st{flex:none;height:26px;padding:0 10px;border-radius:999px;background:#e8efff;color:var(--color-brand-500);
   font-size:12px;font-weight:700;display:inline-flex;align-items:center}
-.doneres .doneres__st{color:#00875a}
+.doneres .doneres__st{color:var(--color-brand-500)}
 
 /* 저장과 공고 찾기를 한 화면에서 잇는다. 모달로 끊지 않는다 */
 .nextbox{margin-top:var(--unit-20);padding:var(--unit-20);border-radius:16px;text-align:left;
@@ -1037,8 +1042,7 @@ img{display:block}
 .donesub{margin-top:var(--unit-16);height:36px;padding:0 14px;border-radius:10px;background:transparent;
   font-size:13px;font-weight:600;color:var(--color-text-secondary)}
 .donesub:hover{color:var(--color-brand-500)}
-.doneactions{margin-top:var(--unit-24);padding-top:var(--unit-20);border-top:1px solid #eef1f4;
-  display:flex;justify-content:flex-end;gap:var(--unit-12)}
+.doneactions{margin-top:var(--unit-24);display:flex;justify-content:center;gap:var(--unit-12)}
 .doneactions .jbtn{height:48px;padding:0 24px;font-size:15px}
 .donesub{display:none}
 
@@ -1261,7 +1265,7 @@ img{display:block}
   color:var(--color-text-secondary)}
 .rw-skill__mine p{font-size:12.5px;color:var(--typography-gray400);margin:4px 0 12px}
 .rw-side{width:280px;flex:none;position:sticky;top:16px}
-.s-save .sv-legacy .rw-side{position:fixed;top:20px;right:max(24px,calc((100vw - 1200px)/2));z-index:30;
+.s-save .sv-legacy .rw-side{position:sticky;top:20px;right:auto;z-index:10;align-self:flex-start;
   max-height:calc(100vh - 40px);overflow-y:auto}
 .rw-side__box{background:#fff;border:1px solid var(--color-border-tertiary);padding:16px 0 8px}
 .rw-side__t{padding:0 16px 12px;border-bottom:1px solid #eef1f4;font-size:13px;color:var(--typography-gray400)}
@@ -3425,10 +3429,11 @@ function svRender(){
 document.querySelectorAll('.svfold__h').forEach(h=>h.addEventListener('click',()=>{
   h.closest('.svfold').classList.toggle('is-open');
 }));
-document.getElementById('svTodoList').addEventListener('input',e=>{
-  const input=e.target.closest('.svinput input'); if(!input) return;
-  const it=SV.find(x=>x.k===input.closest('.svtodo__f').dataset.k);
-  it.v=input.value.trim() || '입력이 필요해요';
+function svSyncInputs(){
+  document.querySelectorAll('#svTodoList .svtodo__f').forEach(f=>{
+    const it=SV.find(x=>x.k===f.dataset.k), input=f.querySelector('input');
+    if(it&&input) it.v=input.value.trim() || '입력이 필요해요';
+  });
   const left=SV.filter(x=>x.kind==='must'&&x.v==='입력이 필요해요').length;
   const b=document.getElementById('svSaveBtn');
   b.disabled=left>0; b.textContent='이력서 저장하기';
@@ -3437,7 +3442,10 @@ document.getElementById('svTodoList').addEventListener('input',e=>{
   document.getElementById('svTodoGuide').textContent=left?'아래 이메일과 휴대폰 번호를 입력해 주세요.':'입력한 정보를 확인한 뒤 이력서를 저장해 주세요.';
   document.getElementById('svH1').textContent=left?'이메일과 휴대폰 번호만 입력해 주세요':'이력서를 저장할 준비가 됐어요';
   document.getElementById('svHd').textContent=left?'저장을 위해 이메일과 휴대폰 번호가 필요해요. 입력하면 바로 저장할 수 있어요.':'입력한 연락처와 이력서 내용을 새 수정 버전으로 저장해요.';
-});
+}
+document.getElementById('svTodoList').addEventListener('input',svSyncInputs);
+document.getElementById('svTodoList').addEventListener('change',svSyncInputs);
+document.getElementById('svTodoList').addEventListener('focusout',svSyncInputs);
 document.getElementById('svSkip').addEventListener('click',()=>{
   SV.forEach(x=>{ if(x.kind==='opt') x.kind='all'; });
   svRender(); svBuildLegacy();
@@ -3468,7 +3476,6 @@ function svDoSave(){
   document.body.dataset.run='none';
   document.querySelectorAll('#runTabs button').forEach(x=>x.classList.toggle('is-on',x.dataset.run==='none'));
   document.getElementById('doneN').textContent=n;
-  document.getElementById('doneMeta').textContent=`방금 저장 · AI가 다듬은 내용 ${n}개 · 근거 자료 3건`;
   document.getElementById('mtSrcM').textContent=`방금 저장 · AI가 다듬은 내용 ${n}개 기준`;
   goScreen('done');
 }
