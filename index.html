@@ -1278,9 +1278,14 @@ img{display:block}
 .rw-side__i em{width:20px;height:20px;border-radius:50%;border:1px solid #c9cfd8;
   color:var(--typography-gray400);font-style:normal;display:grid;place-items:center;font-size:13px;line-height:1}
 .rw-side__i.on em{border-color:#9fb4fb;color:var(--color-brand-500)}
-.svnav__must{width:calc(100% - 24px);height:38px;margin:0 12px 10px;padding:0 10px;border-radius:8px;
-  display:flex;align-items:center;justify-content:space-between;background:#fff4f4;color:#d83d4a;font-size:12.5px;font-weight:700}
-.svnav__must span{color:var(--color-brand-500);font-size:12px}
+.svnav__filters{padding:10px 12px;border-bottom:1px solid #eef1f4;display:flex;flex-direction:column;gap:4px}
+.svnav__filter{width:100%;height:32px;padding:0 8px;border-radius:7px;display:flex;align-items:center;gap:7px;
+  color:var(--color-text-secondary);font-size:12.5px;font-weight:700;text-align:left}
+.svnav__filter:hover{background:#f7f9ff}.svnav__filter span{flex:1}.svnav__filter em{width:20px;height:20px;
+  border-radius:50%;font-style:normal;display:grid;place-items:center;background:#f1f3f7;color:var(--color-text-secondary);font-size:11px}
+.svnav__filter--must{color:#d83d4a}.svnav__filter--must em{background:#fff1f2;color:#d83d4a}
+.svnav__filter--ai{color:var(--color-brand-500)}.svnav__filter--ai em{background:#e8efff;color:var(--color-brand-500)}
+.s-save .sv-legacy .svpanel{display:none}
 .s-save .sv-legacy .rw-side__i{width:100%;text-align:left;cursor:pointer;background:#fff}
 .s-save .sv-legacy .rw-side__i:hover{background:#f7f9ff}
 .rw-save{margin-top:12px;width:100%;height:52px;background:var(--color-brand-500);color:#fff;
@@ -3625,7 +3630,7 @@ const SVSTATE={
   must:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg>',
   ok:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="m6.4 10 2.35 2.35 4.9-5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   opt:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M7 10h6" stroke-linecap="round"/></svg>',
-  ai:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="m6.4 10 2.35 2.35 4.9-5" stroke-linecap="round" stroke-linejoin="round"/><path d="m15.25-.1.45 1.55 1.55.45-1.55.45-.45 1.55-.45-1.55-1.55-.45 1.55-.45z" fill="currentColor" stroke="none"/></svg>'
+  ai:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="m6.4 10 2.35 2.35 4.9-5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
 /* AI 실행 버튼에는 뱃지·헤더와 같은 마크를 쓴다 */
 document.querySelectorAll('.rbtn--ai:not(.is-view)').forEach(b=>{
@@ -3699,7 +3704,12 @@ function svBuildLegacy(){
   /* 우측 항목 네비 — 섹션별 검토 상태를 그대로 옮긴다 */
   const nav=document.getElementById('svNav');
   const sections=[...form.querySelectorAll('.rw-sec')];
-  nav.innerHTML='<div class="rw-side__t">이력서 항목</div><button type="button" class="svnav__must" data-target="sv-section-0">확인 필요 2개 <span>확인하기</span></button>';
+  const navCount=k=>k==='must'?svData().filter(x=>x.kind==='must').length:k==='opt'?svData().filter(x=>x.kind==='opt').length:svData().filter(x=>x.kind==='chg').length;
+  nav.innerHTML=`<div class="rw-side__t">이력서 항목</div><div class="svnav__filters">
+    <button type="button" class="svnav__filter svnav__filter--must" data-state="must"><span>꼭 확인</span><em>${navCount('must')}</em></button>
+    <button type="button" class="svnav__filter" data-state="opt"><span>선택 보완</span><em>${navCount('opt')}</em></button>
+    <button type="button" class="svnav__filter svnav__filter--ai" data-state="ai"><span>AI가 다듬음</span><em>${navCount('ai')}</em></button>
+  </div>`;
   sections.forEach((sec,i)=>{
     sec.id=`sv-section-${i}`;
     const name=sec.querySelector('h2').textContent.trim();
@@ -3716,6 +3726,9 @@ function svBuildLegacy(){
   });
   nav.querySelectorAll('[data-target]').forEach(el=>el.addEventListener('click',()=>{
     document.getElementById(el.dataset.target)?.scrollIntoView({behavior:'smooth',block:'start'});
+  }));
+  nav.querySelectorAll('[data-state]').forEach(el=>el.addEventListener('click',()=>{
+    form.querySelector(`.rwwrap--${el.dataset.state}`)?.scrollIntoView({behavior:'smooth',block:'center'});
   }));
 
   /* 우측 저장 패널 수치는 XDS 적용본과 같은 소스(SV)를 쓴다 */
