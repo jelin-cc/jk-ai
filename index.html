@@ -1536,7 +1536,6 @@ img{display:block}
     <button data-screen="coach">④ AI 제안 반영</button>
     <button data-screen="save">⑤ 저장 전 확인</button>
     <button data-screen="done">⑥ 저장 완료</button>
-    <button data-screen="match">⑦ 맞춤 공고</button>
     <button data-screen="write">이력서 작성</button>
   </div>
   <span class="bar__sep"></span>
@@ -1805,7 +1804,7 @@ img{display:block}
 <div class="s-source">
   <div class="srcpage">
     <div class="srchead">
-      <p class="srchead__eyebrow ty-b4b">자료 연결 <span id="stepNo">1</span>/4</p>
+      <p class="srchead__eyebrow ty-b4b">자료 연결 <span id="stepNo">1</span>/<span id="stepTotal">3</span></p>
       <h1 class="ty-h3" id="stepQ">작성해둔 이력서가 있나요?</h1>
       <p class="ty-b2" id="stepD">가장 최근 자료 하나만 연결해도 괜찮아요. 없다면 바로 넘어갈 수 있어요.</p>
     </div>
@@ -2467,26 +2466,13 @@ img{display:block}
         <b id="doneTitle">AI Product Owner / Career Agent / Enterprise SaaS</b>
         <span id="doneMeta">방금 저장 · AI가 다듬은 내용 3개 · 근거 자료 3건</span>
       </div>
-      <span class="doneres__st">저장 완료</span>
+      <span class="doneres__st">잡코리아 저장 완료</span>
     </div>
 
-    <!-- 별도 모달로 끊지 않고 저장 결과 바로 아래에서 이어붙인다 -->
     <div class="nextbox">
-      <div class="nextbox__h">
-        <b>이어서 이 이력서에 맞는 공고를 찾아볼까요?</b>
-        <p>방금 저장한 이력서에서 확인된 직무·경력·기술만 사용해 현재 공개된 공고와 비교해요.
-           추천 근거도 이력서 문장으로 함께 보여드려요.</p>
-      </div>
-      <label class="nextagree">
-        <input type="checkbox" id="mtAgree">
-        <span><b>[선택] 이력서 기반 맞춤 공고 추천 동의</b>
-          <em>동의하지 않아도 저장한 이력서는 그대로 유지돼요. 언제든 이력서 목록에서 다시 시작할 수 있어요.</em></span>
-      </label>
-      <div class="nextbox__act">
-        <button class="jbtn" id="doneLater">나중에 하기</button>
-        <button class="jbtn jbtn--primary" id="doneMatch" disabled>동의하고 맞춤 공고 찾기</button>
-      </div>
-      <p class="nextnote">공고 찾기는 백그라운드에서 계속돼요. 다른 메뉴를 이용해도 결과는 이력서 목록에서 확인할 수 있어요.</p>
+      <b>이력서가 잡코리아에 저장됐어요</b>
+      <p class="nextnote">경력 정보 반영이 진행 중이어도 저장한 이력서는 그대로 사용할 수 있어요.</p>
+      <div class="nextbox__act"><button class="jbtn jbtn--primary" id="doneLater">이력서 목록으로</button></div>
     </div>
 
     <button class="donesub" id="doneBack">저장한 내용 다시 보기</button>
@@ -2602,19 +2588,12 @@ img{display:block}
         <b class="ty-b4b">이력서 초안과 항목별 AI 제안</b>
         <span class="ty-c1">연결한 경력 자료를 잡코리아 이력서 항목에 맞춰 정리해요.</span>
       </div></div>
-      <div class="dialog__li"><i>2</i><div>
-        <b class="ty-b4b">이력서 기반 맞춤 채용정보 추천</b>
-        <span class="ty-c1">완성한 이력서의 직무와 경력을 바탕으로 추천을 개선해요.</span>
-      </div></div>
     </div>
 
     <div class="consent">
       <label id="agree1L"><input type="checkbox" id="agree1"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
-        <b class="ty-b4b">[선택] AI 이력서 작성 및 제안을 위한 정보 처리 동의</b>
-        <span class="ty-c1">AI 자료 연결을 계속하려면 이 항목에 동의해주세요.</span></span></label>
-      <label id="agree2L"><input type="checkbox" id="agree2"><span class="cbx" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M5.6 10.3 8.6 13.2 14.4 6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>
-        <b class="ty-b4b">[선택] 이력서 기반 맞춤 공고 추천 동의</b>
-        <span class="ty-c1">동의하지 않아도 AI 이력서 작성과 제안은 이용할 수 있어요.</span></span></label>
+        <b class="ty-b4b">AI 이력서 작성을 위한 자료 처리 동의</b>
+        <span class="ty-c1">동의하지 않으면 직접 작성으로 이어갈 수 있어요. 건강보험 경력정보는 본인인증 전에 별도로 동의받아요.</span></span></label>
     </div>
 
     <button class="dialog__detail ty-b4m">AI 이용 상세 안내 <span>⌄</span></button>
@@ -3101,10 +3080,10 @@ aiEntry.addEventListener('keydown',e=>{
   if(e.key==='Enter'||e.key===' '){e.preventDefault();aiEntry.click();}
 });
 document.getElementById('consentX').addEventListener('click',closeModal);
-document.getElementById('consentNo').addEventListener('click',closeModal);
+document.getElementById('consentNo').addEventListener('click',()=>{closeModal();goScreen('write');});
 modal.addEventListener('click',e=>{if(e.target===modal) closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
-[['agree1','agree1L'],['agree2','agree2L']].forEach(([c,l])=>{
+[['agree1','agree1L']].forEach(([c,l])=>{
   const cb=document.getElementById(c), lb=document.getElementById(l);
   cb.addEventListener('change',()=>{
     lb.classList.toggle('is-on',cb.checked);
@@ -3119,20 +3098,15 @@ const STEPS=[
   d:'가장 최근 자료 하나만 연결해도 괜찮아요. 없다면 바로 넘어갈 수 있어요.',
   s:[{t:'기존 잡코리아 이력서',p:'저장해둔 이력서의 경력과 학력을 불러와요.',m:'기본이력서 · 2026.07.03',a:'연결'},
      {t:'이력서 파일',p:'PDF·DOCX·TXT·MD 이력서 또는 경력기술서를 업로드해요.',m:'AI_Product_Owner_2026.pdf',a:'파일 업로드'},
-     {t:'이력서 링크',p:'LinkedIn이나 로그인 없이 열리는 외부 이력서 링크를 분석해요.',m:'공개 HTTPS 링크',a:'링크 입력'},
-     {t:'Google Drive',p:'연동 방식을 검토하고 있어요. 준비되면 선택한 파일만 가져와요.',m:'연동 준비 중',a:'준비 중',off:1}]},
+     {t:'이력서 링크',p:'LinkedIn이나 로그인 없이 열리는 외부 이력서 링크를 분석해요.',m:'공개 HTTPS 링크',a:'링크 입력'}]},
  {q:'보여주고 싶은 프로젝트나 성과가 있나요?',
   d:'포트폴리오와 업무 산출물을 더하면 담당 업무와 성과를 구체화할 수 있어요.',
   s:[{t:'포트폴리오 링크',p:'공개 페이지의 프로젝트·역할·기술·성과를 읽어 초안 근거로 활용해요.',m:'공개 HTTPS 링크',a:'주소 입력'},
      {t:'포트폴리오 파일',p:'프로젝트를 정리한 PDF·PPTX 파일을 업로드해요.',m:'최대 40MB',a:'파일 업로드'},
      {t:'업무 산출물',p:'PDF·DOCX·PPTX·TXT·MD 산출물에서 업무와 성과를 찾아요.',m:'최대 5개',a:'파일 업로드'}]},
- {q:'업무 기록을 남겨둔 곳이 있나요?',
-  d:'연동 방식을 검토하고 있어요. 준비되면 공유한 페이지만 가져와요.',
-  s:[{t:'Notion 페이지 링크',p:'공유된 Notion 페이지 주소를 입력해주세요.',m:'연동 준비 중',a:'준비 중',off:1}]},
  {q:'회사와 재직 기간을 확인할 자료가 있나요?',
-  d:'본인인증 연동을 준비 중이에요. 연동 시 회사명과 재직 기간만 불러와요.',
-  s:[{t:'고용24 통합경력증명',p:'본인인증 후 회사명과 재직 기간만 불러와요.',m:'연동 준비 중',a:'준비 중',off:1},
-     {t:'건강보험공단 경력정보',p:'본인인증 후 사업장명과 자격 취득·상실 기간만 불러와요.',m:'1차 필수 자료',a:'본인인증'}]}
+  d:'본인인증 후 동의하면 사업장명과 자격 취득·상실 기간만 불러와요.',
+  s:[{t:'건강보험공단 경력정보',p:'본인인증 전에 경력정보 처리 동의를 다시 받아요.',m:'1차 필수 자료',a:'본인인증'}]}
 ];
 let step=0, srcFixed=false; const picked=[];   // {step, idx, t, m}
 
@@ -3142,6 +3116,7 @@ function isPicked(i){return picked.some(p=>p.step===step&&p.idx===i);}
 function render(){
   const S=STEPS[step];
   $('stepNo').textContent=step+1;
+  $('stepTotal').textContent=STEPS.length;
   $('stepQ').textContent=S.q;
   $('stepD').textContent=S.d;
 
@@ -3184,7 +3159,7 @@ function render(){
   $('stepSummary').textContent = errI>=0
     ? `${here}개 자료를 연결했어요. 읽지 못한 파일은 연결 목록에 포함되지 않아요`
     : (here>0 ? `${here}개 자료를 이 단계에서 연결했어요` : '이 단계에서 연결한 자료가 없어요');
-  $('srcNext').textContent = step===3
+  $('srcNext').textContent = step===STEPS.length-1
     ? (picked.length>0 ? `${picked.length}개 자료로 이력서 초안 만들기` : 'AI로 이력서 초안 만들기')
     : (here>0 ? '다음' : '건너뛰기');
   $('srcPrev').style.visibility = step===0 ? 'hidden' : 'visible';
@@ -3210,7 +3185,7 @@ $('pickList').addEventListener('click',e=>{
   picked.splice(+b.dataset.n,1); render();
 });
 $('srcNext').addEventListener('click',()=>{
-  if(step<3){step++;render();window.scrollTo(0,0);}
+  if(step<STEPS.length-1){step++;render();window.scrollTo(0,0);}
   else if(picked.length===0){
     toast('연결한 자료가 없어요. 잡코리아 이력서만으로 만들면 초안 내용이 부족할 수 있어요.');
     $('srcNext').textContent='자료 없이 그대로 진행하기';
@@ -3222,7 +3197,7 @@ $('srcNext').addEventListener('click',()=>{
 });
 $('srcPrev').addEventListener('click',()=>{if(step>0){step--;render();window.scrollTo(0,0);}});
 $('srcExit').addEventListener('click',()=>goScreen('manage'));
-$('srcSkipAll').addEventListener('click',()=>goScreen('manage'));
+$('srcSkipAll').addEventListener('click',()=>goScreen('write'));
 render();
 
 /* ── 07 초안 생성 진행 시뮬레이션 ── */
@@ -3779,12 +3754,8 @@ function mtStart(){
     mtRender();
   },1100);
 }
-document.getElementById('mtAgree').addEventListener('change',e=>{
-  document.getElementById('doneMatch').disabled=!e.target.checked;
-});
-document.getElementById('doneMatch').addEventListener('click',()=>{ goScreen('match'); mtStart(); });
 document.getElementById('doneLater').addEventListener('click',()=>{
-  goScreen('manage'); toast('저장했어요. 맞춤 공고 찾기는 이력서 목록에서 언제든 시작할 수 있어요.');
+  goScreen('manage'); toast('잡코리아 이력서에 저장했어요.');
 });
 document.getElementById('doneBack').addEventListener('click',()=>goScreen('save'));
 document.getElementById('mtSrcLink').addEventListener('click',()=>goScreen('save'));
@@ -3831,8 +3802,6 @@ function setCase(c){
   confPick={}; srcFixed=false;
   ftAns.length=0; ftIdx=0; if(typeof ftRender==='function') ftRender();
   clearInterval(mtTimer); mtIdx=0; mtState='idle'; mtRetried=false; mtWiden=false;
-  document.getElementById('mtAgree').checked=false;
-  document.getElementById('doneMatch').disabled=true;
   mtRender();
   cwRenderFields(); cwRenderSug(); svRender(); svBuildLegacy(); render();
 }
