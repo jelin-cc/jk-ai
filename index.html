@@ -2701,8 +2701,8 @@ document.querySelectorAll('[data-mark]').forEach(jkMark);
 /* 사실 확인 문항 · 코치 화면에서도 인라인으로 쓰이므로 먼저 선언한다 */
 const FT=[
  {sec:'경력', field:'career', label:'재직 시작일', q:'Worxphere의 실제 재직 시작일은 언제인가요?',
-  why:'기존 JK 이력서에는 2025.03, 업로드한 PDF에는 2024.11 로 적혀 있어 값이 서로 달라요.',
-  opts:[{v:'2025.03',d:'기존 잡코리아 이력서 기준',src:'JK 이력서'},
+  why:'기존 잡코리아 이력서에는 2025.03, 업로드한 PDF에는 2024.11로 적혀 있어 값이 서로 달라요.',
+  opts:[{v:'2025.03',d:'기존 잡코리아 이력서 기준',src:'잡코리아 이력서'},
         {v:'2024.11',d:'업로드한 PDF 기준',src:'PDF'}]},
  {sec:'프로젝트', field:'project', label:'담당 범위', q:'Career Agent 프로젝트에서 직접 담당한 범위를 선택해주세요.',
   why:'자료에 여러 역할이 함께 적혀 있어요. 선택한 범위만 경력기술에 반영하고, 선택하지 않은 역할은 AI가 추가하지 않아요.',
@@ -2802,7 +2802,7 @@ function cwRenderFields(){
         <p class="cwfact__why">${ft.why}</p>
         ${isInput ? inputUI : choiceUI}
         <p class="cwfact__safe">${isInput
-          ? '입력한 값은 이 항목에만 쓰여요. 다른 문장을 AI가 다시 쓰지 않습니다.'
+          ? '입력한 값은 이 항목에만 쓰여요. 다른 문장을 AI가 다시 쓰지 않아요.'
           : '선택한 사실만 이력서에 사용해요. 선택하지 않은 값은 AI가 추측해 채우지 않습니다.'}</p>
       </div>` : '';
     const links=cwPool().filter(x=>x.field===f.k);
@@ -3147,13 +3147,13 @@ function render(){
       <span class="srccard__ico"><img src="assets-jk/ico-doc.svg" alt="" width="20" height="24"></span>
       <span class="srccard__b">
         <b class="ty-b2b">${c.t}</b>
-        <p class="ty-b4m">${bad?'AI_Product_Owner_2026.pdf 에서 글자를 찾지 못했어요.':c.p}</p>
+        <p class="ty-b4m">${bad?'AI_Product_Owner_2026.pdf에서 글자를 찾지 못했어요.':c.p}</p>
         <small>${bad?'이미지로 스캔한 문서로 보여요 · 12.4MB':c.m}</small>
       </span>
       <span class="srccard__st ty-c1">${bad?'연결 실패':(isPicked(i)?'연결됨':c.a)}</span>
     </button>`+(bad?`<div class="srcfix">
       <b>이 파일로는 초안을 만들 수 없어요</b>
-      <p>글자를 선택할 수 있는 PDF 나 이력서 링크로 올리면 내용을 읽을 수 있어요.
+      <p>글자를 선택할 수 있는 PDF나 이력서 링크로 올리면 내용을 읽을 수 있어요.
          파일만 첨부해두고 나머지 자료로 진행할 수도 있어요.</p>
       <div class="srcfix__act">
         <button class="on" data-fix="retry">다른 파일 올리기</button>
