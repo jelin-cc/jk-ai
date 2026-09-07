@@ -336,10 +336,9 @@ img{display:block}
 .dialog__p{margin-top:var(--unit-12);color:var(--color-text-secondary)}
 .dialog__list{margin-top:var(--unit-20);display:flex;flex-direction:column;gap:var(--unit-12)}
 .dialog__li{display:flex;gap:var(--unit-12);align-items:flex-start}
-.dialog__li i{width:24px;height:24px;flex:none;border-radius:50%;background:var(--ai-tint);
-  border:1px solid var(--ai-border);color:var(--ai-dark);font-style:normal;font-size:12px;
+.dialog__li i{width:24px;height:24px;flex:none;color:#667085;font-style:normal;font-size:12px;
   font-weight:700;display:grid;place-items:center;margin-top:1px}
-.dialog__li i img{width:15px;height:15px;display:block}
+.dialog__li i svg{width:22px;height:22px;display:block}
 .dialog__li b{display:block;color:var(--color-text-primary)}
 .dialog__li span{display:block;color:var(--color-text-secondary);margin-top:2px}
 .consent{margin-top:var(--unit-20);display:flex;flex-direction:column;gap:var(--unit-8)}
@@ -366,6 +365,7 @@ img{display:block}
 .dialog__detail{margin-top:var(--unit-16);height:40px;padding:0 var(--unit-16);
   border:1px solid var(--color-border-tertiary);border-radius:var(--radius-sm);
   color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:var(--unit-6)}
+.dialog__detail svg{width:16px;height:16px;display:block}
 .dialog__notice{margin-top:var(--unit-16);display:flex;gap:var(--unit-8);align-items:flex-start;
   color:var(--typography-gray400)}
 .dialog__notice i{width:18px;height:18px;flex:none;border-radius:50%;
@@ -477,7 +477,7 @@ img{display:block}
 .steps__ar{color:var(--typography-gray400);font-size:11px}
 
 /* ══════════ ④ 초안 생성 · 07 Processing ══════════ */
-.procpage{width:1200px;margin:0 auto;padding:72px 0 96px;display:flex;justify-content:center}
+.procpage{width:1200px;margin:0 auto;padding:72px 0 144px;display:flex;justify-content:center}
 .proccard{width:600px;text-align:center}
 
 /* 로고 · 마크 자체 발광만 사용 */
@@ -567,6 +567,13 @@ img{display:block}
 .procfoot .jbtn{height:52px;padding:0 32px;border-radius:14px;font-size:16px;font-weight:600}
 .procfoot .jbtn--primary{box-shadow:0 6px 18px rgba(27,85,246,.28)}
 .procfoot .jbtn--primary:hover{transform:translateY(-1px)}
+.procdock{display:none;position:fixed;z-index:160;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);
+  border-top:1px solid var(--color-border-tertiary);box-shadow:0 -8px 24px rgba(18,32,54,.08);backdrop-filter:blur(10px)}
+[data-screen="proc"] .procdock{display:block}
+.procdock__in{width:min(1200px,calc(100% - 48px));height:88px;margin:0 auto;display:flex;align-items:center;justify-content:flex-end;gap:var(--unit-12)}
+.procdock .jbtn{height:48px;padding:0 24px;font-size:15px}
+.procdock .jbtn--primary{box-shadow:0 4px 14px rgba(27,85,246,.26)}
+[data-screen="proc"] .procfoot{display:none}
 
 
 /* ══════════ ⑤ AI 기반 검토 · 10 Coaching ══════════ */
@@ -728,6 +735,10 @@ img{display:block}
 .cwsug__regen.is-last{border-color:#f7c9ce;color:#f04452}
 .cwsug__regen.is-last em{background:#fdeeee;color:#f04452}
 .cwsug.is-done .cwsug__regen{display:none}
+.cwsug__restore{display:none;margin-top:var(--unit-8);width:100%;height:34px;border-radius:10px;background:#fff;
+  border:1px solid #f0c2c7;color:#d83d4a;font-size:12.5px;font-weight:700;transition:.15s}
+.cwsug__restore:hover{background:#fff5f5;border-color:#e7a4aa}
+.cwsug.is-done .cwsug__restore{display:block}
 
 /* 생성 중 · 취소 가능. 끝나기 전에는 차감하지 않는다 */
 .cwsug__load{margin-top:var(--unit-12);display:flex;align-items:center;gap:var(--unit-10);
@@ -895,14 +906,13 @@ img{display:block}
 .svtodo{margin-top:var(--unit-20);background:#fff;border-radius:20px;padding:var(--unit-24);
   border:1px solid #f7c9ce;box-shadow:0 2px 10px rgba(18,32,54,.05)}
 .svtodo.is-clear{border-color:var(--color-border-tertiary)}
-.svtodo__h{display:flex;align-items:center;gap:var(--unit-8)}
-.svtodo__h b{flex:1;min-width:0;font-size:17px;font-weight:700;letter-spacing:-.4px;
-  color:var(--color-text-primary)}
-.svtodo__h em{flex:none;height:26px;padding:0 11px;border-radius:999px;background:#fff1f2;color:#f04452;
-  font-style:normal;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center}
-.svtodo.is-clear .svtodo__h em{background:#eaf7f1;color:#00875a}
+.svtodo__h{display:flex;align-items:center}
+.svtodo__h b{height:32px;padding:0 11px;border-radius:8px;background:#fff3e6;color:#c2570a;font-size:13px;
+  font-weight:700;letter-spacing:-.2px;display:inline-flex;align-items:center;gap:6px}
+.svtodo__h b svg{width:16px;height:16px;flex:none}
+.svtodo.is-clear .svtodo__h b{background:#eaf7f1;color:#00875a}
 .svtodo__list{margin-top:var(--unit-24)}
-.svtodo__f{border-top:1px solid #f3f5f8;padding-top:var(--unit-14);margin-top:var(--unit-14)}
+.svtodo__f{border-top:1px solid #f3f5f8;padding-top:var(--unit-24);margin-top:var(--unit-24)}
 .svtodo__list>.svtodo__f:first-child{border-top:0;padding-top:0;margin-top:0}
 .svtodo__f label{display:block;font-size:13px;font-weight:700;color:var(--color-text-primary)}
 .svtodo__f label b{color:#f04452;margin-left:2px}
@@ -912,7 +922,7 @@ img{display:block}
   background:#fff;transition:.15s}
 .svtodo__f .svinput input:focus{outline:none;border-color:var(--color-brand-500);
   box-shadow:0 0 0 3px rgba(27,85,246,.12)}
-.svtodo__f p{margin-top:6px;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
+.svtodo__f p{margin:10px 0 18px;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
 .svtodo__ok{margin-top:var(--unit-8);font-size:13.5px;line-height:21px;color:var(--color-text-secondary)}
 .svtodo__ok b{font-weight:700;color:var(--color-text-primary)}
 
@@ -1424,12 +1434,14 @@ img{display:block}
   border-top:1px solid var(--color-border-tertiary);box-shadow:0 -4px 20px rgba(18,32,54,.07)}
 .cwdock__in{width:1200px;margin:0 auto;height:88px;display:flex;align-items:center;gap:var(--unit-12)}
 .cwdock__t{flex:1;min-width:0}
-.cwdock__t b{display:block;font-size:15px;font-weight:700;letter-spacing:-.3px}
+.cwdock__t b{display:inline;font-size:15px;font-weight:700;letter-spacing:-.3px}
 .cwdock__t span{display:block;margin-top:3px;font-size:12.5px;color:var(--typography-gray400)}
 .cwdock .jbtn{height:48px}
 .cwdock .jbtn--primary{padding:0 24px;font-size:15px;box-shadow:0 4px 14px rgba(27,85,246,.26)}
-.cwdock__t span.cwdock__need{display:none}
+.cwdock__t span.cwdock__need{display:none;height:26px;margin-left:8px;padding:0 9px;border-radius:7px;
+  vertical-align:middle;align-items:center;gap:4px;background:#fff3e6;color:#c2570a;font-size:12px;font-weight:700}
 .cwdock__t span.cwdock__need.is-on{display:inline-flex}
+.cwdock__need svg{width:14px;height:14px;flex:none}
 [data-screen="coach"] .cwdock{display:block}
 .cwdock{display:none}
 
@@ -1907,6 +1919,10 @@ img{display:block}
     </div>
   </div></div>
 </div>
+<div class="procdock" aria-label="초안 생성 화면 이동"><div class="procdock__in">
+  <button class="jbtn" id="procList">이력서 목록으로</button>
+  <button class="jbtn jbtn--primary" id="procNext">확인할 내용 보기</button>
+</div></div>
 
 
 <!-- ═══════════ ⑤ AI 기반 검토 ═══════════ -->
@@ -2384,13 +2400,12 @@ img{display:block}
 
   <!-- 할 일을 맨 위에, 입력창을 연 채로 둔다 -->
   <section class="svtodo" id="svTodo">
-    <div class="svtodo__h"><b id="svTodoT">저장에 필요한 정보</b>
-      <em class="svchip" id="svTodoN">2개</em></div>
+    <div class="svtodo__h"><b id="svTodoT"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg>확인 필요 사항</b></div>
     <div class="svtodo__list" id="svTodoList"></div>
   </section>
 
   <!-- 계정에서 가져온 값도 무엇인지 열어볼 수 있어야 한다 -->
-  <section class="svfold" id="svFoldAuto">
+  <section class="svfold is-open" id="svFoldAuto">
     <button class="svfold__h" data-t="auto">
       <img class="svfold__i" src="assets-jk/sys-info.svg" alt="" width="18" height="18">
       <b>잡코리아 계정에서 확인한 정보</b>
@@ -2408,14 +2423,14 @@ img{display:block}
   </section>
 
   <!-- 저장을 막지 않는 내용은 접어둔다 -->
-  <section class="svfold" id="svFoldChg">
+  <section class="svfold is-open" id="svFoldChg">
     <button class="svfold__h" data-t="chg">
       <span class="jkm jkm--static jkm--noface jkm--mono svfold__m" style="--s:13px" data-mark></span>
       <b>AI가 다듬은 내용</b><em class="svchip" id="svFchg">3</em>
       <span class="svfold__ar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.75 10 12.25l4.5-4.5"/></svg></span></button>
     <div class="svfold__b" id="svListChg"></div>
   </section>
-  <section class="svfold" id="svFoldOpt">
+  <section class="svfold is-open" id="svFoldOpt">
     <button class="svfold__h" data-t="opt"><b>선택 보완</b><em class="svchip" id="svFopt">3</em>
       <span class="svfold__ar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.75 10 12.25l4.5-4.5"/></svg></span></button>
     <div class="svfold__b" id="svListOpt"></div>
@@ -2606,7 +2621,7 @@ img{display:block}
     <p class="dialog__p ty-b4m">선택한 이력서와 업무 자료를 분석해 잡코리아 이력서 초안과 항목별 제안을 만들어드려요. AI 이용은 선택이며, 동의하지 않아도 직접 작성할 수 있어요.</p>
 
     <div class="dialog__list">
-      <div class="dialog__li"><i><img src="assets-jk/ico-doc.svg" alt=""></i><div>
+      <div class="dialog__li"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h7l4 4v13H6.5z"/><path d="M13.5 3.5v4h4"/><path d="M9 12h6M9 15.5h6"/></svg></i><div>
         <b class="ty-b4b">이력서 초안과 항목별 AI 제안</b>
         <span class="ty-c1">연결한 경력 자료를 잡코리아 이력서 항목에 맞춰 정리해요.</span>
       </div></div>
@@ -2621,9 +2636,9 @@ img{display:block}
         <span class="ty-c1">연결한 이력서 정보를 바탕으로 맞춤 공고를 추천해드려요.</span></span></label>
     </div>
 
-    <button class="dialog__detail ty-b4m">AI 이용 상세 안내 <span>⌄</span></button>
+    <button class="dialog__detail ty-b4m">AI 이용 상세 안내 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 7.75 4.5 4.5 4.5-4.5"/></svg></button>
 
-    <p class="dialog__notice ty-c1"><i>!</i><span>기능 검증용 안내예요. 실제 서비스 적용 전 개인정보·법무 검토와 보유 기간·철회 절차를 확정해야 해요.</span></p>
+    <p class="dialog__notice ty-c1"><i><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg></i><span>기능 검증용 안내예요. 실제 서비스 적용 전 개인정보·법무 검토와 보유 기간·철회 절차를 확정해야 해요.</span></p>
 
     <div class="dialog__f">
       <button class="jbtn" id="consentNo">AI 없이 직접 작성</button>
@@ -2930,8 +2945,7 @@ function cwRenderSug(){
   const list=pool.filter(x=>cwFilter==='all'||x.cat===cwFilter);
   document.getElementById('cwSug').innerHTML = list.length ? list.map(x=>{
     const done=cwApplied.includes(x.field), st=cwCard.get(x.id)||'idle';
-    const out=cwLeft()<=0, last=cwLeft()===1;
-    const appliedRegen=done?`<button class="cwsug__regen cwsug__regen--applied ${out?'is-off':''} ${last?'is-last':''}" aria-disabled="${out}" title="${out?'남은 AI 요청 횟수가 없어요':'현재 문장을 바탕으로 새 제안을 만들어요'}"><svg viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8.5a6.5 6.5 0 1 1-1.9-4.6"/><path d="M15 2.2v3.9h-3.9"/></svg>AI에 다시 요청<em>${out?'0회 남음':'1회 차감'}</em></button>`:'';
+    const appliedRestore=done?'<button class="cwsug__restore">기존 문장으로 원복하기</button>':'';
     return `<article class="cwsug ${done?'is-done':''}" data-id="${x.id}">
       <span class="cwsug__lab"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:12px" data-mark></span>AI 제안</span>
       <h3>${x.t}</h3>
@@ -2943,7 +2957,7 @@ function cwRenderSug(){
       </div>
       ${cwSugFoot(x,st)}
       <div class="cwsug__done">✓ 편집 초안에 반영됨</div>
-      ${appliedRegen}
+      ${appliedRestore}
       <button class="cwsug__redo">다시 검토</button>
     </article>`;}).join('') : cwEmpty(tot);
   document.querySelectorAll('#cwSug [data-mark]').forEach(jkMark);
@@ -2965,8 +2979,8 @@ function cwRenderSug(){
   const checkCnt = L.filter((x,i)=>x.kind!=='input' && ftAns[i]===undefined).length;
   const nb=document.getElementById('cwDockNeed');
   nb.classList.toggle('is-on', inputCnt+checkCnt>0);
-  nb.textContent = [inputCnt?`입력 필요 ${inputCnt}개`:'', checkCnt?`확인 필요 ${checkCnt}개`:'']
-    .filter(Boolean).join(' · ');
+  const need=[inputCnt?`입력 필요 ${inputCnt}개`:'', checkCnt?`확인 필요 ${checkCnt}개`:''].filter(Boolean).join(' · ');
+  nb.innerHTML=need?`<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg>${need}`:'';
   const ub=document.getElementById('cwUndo');
   ub.disabled = cwHistory.length===0;
   ub.title = cwHistory.length===0 ? '되돌릴 변경이 아직 없어요' : '마지막으로 반영한 제안을 되돌려요';
@@ -3002,6 +3016,14 @@ function cwUndoOne(){
   const f=CW_FIELDS.find(a=>a.k===h.field); f.v=h.prev;
   cwApplied=cwApplied.filter(k=>k!==h.field);
   return true;
+}
+function cwRestore(id){
+  const x=CW_SUG.find(a=>a.id===id); if(!x||!cwApplied.includes(x.field)) return;
+  const f=CW_FIELDS.find(a=>a.k===x.field); f.v=x.before;
+  cwApplied=cwApplied.filter(k=>k!==x.field);
+  cwHistory=cwHistory.filter(h=>h.field!==x.field);
+  cwRenderFields(); cwRenderSug();
+  toast('기존 문장으로 되돌렸어요.');
 }
 
 /* 재요청 = 유일하게 차감되는 행동. 성공했을 때만 차감하고, 실패·취소는 되돌린다 */
@@ -3049,6 +3071,7 @@ document.getElementById('cwSug').addEventListener('click',e=>{
     clearTimeout(cwTimer); cwTimer=null; cwBusy=null; cwCard.delete(id); cwRenderSug();
     toast('요청을 취소했어요. 사용 횟수는 차감되지 않았어요.');}
   if(e.target.closest('.cwsug__keep')){ cwCard.delete(id); cwRenderSug(); }
+  if(e.target.closest('.cwsug__restore')){ cwRestore(id); return; }
   if(e.target.closest('.cwsug__retry')||e.target.closest('.cwsug__regen')) cwRegen(id);
 });
 document.getElementById('cwAll').addEventListener('click',e=>{
@@ -3261,8 +3284,8 @@ function renderProc(){
            : '여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.';
   $('procCard').classList.toggle('is-done',done);
   if(done && !procFail){ $('procBar').style.width='100%'; $('procPct').textContent='100%';
-            $('procBack').textContent='확인할 내용 보기'; }
-  else { $('procBack').textContent='이력서 목록으로'; }
+            $('procBack').textContent='확인할 내용 보기'; $('procNext').textContent='확인할 내용 보기'; }
+  else { $('procBack').textContent='이력서 목록으로'; $('procNext').textContent='이력서 목록으로'; }
 }
 function startProc(){
   pIdx=0; procFail=false; renderProc(); clearInterval(pTimer);
@@ -3292,6 +3315,8 @@ $('procNoti').addEventListener('click',e=>{
   b.setAttribute('aria-checked',String(on));
 });
 $('procBack').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
+$('procNext').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
+$('procList').addEventListener('click',()=>goScreen('manage'));
 
 /* ── 스텝퍼 상태 ── */
 const SCREEN_STEP={source:1,proc:2,fact:2,coach:3,save:4,done:4,match:4};
@@ -3356,7 +3381,6 @@ function svRender(){
     e.textContent = cnt ? String(cnt) : '완료';
     e.classList.toggle('is-warn', !!cnt && !!warn);
     e.classList.toggle('is-done', !cnt);};
-  chip('svTodoN', must.length, true);
   document.getElementById('svTodoList').innerHTML = required.map(x=>`<div class="svtodo__f" data-k="${x.k}">
         <label>${x.label}<b>*</b></label>
         <div class="svinput"><input value="${x.v==='입력이 필요해요'?'':x.v}" placeholder="${x.ph||'입력해 주세요'}"></div>
@@ -3395,10 +3419,7 @@ document.getElementById('svTodoList').addEventListener('input',e=>{
   const left=SV.filter(x=>x.kind==='must'&&x.v==='입력이 필요해요').length;
   const b=document.getElementById('svSaveBtn');
   b.disabled=left>0; b.textContent=left?`먼저 ${left}개를 채워 주세요`:'이력서 저장하기';
-  document.getElementById('svTodoN').textContent=left?String(left):'완료';
-  document.getElementById('svTodoN').classList.toggle('is-warn',left>0);
-  document.getElementById('svTodoN').classList.toggle('is-done',left===0);
-  document.getElementById('svTodoT').textContent=left?'저장에 필요한 정보':'저장할 준비가 됐어요';
+  document.getElementById('svTodoT').innerHTML=left?'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg>확인 필요 사항':'저장할 준비가 됐어요';
   document.getElementById('svH1').textContent=left?'이메일과 휴대폰 번호만 입력해 주세요':'이력서를 저장할 준비가 됐어요';
   document.getElementById('svHd').textContent=left?'저장을 위해 이메일과 휴대폰 번호가 필요해요. 입력하면 바로 저장할 수 있어요.':'입력한 연락처와 이력서 내용을 새 수정 버전으로 저장해요.';
 });
