@@ -3808,10 +3808,11 @@ document.getElementById('mtInline').addEventListener('click',e=>{
 mtRender();
 
 /* 임시 링크는 화면 이동용이 아니므로 URL 끝에 #을 남기지 않는다. */
+if(window.location.hash==='#') history.replaceState(null,'',window.location.pathname+window.location.search);
 document.addEventListener('click',e=>{
   const link=e.target.closest('a[href="#"]');
   if(link) e.preventDefault();
-});
+},true);
 
 /* ══ 엣지·에러 케이스 스위처 ══ */
 function setCase(c){
