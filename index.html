@@ -907,10 +907,13 @@ img{display:block}
   border:1px solid #f7c9ce;box-shadow:0 2px 10px rgba(18,32,54,.05)}
 .svtodo.is-clear{border-color:var(--color-border-tertiary)}
 .svtodo__h{display:flex;align-items:center}
-.svtodo__h b{height:32px;padding:0 11px;border-radius:8px;background:#fff3e6;color:#c2570a;font-size:13px;
+.svtodo__h b{height:36px;padding:0 8px 0 11px;border-radius:8px;background:#fff3e6;color:#c2570a;font-size:13px;
   font-weight:700;letter-spacing:-.2px;display:inline-flex;align-items:center;gap:6px}
-.svtodo__h b svg{width:16px;height:16px;flex:none}
+.svtodo__h em{width:22px;height:22px;border-radius:50%;background:#fff;color:#c2570a;font-style:normal;
+  font-size:12px;font-weight:700;display:grid;place-items:center}
 .svtodo.is-clear .svtodo__h b{background:#eaf7f1;color:#00875a}
+.svtodo.is-clear .svtodo__h em{color:#00875a}
+.svtodo__guide{margin-top:var(--unit-12);font-size:13px;line-height:20px;color:var(--color-text-secondary)}
 .svtodo__list{margin-top:var(--unit-24)}
 .svtodo__f{border-top:1px solid #f3f5f8;padding-top:var(--unit-24);margin-top:var(--unit-24)}
 .svtodo__list>.svtodo__f:first-child{border-top:0;padding-top:0;margin-top:0}
@@ -999,7 +1002,7 @@ img{display:block}
 [data-screen="done"] #cwSave,[data-screen="match"] #cwSave{display:none}
 
 .s-done,.s-match{background:#f4f5f7;min-height:100vh}
-.donepage{width:840px;margin:0 auto;padding:var(--unit-40,40px) 0 144px}
+.donepage{width:840px;margin:0 auto;padding:var(--unit-40,40px) 0 72px}
 .donecard{background:#fff;border-radius:24px;padding:56px 48px;text-align:center;
   box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
 .doneico{width:56px;height:56px;margin:0 auto;display:grid;place-items:center}
@@ -1012,7 +1015,7 @@ img{display:block}
 .donedesc b{font-weight:700;color:var(--color-text-primary)}
 
 .doneres{margin-top:var(--unit-32);display:flex;align-items:center;gap:var(--unit-12);text-align:left;
-  padding:var(--unit-16);border-radius:14px;background:#f7f8fb;border:1px solid #eceef3}
+  padding:20px;border-radius:14px;background:#f7f8fb;border:1px solid #eceef3}
 .doneres__b{flex:1;min-width:0}
 .doneres b{display:block;font-size:14px;font-weight:700;color:var(--color-text-primary);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1036,12 +1039,10 @@ img{display:block}
 .donesub{margin-top:var(--unit-16);height:36px;padding:0 14px;border-radius:10px;background:transparent;
   font-size:13px;font-weight:600;color:var(--color-text-secondary)}
 .donesub:hover{color:var(--color-brand-500)}
-.donedock{display:none;position:fixed;z-index:160;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);
-  border-top:1px solid var(--color-border-tertiary);box-shadow:0 -8px 24px rgba(18,32,54,.08);backdrop-filter:blur(10px)}
-[data-screen="done"] .donedock{display:block}
-.donedock__in{width:min(840px,calc(100% - 48px));height:88px;margin:0 auto;display:flex;align-items:center;justify-content:flex-end;gap:var(--unit-12)}
-.donedock .jbtn{height:48px;padding:0 24px;font-size:15px}
-.nextbox__act,.donesub{display:none}
+.doneactions{margin-top:var(--unit-24);padding-top:var(--unit-20);border-top:1px solid #eef1f4;
+  display:flex;justify-content:flex-end;gap:var(--unit-12)}
+.doneactions .jbtn{height:48px;padding:0 24px;font-size:15px}
+.donesub{display:none}
 
 /* 맞춤 공고 */
 .matchpage{width:1000px;margin:0 auto;padding:var(--unit-32,32px) 0 96px}
@@ -2408,7 +2409,8 @@ img{display:block}
 
   <!-- 할 일을 맨 위에, 입력창을 연 채로 둔다 -->
   <section class="svtodo" id="svTodo">
-    <div class="svtodo__h"><b id="svTodoT"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg>확인 필요 사항</b></div>
+    <div class="svtodo__h"><b><span id="svTodoT">저장에 필요한 정보</span><em id="svTodoN">2</em></b></div>
+    <p class="svtodo__guide" id="svTodoGuide">아래 이메일과 휴대폰 번호를 입력해 주세요.</p>
     <div class="svtodo__list" id="svTodoList"></div>
   </section>
 
@@ -2502,24 +2504,22 @@ img{display:block}
       </svg></span>
     <p class="proceyebrow"><b>STEP 4</b><em>저장 완료</em></p>
     <h1>이력서를 저장했어요</h1>
-    <p class="donedesc">AI가 다듬은 내용 <b id="doneN">3</b>개를 반영했어요.
+    <p class="donedesc"><span>AI가 다듬은 내용 <b id="doneN">3</b>개를 반영했어요.</span>
       <span>현재 이력서를 덮어쓰지 않고 새 수정 버전으로 저장해 이전 버전은 그대로 남아 있어요.</span></p>
 
     <div class="doneres">
       <img src="assets-jk/ico-doc.svg" alt="" width="20" height="24">
       <div class="doneres__b">
         <b id="doneTitle">AI Product Owner / Career Agent / Enterprise SaaS</b>
-        <span id="doneMeta">방금 저장 · AI가 다듬은 내용 3개 · 근거 자료 3건</span>
       </div>
       <span class="doneres__st">잡코리아 저장 완료</span>
     </div>
 
-    <button class="donesub" id="doneBack">저장한 내용 다시 보기</button>
+    <div class="doneactions">
+      <button class="jbtn" id="doneBack">저장한 내용 다시 보기</button>
+      <button class="jbtn jbtn--primary" id="doneLater">이력서 목록으로</button>
+    </div>
   </section>
-</div></div>
-<div class="donedock" aria-label="저장 완료 화면 이동"><div class="donedock__in">
-  <button class="jbtn" id="doneBackDock">저장한 내용 다시 보기</button>
-  <button class="jbtn jbtn--primary" id="doneListDock">이력서 목록으로</button>
 </div></div>
 
 <!-- ═══════════ ⑦ 맞춤 공고 ═══════════ -->
@@ -3383,6 +3383,8 @@ function svRender(){
   /* 할 일: 입력창을 처음부터 열어둔다 */
   document.getElementById('svTodo').classList.toggle('is-clear',must.length===0);
   document.getElementById('svTodoT').textContent = must.length ? '저장에 필요한 정보' : '저장할 준비가 됐어요';
+  document.getElementById('svTodoN').textContent = must.length || '✓';
+  document.getElementById('svTodoGuide').textContent = must.length ? '아래 이메일과 휴대폰 번호를 입력해 주세요.' : '입력한 정보를 확인한 뒤 이력서를 저장해 주세요.';
   const chip=(id,cnt,warn)=>{const e=document.getElementById(id);
     e.textContent = cnt ? String(cnt) : '완료';
     e.classList.toggle('is-warn', !!cnt && !!warn);
@@ -3411,7 +3413,7 @@ function svRender(){
   document.getElementById('svFoldOpt').style.display = opt.length?'block':'none';
 
   const b=document.getElementById('svSaveBtn');
-  b.textContent = must.length?`먼저 ${must.length}개를 채워 주세요`:'이력서 저장하기';
+  b.textContent = '이력서 저장하기';
   b.disabled = must.length>0;
   document.getElementById('svSkip').style.display=(must.length===0&&opt.length>0)?'inline':'none';
 }
@@ -3424,8 +3426,10 @@ document.getElementById('svTodoList').addEventListener('input',e=>{
   it.v=input.value.trim() || '입력이 필요해요';
   const left=SV.filter(x=>x.kind==='must'&&x.v==='입력이 필요해요').length;
   const b=document.getElementById('svSaveBtn');
-  b.disabled=left>0; b.textContent=left?`먼저 ${left}개를 채워 주세요`:'이력서 저장하기';
-  document.getElementById('svTodoT').innerHTML=left?'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="M10 5.7v5" stroke-linecap="round"/><circle cx="10" cy="13.9" r=".7" fill="currentColor" stroke="none"/></svg>확인 필요 사항':'저장할 준비가 됐어요';
+  b.disabled=left>0; b.textContent='이력서 저장하기';
+  document.getElementById('svTodoN').textContent=left||'✓';
+  document.getElementById('svTodoT').textContent=left?'저장에 필요한 정보':'저장할 준비가 됐어요';
+  document.getElementById('svTodoGuide').textContent=left?'아래 이메일과 휴대폰 번호를 입력해 주세요.':'입력한 정보를 확인한 뒤 이력서를 저장해 주세요.';
   document.getElementById('svH1').textContent=left?'이메일과 휴대폰 번호만 입력해 주세요':'이력서를 저장할 준비가 됐어요';
   document.getElementById('svHd').textContent=left?'저장을 위해 이메일과 휴대폰 번호가 필요해요. 입력하면 바로 저장할 수 있어요.':'입력한 연락처와 이력서 내용을 새 수정 버전으로 저장해요.';
 });
@@ -3828,8 +3832,7 @@ function mtStart(){
   },1100);
 }
 document.getElementById('doneBack').addEventListener('click',()=>goScreen('save'));
-document.getElementById('doneBackDock').addEventListener('click',()=>goScreen('save'));
-document.getElementById('doneListDock').addEventListener('click',()=>{goScreen('manage'); toast('잡코리아 이력서에 저장했어요.');});
+document.getElementById('doneLater').addEventListener('click',()=>{goScreen('manage'); toast('잡코리아 이력서에 저장했어요.');});
 document.getElementById('mtSrcLink').addEventListener('click',()=>goScreen('save'));
 document.getElementById('mtMore').addEventListener('click',e=>{
   const box=document.getElementById('mtProg'), on=box.classList.toggle('is-open');
