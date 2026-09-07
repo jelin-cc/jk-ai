@@ -1578,6 +1578,8 @@ img{display:block}
   line-height:1;flex:none}
 .rw-side__i .st svg{width:20px;height:20px;display:block}
 .st--must{color:#c2570a}.st--ok{color:#6b7280}.st--opt{color:#8b95a7}.st--ai{color:var(--color-brand-500)}
+.rw-side__i .st--count{width:22px;height:22px;border-radius:50%!important;background:#fff1f2!important;
+  color:#e74757!important;font-size:12px;font-weight:700}
 .st--ai svg{overflow:visible}
 #svNav{margin-bottom:12px}
 </style>
@@ -3704,18 +3706,14 @@ function svBuildLegacy(){
   /* 우측 항목 네비 — 섹션별 검토 상태를 그대로 옮긴다 */
   const nav=document.getElementById('svNav');
   const sections=[...form.querySelectorAll('.rw-sec')];
-  const navCount=k=>k==='must'?svData().filter(x=>x.kind==='must').length:k==='opt'?svData().filter(x=>x.kind==='opt').length:svData().filter(x=>x.kind==='chg').length;
-  nav.innerHTML=`<div class="rw-side__t">이력서 항목</div><div class="svnav__filters">
-    <button type="button" class="svnav__filter svnav__filter--must" data-state="must"><span>꼭 확인</span><em>${navCount('must')}</em></button>
-    <button type="button" class="svnav__filter" data-state="opt"><span>선택 보완</span><em>${navCount('opt')}</em></button>
-    <button type="button" class="svnav__filter svnav__filter--ai" data-state="ai"><span>AI가 다듬음</span><em>${navCount('ai')}</em></button>
-  </div>`;
+  nav.innerHTML=`<div class="rw-side__t">이력서 항목</div>`;
   sections.forEach((sec,i)=>{
     sec.id=`sv-section-${i}`;
     const name=sec.querySelector('h2').textContent.trim();
     const must=sec.querySelector('.rwwrap--must'), ai=sec.querySelector('.rwwrap--ai'),
           opt=sec.querySelector('.rwwrap--opt');
-    const st = must?`<em class="st st--must">${SVSTATE.must}</em>` : (ai?`<em class="st st--ai">${SVSTATE.ai}</em>`
+    const mustCount=sec.querySelectorAll('.rwwrap--must').length;
+    const st = must?`<em class="st st--must st--count">${mustCount}</em>` : (ai?`<em class="st st--ai">${SVSTATE.ai}</em>`
              : (opt?`<em class="st st--opt">${SVSTATE.opt}</em>`:`<em class="st st--ok">${SVSTATE.ok}</em>`));
     nav.insertAdjacentHTML('beforeend',
       `<button type="button" class="rw-side__i on" data-target="sv-section-${i}"><span></span><b>${name}</b>${st}</button>`);
@@ -3726,9 +3724,6 @@ function svBuildLegacy(){
   });
   nav.querySelectorAll('[data-target]').forEach(el=>el.addEventListener('click',()=>{
     document.getElementById(el.dataset.target)?.scrollIntoView({behavior:'smooth',block:'start'});
-  }));
-  nav.querySelectorAll('[data-state]').forEach(el=>el.addEventListener('click',()=>{
-    form.querySelector(`.rwwrap--${el.dataset.state}`)?.scrollIntoView({behavior:'smooth',block:'center'});
   }));
 
   /* 우측 저장 패널 수치는 XDS 적용본과 같은 소스(SV)를 쓴다 */
