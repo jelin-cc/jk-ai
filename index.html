@@ -1565,12 +1565,14 @@ img{display:block}
 .rw-row>.rwwrap.rw-f--lg{flex:0 0 240px}.rw-row>.rwwrap>.rw-f{width:100%;flex:none}
 .rwmark{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:6px;
   font-size:11px;font-weight:700;margin-bottom:6px}
-.rwmark--must{background:#fff1f2;color:#f04452}
+.rwmark--must{background:#f04452;color:#fff}
+.rwmark--must svg{width:12px;height:12px;flex:none}
 .rwmark--opt{background:#f2f4f7;color:var(--color-text-secondary)}
 .rwmark--ai{background:var(--color-brand-500);color:#fff}
 .rwmark--ai .jkm{flex:none}
 /* XDS 미적용 검토 태그는 카드 상단 경계에 붙는 탭 형태를 유지한다. */
 .s-save .sv-legacy .rwmark--ai{border-radius:6px 6px 0 0}
+.s-save .sv-legacy .rwmark--must{border-radius:6px 6px 0 0}
 .rwnote{margin-top:6px;font-size:12px;line-height:18px;color:var(--typography-gray400)}
 .rw-f--must,.rw-ta--must{border-color:#f7b6bc;box-shadow:inset 0 0 0 1px #fdeaec}
 .rw-f--ai,.rw-ta--ai{border-color:#c7d2fb;box-shadow:inset 0 0 0 1px #eef3ff}
@@ -3674,7 +3676,8 @@ function svWrap(node,kind,note){
   const w=document.createElement('div'); w.className='rwwrap rwwrap--'+kind+(size?' '+size:'');
   node.parentNode.insertBefore(w,node);
   const m=document.createElement('span'); m.className='rwmark '+cls;
-  m.innerHTML=kind==='ai' ? `<span class="jkm jkm--static jkm--noface jkm--mono" style="--s:12px"></span><span>${txt}</span>` : txt;
+  m.innerHTML=kind==='ai' ? `<span class="jkm jkm--static jkm--noface jkm--mono" style="--s:12px"></span><span>${txt}</span>`
+    : kind==='must' ? `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M13.381 5.305 2.249 24.587a3.023 3.023 0 0 0 2.619 4.533h22.264a3.023 3.023 0 0 0 2.619-4.537L18.619 5.305a3.022 3.022 0 0 0-5.238 0Z" fill="currentColor"/><path d="M16 12.482v6.3M16 23.55v.01" stroke="#f04452" stroke-width="2.56" stroke-linecap="round"/></svg><span>${txt}</span>` : txt;
   if(kind==='ai' && node.classList.contains('rw-sa')){ w.appendChild(m); jkMark(m.querySelector('.jkm')); }
   w.appendChild(node);
   node.classList.add('rw-f--'+kind);
