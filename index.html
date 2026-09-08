@@ -1911,7 +1911,7 @@ img{display:block}
     <div class="procpanel">
       <div class="procmeter"><b>진행률</b><span class="procpct" id="procPct">0%</span></div>
       <div class="procbar"><span id="procBar"></span></div>
-      <ol class="proclist" id="procList">
+      <ol class="proclist" id="procSteps">
       <li data-n="0"><i>1</i><b class="ty-b4m">연결한 자료 확인</b><em class="ty-c1">대기</em></li>
       <li data-n="1"><i>2</i><b class="ty-b4m">경력·학력·프로젝트 정보 정리</b><em class="ty-c1">대기</em></li>
       <li data-n="2"><i>3</i><b class="ty-b4m">중복 정보와 날짜 차이 확인</b><em class="ty-c1">대기</em></li>
@@ -1938,14 +1938,11 @@ img{display:block}
         <span>브라우저 알림</span><i></i></button>
     </div>
 
-    <div class="procfoot">
-      <button class="jbtn jbtn--primary" id="procBack">이력서 목록으로</button>
-    </div>
   </div></div>
 </div>
 <div class="procdock" aria-label="초안 생성 화면 이동"><div class="procdock__in">
-  <button class="jbtn" id="procList">이력서 목록으로</button>
-  <button class="jbtn jbtn--primary" id="procNext">확인할 내용 보기</button>
+  <button class="jbtn" id="procToList">이력서 목록으로</button>
+  <button class="jbtn jbtn--primary" id="procNext" disabled>확인할 내용 보기</button>
 </div></div>
 
 
@@ -3286,7 +3283,7 @@ render();
 const PROC=['연결한 자료 확인','경력·학력·프로젝트 정보 정리','중복 정보와 날짜 차이 확인','AI 제안에 사용할 이력서 초안 생성'];
 let pIdx=0, pTimer=null, procFail=false, procRetried=false;
 function renderProc(){
-  document.querySelectorAll('#procList li').forEach(li=>{
+  document.querySelectorAll('#procSteps li').forEach(li=>{
     const n=+li.dataset.n, em=li.querySelector('em');
     li.classList.toggle('is-done', n<pIdx);
     li.classList.toggle('is-run',  n===pIdx && !procFail);
@@ -3305,9 +3302,8 @@ function renderProc(){
     : done ? '항목별 제안을 반영하고 직접 수정할 수 있는 화면으로 이동해요.'
            : '여러 자료의 중복을 정리하고, 이력서에 활용할 사실을 확인하고 있어요.';
   $('procCard').classList.toggle('is-done',done);
-  if(done && !procFail){ $('procBar').style.width='100%'; $('procPct').textContent='100%';
-            $('procBack').textContent='확인할 내용 보기'; $('procNext').textContent='확인할 내용 보기'; }
-  else { $('procBack').textContent='이력서 목록으로'; $('procNext').textContent='이력서 목록으로'; }
+  if(done && !procFail){ $('procBar').style.width='100%'; $('procPct').textContent='100%'; }
+  $('procNext').disabled=!(done&&!procFail);
 }
 function startProc(){
   pIdx=0; procFail=false; renderProc(); clearInterval(pTimer);
@@ -3336,9 +3332,8 @@ $('procNoti').addEventListener('click',e=>{
   const b=e.currentTarget, on=b.classList.toggle('is-on');
   b.setAttribute('aria-checked',String(on));
 });
-$('procBack').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
-$('procNext').addEventListener('click',()=>goScreen(pIdx>=PROC.length?'coach':'manage'));
-$('procList').addEventListener('click',()=>goScreen('manage'));
+$('procNext').addEventListener('click',()=>{if(pIdx>=PROC.length&&!procFail)goScreen('coach');});
+$('procToList').addEventListener('click',()=>goScreen('manage'));
 
 /* ── 스텝퍼 상태 ── */
 const SCREEN_STEP={source:1,proc:2,fact:2,coach:3,save:4,done:4,match:4};
