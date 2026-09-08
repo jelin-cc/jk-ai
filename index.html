@@ -1586,7 +1586,7 @@ img{display:block}
 .rw-side__i .st svg{width:20px;height:20px;display:block}
 .st--must{color:#c2570a}.st--ok{color:#6b7280}.st--opt{color:#8b95a7}.st--ai{color:var(--color-brand-500)}
 .rw-side__i .st--count{width:auto!important;min-width:42px;height:24px;border-radius:999px!important;
-  background:#f04452!important;color:#fff!important;display:inline-flex;align-items:center;justify-content:center;
+  background:#fff1f2!important;color:#f04452!important;display:inline-flex;align-items:center;justify-content:center;
   gap:3px;padding:0 7px!important;font-size:12px;font-weight:700}
 .rw-side__i .st--count svg{width:13px;height:13px;flex:none}
 .rw-side__i .st--count span{width:auto;height:auto;display:block;color:inherit}
@@ -3714,7 +3714,7 @@ function svBuildLegacy(){
     const must=sec.querySelector('.rwwrap--must'), ai=sec.querySelector('.rwwrap--ai'),
           opt=sec.querySelector('.rwwrap--opt');
     const mustCount=sec.querySelectorAll('.rwwrap--must').length;
-    const st = must?`<em class="st st--must st--count"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M13.381 5.305 2.249 24.587a3.023 3.023 0 0 0 2.619 4.533h22.264a3.023 3.023 0 0 0 2.619-4.537L18.619 5.305a3.022 3.022 0 0 0-5.238 0Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M16 12.482v6.3M16 23.55v.01" stroke="currentColor" stroke-width="2.56" stroke-linecap="round"/></svg><span>${mustCount}</span></em>` : (ai?`<em class="st st--ai">${SVSTATE.ai}</em>`
+    const st = must?`<em class="st st--must st--count"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M13.381 5.305 2.249 24.587a3.023 3.023 0 0 0 2.619 4.533h22.264a3.023 3.023 0 0 0 2.619-4.537L18.619 5.305a3.022 3.022 0 0 0-5.238 0Z" fill="currentColor"/><path d="M16 12.482v6.3M16 23.55v.01" stroke="#fff1f2" stroke-width="2.56" stroke-linecap="round"/></svg><span>${mustCount}</span></em>` : (ai?`<em class="st st--ai">${SVSTATE.ai}</em>`
              : (opt?`<em class="st st--opt">${SVSTATE.opt}</em>`:`<em class="st st--ok">${SVSTATE.ok}</em>`));
     nav.insertAdjacentHTML('beforeend',
       `<button type="button" class="rw-side__i on" data-target="sv-section-${i}"><span></span><b>${name}</b>${st}</button>`);
