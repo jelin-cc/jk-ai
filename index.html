@@ -305,6 +305,7 @@ img{display:block}
 .r-none,.r-busy{display:none}
 [data-run="none"] .r-none,[data-run="busy"] .r-busy{display:revert}
 [data-run="none"] .badge.r-none,[data-run="busy"] .badge.r-busy{display:inline-flex}
+[data-run="none"] .rbtn.r-none,[data-run="busy"] .rbtn.r-busy{display:inline-flex}
 [data-run="busy"] .item__run{display:block}
 [data-run="none"] .aicard__body.r-none,[data-run="busy"] .aicard__body.r-none{display:block}
 [data-run="none"] .aicard__cta.r-none,[data-run="busy"] .aicard__cta.r-busy{display:inline-flex}
@@ -1778,7 +1779,8 @@ img{display:block}
           <div class="mtinline" id="mtInline"></div>
         </div>
         <div class="item__a">
-          <button class="rbtn rbtn--ai is-view">AI 변경 내역 보기</button>
+          <button class="rbtn rbtn--ai is-view r-none">AI 변경 내역 보기</button>
+          <button class="rbtn rbtn--ai r-busy" type="button" disabled aria-label="AI 작업 진행 중">AI 작업 진행 중</button>
           <button class="rbtn">수정</button>
           <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
