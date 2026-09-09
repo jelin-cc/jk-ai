@@ -153,6 +153,8 @@ img{display:block}
   font-size:12px;font-weight:600;color:var(--btn-text);line-height:30px;text-align:center;transition:background .15s}
 .hbtn--accent{border-color:var(--btn-accent);color:var(--btn-accent)}
 .hbtn:hover{background:#fafbfd}
+.hbtn--ai{width:116px;display:inline-flex;align-items:center;justify-content:center;gap:5px}
+.hbtn--ai .jkm{flex:none}
 
 .strip{margin:0 39px;height:58px;background:var(--strip-bg);border:1px solid var(--strip-line);
   display:flex;align-items:center;padding:0 24px;gap:8px}
@@ -167,6 +169,7 @@ img{display:block}
 
 .banner-img{margin:20px 39px 0;height:100px;overflow:hidden;cursor:pointer}
 .banner-img img{width:100%;height:100px;object-fit:cover}
+[data-screen="manage"] .aicard{display:none}
 
 .listhead{margin:14px 39px 0;height:40px;background:var(--listhead-bg);
   border-top:1px solid var(--listhead-line);position:relative;
@@ -223,24 +226,18 @@ img{display:block}
 .resume-menu .resume-menu__ai:hover{background:#e4edff}.resume-menu .jkm{flex:none}
 .resume-menu__line{height:1px;margin:6px 4px;background:var(--color-border-tertiary)}
 
-/* C안 · 이력서 등록 후 작성 방식을 고르는 화면 */
-.s-register{display:none;min-height:calc(100vh - 180px);background:#f4f5f7;padding:48px 0 88px}
-[data-screen="register"] .s-register{display:block}
-[data-screen="register"] .s-manage,[data-screen="register"] .s-source,[data-screen="register"] .s-proc,
-[data-screen="register"] .s-coach,[data-screen="register"] .s-write,[data-screen="register"] .s-save,
-[data-screen="register"] .s-done,[data-screen="register"] .s-fact,[data-screen="register"] .s-match{display:none}
-.regpage{width:840px;margin:0 auto}.regcrumb{font-size:13px;font-weight:600;color:var(--typography-gray400)}
-.regcard{margin-top:16px;padding:48px;background:#fff;border:1px solid var(--color-border-tertiary);border-radius:20px}
-.regcard h1{font-size:28px;font-weight:700;letter-spacing:-.7px;color:var(--color-text-primary)}
-.regcard>p{margin-top:8px;font-size:15px;color:var(--color-text-secondary)}
-.regchoices{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
-.regchoice{min-height:170px;padding:24px;border:1px solid var(--color-border-tertiary);border-radius:14px;background:#fff;text-align:left;transition:.16s}
-.regchoice:hover{border-color:#a9bef9;box-shadow:0 5px 16px rgba(18,32,54,.07);transform:translateY(-1px)}
-.regchoice__ico{width:42px;height:42px;border-radius:12px;background:#f3f5f8;display:grid;place-items:center}.regchoice__ico img{width:20px;height:24px}
-.regchoice--ai .regchoice__ico{background:var(--ai-tint)}
-.regchoice b{display:block;margin-top:16px;font-size:17px;font-weight:700;color:var(--color-text-primary)}
-.regchoice span:not(.regchoice__ico){display:block;margin-top:6px;font-size:13px;line-height:20px;color:var(--color-text-secondary)}
-.regback{margin-top:24px;height:36px;padding:0 8px;background:transparent;color:var(--color-text-secondary);font-size:13px;font-weight:600}
+/* 이력서 등록 팝업 · 관리 화면의 맥락을 유지한 채 작성 방식만 고른다. */
+.regpop{position:fixed;z-index:270;width:480px;padding:20px;border:1px solid var(--color-border-tertiary);border-radius:14px;background:#fff;
+  box-shadow:0 12px 28px rgba(18,32,54,.18);animation:pop .16s ease}
+.regpop__h{font-size:16px;font-weight:700;color:var(--color-text-primary)}
+.regpop__sub{margin-top:4px;font-size:12.5px;color:var(--color-text-secondary)}
+.regpop__choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.regpop__choice{min-height:124px;padding:16px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:#fff;text-align:left;transition:.16s}
+.regpop__choice:hover{border-color:#a9bef9;background:#fafcff}.regpop__choice:focus-visible{outline:2px solid rgba(27,85,246,.36);outline-offset:2px}
+.regpop__ico{width:32px;height:32px;border-radius:9px;background:#f3f5f8;display:grid;place-items:center}.regpop__ico img{width:16px;height:19px}
+.regpop__choice--ai .regpop__ico{background:var(--ai-tint)}.regpop__ico .jkm{flex:none}
+.regpop__choice b{display:block;margin-top:10px;font-size:14px;font-weight:700;color:var(--color-text-primary)}
+.regpop__choice span:not(.regpop__ico){display:block;margin-top:3px;font-size:11.5px;line-height:17px;color:var(--color-text-secondary)}
 /* ··· = JAMS ButtonIcononly (44×40) */
 .rbtn--dots{width:44px;padding:0;color:var(--color-text-secondary)}
 .rbtn--dots:hover{color:var(--color-text-primary)}
@@ -1207,6 +1204,9 @@ img{display:block}
 .rw-head__in>span{font-size:17px;font-weight:800;color:#1c3faa;letter-spacing:-.02em}
 .rw-head__nav{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--color-text-secondary)}
 .rw-head__nav i{width:1px;height:11px;background:#d8dce2;display:block}
+.rw-ai-start{height:32px;padding:0 11px;border:1px solid var(--ai-border);border-radius:8px;background:#fff;color:var(--color-brand-500);
+  font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
+.rw-ai-start:hover{background:#f5f8ff}.rw-ai-start .jkm{flex:none}
 
 .rw-page{background:#eceff3;padding:28px 0 90px}
 .rw-wrap{width:1256px;margin:0 auto;display:flex;gap:20px;align-items:flex-start}
@@ -1640,7 +1640,6 @@ img{display:block}
   <span class="bar__label">SCREEN</span>
   <div class="tabs" id="screenTabs">
     <button class="is-on" data-screen="manage">① 이력서 관리</button>
-    <button data-screen="register">①-1 신규 등록</button>
     <button data-screen="source">② 자료 연결</button>
     <button data-screen="proc">③ 초안 생성</button>
     <button data-screen="fact">③-1 사실 확인</button>
@@ -1749,7 +1748,7 @@ img{display:block}
       <div class="tooltip">쉽고 빠른 이력서 등록을 원한다면?
         <img class="tooltip__tail" src="assets-jk/ico-tip.svg" alt="" width="14" height="9"></div>
       <div class="head__btns">
-        <button class="hbtn hbtn--accent">파일로 추가</button>
+        <button class="hbtn hbtn--accent hbtn--ai" id="aiHeaderEntry"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI 이력서 작성</button>
         <button class="hbtn" id="resumeRegister">이력서 등록</button>
       </div>
     </div>
@@ -1880,28 +1879,6 @@ img{display:block}
   </main>
 </div>
 </div>
-
-<!-- 신규 이력서 등록 · A/B/C 공통 분기 -->
-<section class="s-register"><div class="regpage">
-  <p class="regcrumb">이력서 관리 / 신규 이력서 등록</p>
-  <div class="regcard">
-    <h1>어떻게 이력서를 작성할까요?</h1>
-    <p>원하는 작성 방식을 선택할 수 있어요.</p>
-    <div class="regchoices">
-      <button class="regchoice" id="regDirect">
-        <span class="regchoice__ico"><img src="assets-jk/ico-doc.svg" alt="" width="20" height="24"></span>
-        <b>직접 작성</b>
-        <span>빈 이력서부터 필요한 내용을 직접 입력해요.</span>
-      </button>
-      <button class="regchoice regchoice--ai" id="regAI">
-        <span class="regchoice__ico"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:24px" data-mark></span></span>
-        <b>AI 이력서 작성</b>
-        <span>기존 이력서와 경력 자료를 연결해 초안을 만들어요.</span>
-      </button>
-    </div>
-    <button class="regback" id="regBack">이력서 관리로 돌아가기</button>
-  </div>
-</div></section>
 
 <!-- ═══════════ AgentSubheader · 자료 연결 / 초안 생성 공통 ═══════════ -->
 <div class="agentbar"><div class="agentbar__in">
@@ -2088,7 +2065,7 @@ img{display:block}
 <!-- ═══════════ ⑤ 이력서 작성 ═══════════ -->
 <div class="rw-head"><div class="rw-head__in">
   <span>JOBKOREA</span>
-  <div class="rw-head__nav"><a href="#">개인회원 홈</a><i></i><a href="#">이력서 관리</a></div>
+  <div class="rw-head__nav"><button class="rw-ai-start" id="rwAiEntry"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI로 보완하기</button><i></i><a href="#">개인회원 홈</a><i></i><a href="#">이력서 관리</a></div>
 </div></div>
 
 <div class="s-write"><div class="rw-page"><div class="rw-wrap">
@@ -3244,18 +3221,15 @@ function openResumeMenu(trigger){
   closeResumeMenu();
   const r=trigger.getBoundingClientRect(), menu=document.createElement('div');
   menu.className='resume-menu'; menu.setAttribute('role','menu');
-  menu.innerHTML=`<button class="resume-menu__ai" data-ai-entry data-resume="${trigger.dataset.resumeMenu}" role="menuitem"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:16px"></span>이 이력서로 시작</button>
-    <div class="resume-menu__line" role="separator"></div>
-    <button role="menuitem">복사</button><button role="menuitem">인쇄</button><button role="menuitem">MS워드 보기</button><button role="menuitem">PDF 보기</button><button role="menuitem">삭제</button>`;
+  menu.innerHTML=`<button role="menuitem">복사</button><button role="menuitem">인쇄</button><button role="menuitem">MS워드 보기</button><button role="menuitem">PDF 보기</button><button role="menuitem">삭제</button>`;
   menu.style.top=`${Math.min(r.bottom+6,window.innerHeight-268)}px`;
   menu.style.left=`${Math.max(12,Math.min(r.right-232,window.innerWidth-244))}px`;
-  document.body.append(menu); jkMark(menu.querySelector('.jkm'));
+  document.body.append(menu);
   resumeMenu=menu; resumeMenuTrigger=trigger; trigger.setAttribute('aria-expanded','true');
 }
 document.addEventListener('click',e=>{
   const trigger=e.target.closest('[data-resume-menu]');
   if(trigger){ e.preventDefault(); resumeMenuTrigger===trigger?closeResumeMenu():openResumeMenu(trigger); return; }
-  if(e.target.closest('.resume-menu [data-ai-entry]')){ closeResumeMenu(); return; }
   if(e.target.closest('.resume-menu')){ closeResumeMenu(); return; }
   closeResumeMenu();
 });
@@ -3263,10 +3237,27 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape') closeResumeMenu();}
 aiEntry.addEventListener('keydown',e=>{
   if(e.key==='Enter'||e.key===' '){e.preventDefault();aiEntry.click();}
 });
-document.getElementById('resumeRegister').addEventListener('click',()=>goScreen('register'));
-document.getElementById('regBack').addEventListener('click',()=>goScreen('manage'));
-document.getElementById('regDirect').addEventListener('click',()=>goScreen('write'));
-document.getElementById('regAI').addEventListener('click',()=>openModal());
+document.getElementById('aiHeaderEntry').addEventListener('click',()=>{document.body.dataset.run==='busy'?openBusy():openModal();});
+document.getElementById('rwAiEntry').addEventListener('click',()=>{document.body.dataset.run==='busy'?openBusy():openModal('1년차의 AI 프로덕트 경험을 갖춘 인재입니다.');});
+let regPop=null;
+function closeRegPop(){regPop?.remove();regPop=null;document.getElementById('resumeRegister').setAttribute('aria-expanded','false');}
+function openRegPop(){
+  closeRegPop();
+  const t=document.getElementById('resumeRegister'),r=t.getBoundingClientRect(),p=document.createElement('div');
+  p.className='regpop';p.setAttribute('role','dialog');p.setAttribute('aria-label','신규 이력서 등록 방식 선택');
+  p.innerHTML=`<b class="regpop__h">신규 이력서 등록</b><p class="regpop__sub">작성 방식을 선택해 주세요.</p><div class="regpop__choices">
+    <button class="regpop__choice" data-reg-action="direct"><span class="regpop__ico"><img src="assets-jk/ico-doc.svg" alt=""></span><b>직접 작성</b><span>빈 이력서부터 직접 입력해요.</span></button>
+    <button class="regpop__choice regpop__choice--ai" data-reg-action="ai"><span class="regpop__ico"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:18px"></span></span><b>AI 이력서 작성</b><span>경력 자료를 연결해 초안을 만들어요.</span></button>
+  </div>`;
+  p.style.top=`${r.bottom+8}px`;p.style.left=`${Math.max(12,Math.min(r.right-480,window.innerWidth-492))}px`;
+  document.body.append(p);jkMark(p.querySelector('.jkm'));regPop=p;t.setAttribute('aria-expanded','true');
+}
+document.getElementById('resumeRegister').addEventListener('click',e=>{e.stopPropagation();regPop?closeRegPop():openRegPop();});
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-reg-action]');
+  if(a){closeRegPop();a.dataset.regAction==='ai'?(document.body.dataset.run==='busy'?openBusy():openModal()):goScreen('write');return;}
+  if(!e.target.closest('.regpop')) closeRegPop();
+});
 document.getElementById('consentX').addEventListener('click',closeModal);
 document.getElementById('consentNo').addEventListener('click',()=>{closeModal();goScreen('write');});
 modal.addEventListener('click',e=>{if(e.target===modal) closeModal();});
