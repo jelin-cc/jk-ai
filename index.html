@@ -1016,6 +1016,11 @@ img{display:block}
   box-shadow:0 2px 10px rgba(18,32,54,.05),0 14px 36px rgba(18,32,54,.05)}
 .doneico{width:56px;height:56px;margin:0 auto;display:grid;place-items:center}
 .doneico svg{width:56px;height:56px;filter:drop-shadow(0 8px 20px rgba(27,85,246,.3))}
+.donecard.is-enter .doneico svg{opacity:0;transform:scale(.55)}
+.donecard.is-enter .doneico path{stroke-dasharray:44;stroke-dashoffset:44}
+.donecard.is-enter.is-animate .doneico svg{opacity:1;transform:scale(1);transition:opacity .32s ease,transform .5s cubic-bezier(.34,1.5,.55,1)}
+.donecard.is-enter.is-animate .doneico path{stroke-dashoffset:0;transition:stroke-dashoffset .45s ease .15s}
+@media (prefers-reduced-motion:reduce){.donecard.is-enter .doneico svg{opacity:1;transform:none}.donecard.is-enter .doneico path{stroke-dashoffset:0}}
 .donecard .proceyebrow{margin-top:var(--unit-16);justify-content:center}
 .donecard h1{margin-top:var(--unit-10);font-size:26px;font-weight:700;letter-spacing:-.8px;
   color:var(--color-text-primary)}
@@ -3143,6 +3148,13 @@ function goScreen(s){
   /* 코치 화면을 한 번이라도 열면, 이후 검토·저장은 실제 반영 결과만 보여준다 */
   if(s==='coach') cwTouched=true;
   if(s==='save' && typeof svRender==='function'){ svRender(); if(typeof svBuildLegacy==='function') svBuildLegacy(); }
+  if(s==='done'){
+    const card=document.querySelector('.donecard');
+    card.classList.remove('is-enter','is-animate');
+    void card.offsetWidth;
+    card.classList.add('is-enter');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.add('is-animate')));
+  }
 }
 document.querySelectorAll('#dsTabs button').forEach(b=>{
   b.disabled=document.body.dataset.screen!=='save';
