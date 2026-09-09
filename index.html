@@ -213,13 +213,15 @@ img{display:block}
 /* 조회형(…보기)은 실행이 아니므로 마크를 빼고 톤을 한 단 낮춘다 */
 .rbtn--ai.is-view{background:#fff;color:var(--color-text-primary)}
 .rbtn--ai.is-view .jkm{display:none}
-/* L2 맥락형 진입점: 행의 주 행동을 빼앗지 않고, 선택한 이력서를 기준 자료로 시작한다. */
-.ai-context{height:28px;padding:0 7px;border:0;border-radius:6px;background:transparent;color:var(--color-brand-500);
-  font-size:12.5px;font-weight:700;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;transition:background .15s}
-.ai-context:hover{background:#eef3ff}.ai-context:focus-visible{outline:2px solid rgba(27,85,246,.36);outline-offset:2px}
-.ai-context .jkm{flex:none}
-[data-run="busy"] .ai-context{color:var(--typography-gray400)}
-[data-run="busy"] .ai-context:hover{background:#f3f5f8}
+/* L2 맥락형 진입점: 제목 길이와 무관하게 더보기 메뉴 안에서 해당 이력서를 기준 자료로 시작한다. */
+.resume-menu{position:fixed;z-index:260;width:232px;padding:8px;border:1px solid #cfd6e3;background:#fff;
+  box-shadow:0 10px 24px rgba(18,32,54,.18);border-radius:0;animation:pop .15s ease}
+.resume-menu button{width:100%;height:40px;padding:0 12px;border-radius:6px;background:transparent;text-align:left;
+  color:var(--color-text-primary);font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px}
+.resume-menu button:hover{background:#f5f7fb}.resume-menu button:focus-visible{outline:2px solid rgba(27,85,246,.36);outline-offset:-2px}
+.resume-menu .resume-menu__ai{height:44px;background:var(--ai-tint);color:var(--ai-dark);font-weight:700}
+.resume-menu .resume-menu__ai:hover{background:#e4edff}.resume-menu .jkm{flex:none}
+.resume-menu__line{height:1px;margin:6px 4px;background:var(--color-border-tertiary)}
 /* ··· = JAMS ButtonIcononly (44×40) */
 .rbtn--dots{width:44px;padding:0;color:var(--color-text-secondary)}
 .rbtn--dots:hover{color:var(--color-text-primary)}
@@ -1773,13 +1775,12 @@ img{display:block}
             <p class="item__t">
               <span class="badge">기본이력서</span>
               <span class="item__name item__name--link">다양한 경험을 토대로 회사에 핵심 인력이 되겠습니다. -185654</span>
-              <button class="ai-context has-lv" data-ai-entry data-resume="다양한 경험을 토대로 회사에 핵심 인력이 되겠습니다. -185654"><span class="lv lv--2">L2</span><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px"></span>이 이력서로 시작</button>
             </p>
             <p class="item__date">2026.05.21</p>
           </div>
           <div class="item__a">
             <button class="rbtn">수정</button>
-            <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
+            <button class="rbtn rbtn--dots" data-resume-menu="다양한 경험을 토대로 회사에 핵심 인력이 되겠습니다. -185654" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
           </div>
         </div>
         <div class="promo">
@@ -1807,7 +1808,7 @@ img{display:block}
           <button class="rbtn rbtn--ai is-view r-none">AI 변경 내역 보기</button>
           <button class="rbtn rbtn--ai r-busy" type="button" disabled aria-label="AI 작업 진행 중">AI 작업 진행 중</button>
           <button class="rbtn">수정</button>
-          <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
+          <button class="rbtn rbtn--dots" data-resume-menu="AI Product Owner / Career Agent / LLM / Enterprise SaaS" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
       </div></article>
       <div class="line"></div>
@@ -1817,37 +1818,36 @@ img{display:block}
       <article class="item"><div class="item__row">
         <div class="item__b">
           <p class="item__t"><span class="badge badge--warn">미완성</span>
-            <span class="item__name">이력서가 아직 완성되지 않았습니다.</span>
-            <button class="ai-context has-lv" data-ai-entry data-resume="이력서가 아직 완성되지 않았습니다."><span class="lv lv--2">L2</span><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px"></span>이 이력서로 시작</button></p>
+            <span class="item__name">이력서가 아직 완성되지 않았습니다.</span></p>
           <p class="item__date">2023.04.24 등록중</p>
         </div>
         <div class="item__a">
           <button class="rbtn">완성하기</button>
-          <button class="rbtn">삭제</button>
+          <button class="rbtn rbtn--dots" data-resume-menu="이력서가 아직 완성되지 않았습니다." aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
       </div></article>
       <div class="line"></div>
 
       <article class="item"><div class="item__row">
         <div class="item__b">
-          <p class="item__t"><span class="item__name">함께 일하고 싶은 동료 길동입니다.</span><button class="ai-context has-lv" data-ai-entry data-resume="함께 일하고 싶은 동료 길동입니다."><span class="lv lv--2">L2</span><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px"></span>이 이력서로 시작</button></p>
+          <p class="item__t"><span class="item__name">함께 일하고 싶은 동료 길동입니다.</span></p>
           <p class="item__date">2026.05.06</p>
         </div>
         <div class="item__a">
           <button class="rbtn">수정</button>
-          <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
+          <button class="rbtn rbtn--dots" data-resume-menu="함께 일하고 싶은 동료 길동입니다." aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
       </div></article>
       <div class="line"></div>
 
       <article class="item"><div class="item__row">
         <div class="item__b">
-          <p class="item__t"><span class="item__name">회사의 발전을 이끌어갈 복리후생 분야의 전문가입니다.</span><button class="ai-context has-lv" data-ai-entry data-resume="회사의 발전을 이끌어갈 복리후생 분야의 전문가입니다."><span class="lv lv--2">L2</span><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px"></span>이 이력서로 시작</button></p>
+          <p class="item__t"><span class="item__name">회사의 발전을 이끌어갈 복리후생 분야의 전문가입니다.</span></p>
           <p class="item__date">2026.05.06</p>
         </div>
         <div class="item__a">
           <button class="rbtn">수정</button>
-          <button class="rbtn rbtn--dots" aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
+          <button class="rbtn rbtn--dots" data-resume-menu="회사의 발전을 이끌어갈 복리후생 분야의 전문가입니다." aria-label="더보기"><svg class="rbtn__dots" viewBox="0 0 16 4" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg></button>
         </div>
       </div></article>
       <div class="line"></div>
@@ -2711,10 +2711,6 @@ function syncRunLabels(){
     b.setAttribute('aria-disabled',String(busy));
     b.title = busy ? '진행 중인 AI 작업이 끝나면 시작할 수 있어요' : '';
   });
-  document.querySelectorAll('.ai-context').forEach(b=>{
-    b.setAttribute('aria-disabled',String(busy));
-    b.title=busy ? '진행 중인 AI 작업이 끝나면 시작할 수 있어요' : '이 이력서를 기준 자료로 AI 이력서 작성을 시작해요';
-  });
 }
 new MutationObserver(syncRunLabels)
   .observe(document.body,{attributes:true,attributeFilter:['data-run']});
@@ -3196,6 +3192,32 @@ document.addEventListener('click',e=>{
   e.preventDefault();
   document.body.dataset.run==='busy'?openBusy():openModal(b.dataset.resume||'');
 });
+/* 더보기 메뉴 안의 L2 진입점. 제목 길이에 영향을 주지 않으며, 메뉴 밖을 누르면 닫힌다. */
+let resumeMenu=null, resumeMenuTrigger=null;
+function closeResumeMenu(){
+  resumeMenu?.remove(); resumeMenu=null;
+  resumeMenuTrigger?.setAttribute('aria-expanded','false'); resumeMenuTrigger=null;
+}
+function openResumeMenu(trigger){
+  closeResumeMenu();
+  const r=trigger.getBoundingClientRect(), menu=document.createElement('div');
+  menu.className='resume-menu'; menu.setAttribute('role','menu');
+  menu.innerHTML=`<button class="resume-menu__ai" data-ai-entry data-resume="${trigger.dataset.resumeMenu}" role="menuitem"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:16px"></span>이 이력서로 시작</button>
+    <div class="resume-menu__line" role="separator"></div>
+    <button role="menuitem">복사</button><button role="menuitem">인쇄</button><button role="menuitem">MS워드 보기</button><button role="menuitem">PDF 보기</button><button role="menuitem">삭제</button>`;
+  menu.style.top=`${Math.min(r.bottom+6,window.innerHeight-268)}px`;
+  menu.style.left=`${Math.max(12,Math.min(r.right-232,window.innerWidth-244))}px`;
+  document.body.append(menu); jkMark(menu.querySelector('.jkm'));
+  resumeMenu=menu; resumeMenuTrigger=trigger; trigger.setAttribute('aria-expanded','true');
+}
+document.addEventListener('click',e=>{
+  const trigger=e.target.closest('[data-resume-menu]');
+  if(trigger){ e.preventDefault(); resumeMenuTrigger===trigger?closeResumeMenu():openResumeMenu(trigger); return; }
+  if(e.target.closest('.resume-menu [data-ai-entry]')){ closeResumeMenu(); return; }
+  if(e.target.closest('.resume-menu')){ closeResumeMenu(); return; }
+  closeResumeMenu();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeResumeMenu();});
 aiEntry.addEventListener('keydown',e=>{
   if(e.key==='Enter'||e.key===' '){e.preventDefault();aiEntry.click();}
 });
@@ -3705,7 +3727,7 @@ const SVSTATE={
   ai:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="8.1"/><path d="m6.4 10 2.35 2.35 4.9-5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
 /* AI 실행 버튼에는 뱃지·헤더와 같은 마크를 쓴다 */
-document.querySelectorAll('.rbtn--ai:not(.is-view),.ai-context').forEach(b=>{
+document.querySelectorAll('.rbtn--ai:not(.is-view)').forEach(b=>{
   const existing=b.querySelector('.jkm');
   if(existing){ jkMark(existing); return; }
   const m=document.createElement('span');
