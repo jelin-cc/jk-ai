@@ -968,9 +968,10 @@ img{display:block}
 .svdock__note{min-width:0;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
 .svdock__act{flex:none;display:flex;align-items:center;gap:var(--unit-12)}
 .svdock .jbtn--primary{height:48px;padding:0 26px;font-size:15px}
-.svdock .jbtn--primary.is-loading{min-width:146px;gap:8px}
-.svsave-spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.42);border-top-color:#fff;border-radius:50%;
-  animation:svsaveSpin .7s linear infinite}
+.svdock .jbtn--primary.is-loading{min-width:146px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.svdock .jbtn--primary.is-loading:disabled{opacity:1;cursor:wait}
+.svsave-spin{display:block;flex:none;width:16px;height:16px;overflow:visible;animation:svsaveSpin .7s linear infinite}
+.svsave-spin circle{stroke-linecap:round}
 @keyframes svsaveSpin{to{transform:rotate(360deg)}}
 .svdock__sub{height:34px;padding:0 4px;background:transparent;font-size:12.5px;font-weight:600;
   color:var(--color-text-secondary);transition:color .15s}
@@ -3568,7 +3569,7 @@ function svStartSaving(){
   svSaving=true;
   const b=document.getElementById('svSaveBtn');
   b.disabled=true; b.classList.add('is-loading');
-  b.innerHTML='<span class="svsave-spin" aria-hidden="true"></span>저장하는 중';
+  b.innerHTML='<svg class="svsave-spin" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="34 17"></circle></svg>저장하는 중';
   setTimeout(()=>svDoSave(),3000);
 }
 function svTrySave(){
