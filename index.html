@@ -3569,7 +3569,7 @@ function svStartSaving(){
   const b=document.getElementById('svSaveBtn');
   b.disabled=true; b.classList.add('is-loading');
   b.innerHTML='<span class="svsave-spin" aria-hidden="true"></span>저장하는 중';
-  setTimeout(()=>svDoSave(),650);
+  setTimeout(()=>svDoSave(),3000);
 }
 function svTrySave(){
   if(cwCase==='conflict' && !svRetried){ svConflict(true); return; }
