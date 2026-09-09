@@ -3230,10 +3230,12 @@ function openResumeMenu(trigger){
   closeResumeMenu();
   const r=trigger.getBoundingClientRect(), menu=document.createElement('div');
   menu.className='resume-menu'; menu.setAttribute('role','menu');
-  menu.innerHTML=`<button role="menuitem">복사</button><button role="menuitem">인쇄</button><button role="menuitem">MS워드 보기</button><button role="menuitem">PDF 보기</button><button role="menuitem">삭제</button>`;
-  menu.style.top=`${Math.min(r.bottom+6,window.innerHeight-268)}px`;
+  menu.innerHTML=`<button class="resume-menu__ai" role="menuitem" data-ai-entry><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:15px" data-mark></span>이 이력서로 작성하기</button><div class="resume-menu__line"></div><button role="menuitem">복사</button><button role="menuitem">인쇄</button><button role="menuitem">MS워드 보기</button><button role="menuitem">PDF 보기</button><button role="menuitem">삭제</button>`;
+  menu.querySelector('[data-ai-entry]').dataset.resume=trigger.dataset.resumeMenu;
+  menu.style.top=`${Math.min(r.bottom+6,window.innerHeight-280)}px`;
   menu.style.left=`${Math.max(12,Math.min(r.right-232,window.innerWidth-244))}px`;
   document.body.append(menu);
+  jkMark(menu.querySelector('.jkm'));
   resumeMenu=menu; resumeMenuTrigger=trigger; trigger.setAttribute('aria-expanded','true');
 }
 document.addEventListener('click',e=>{
