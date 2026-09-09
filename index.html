@@ -169,7 +169,6 @@ img{display:block}
 
 .banner-img{margin:20px 39px 0;height:100px;overflow:hidden;cursor:pointer}
 .banner-img img{width:100%;height:100px;object-fit:cover}
-[data-screen="manage"] .aicard{display:none}
 
 .listhead{margin:14px 39px 0;height:40px;background:var(--listhead-bg);
   border-top:1px solid var(--listhead-line);position:relative;
@@ -232,11 +231,11 @@ img{display:block}
 .regpop__h{font-size:16px;font-weight:700;color:var(--color-text-primary)}
 .regpop__sub{margin-top:4px;font-size:12.5px;color:var(--color-text-secondary)}
 .regpop__choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.regpop__choice{min-height:124px;padding:16px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:#fff;text-align:left;transition:.16s}
+.regpop__choice{min-height:124px;padding:16px;border:1px solid var(--color-border-tertiary);border-radius:10px;background:#fff;text-align:center;transition:.16s}
 .regpop__choice:hover{border-color:#a9bef9;background:#fafcff}.regpop__choice:focus-visible{outline:2px solid rgba(27,85,246,.36);outline-offset:2px}
-.regpop__ico{width:32px;height:32px;border-radius:9px;background:#f3f5f8;display:grid;place-items:center}.regpop__ico img{width:16px;height:19px}
+.regpop__ico{width:28px;height:28px;margin:0 auto;border-radius:8px;background:#f3f5f8;display:grid;place-items:center}.regpop__ico img{width:14px;height:17px}
 .regpop__choice--ai .regpop__ico{background:var(--ai-tint)}.regpop__ico .jkm{flex:none}
-.regpop__choice b{display:block;margin-top:10px;font-size:14px;font-weight:700;color:var(--color-text-primary)}
+.regpop__choice b{display:block;margin-top:8px;font-size:14px;font-weight:700;color:var(--color-text-primary)}
 .regpop__choice span:not(.regpop__ico){display:block;margin-top:3px;font-size:11.5px;line-height:17px;color:var(--color-text-secondary)}
 /* ··· = JAMS ButtonIcononly (44×40) */
 .rbtn--dots{width:44px;padding:0;color:var(--color-text-secondary)}
@@ -1749,7 +1748,7 @@ img{display:block}
         <img class="tooltip__tail" src="assets-jk/ico-tip.svg" alt="" width="14" height="9"></div>
       <div class="head__btns">
         <button class="hbtn hbtn--accent hbtn--ai" id="aiHeaderEntry"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI 이력서 작성</button>
-        <button class="hbtn" id="resumeRegister">이력서 등록</button>
+        <button class="hbtn" id="resumeRegister" aria-haspopup="dialog" aria-expanded="false">이력서 등록</button>
       </div>
     </div>
 
@@ -3247,7 +3246,7 @@ function openRegPop(){
   p.className='regpop';p.setAttribute('role','dialog');p.setAttribute('aria-label','신규 이력서 등록 방식 선택');
   p.innerHTML=`<b class="regpop__h">신규 이력서 등록</b><p class="regpop__sub">작성 방식을 선택해 주세요.</p><div class="regpop__choices">
     <button class="regpop__choice" data-reg-action="direct"><span class="regpop__ico"><img src="assets-jk/ico-doc.svg" alt=""></span><b>직접 작성</b><span>빈 이력서부터 직접 입력해요.</span></button>
-    <button class="regpop__choice regpop__choice--ai" data-reg-action="ai"><span class="regpop__ico"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:18px"></span></span><b>AI 이력서 작성</b><span>경력 자료를 연결해 초안을 만들어요.</span></button>
+    <button class="regpop__choice regpop__choice--ai" data-reg-action="ai"><span class="regpop__ico"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:15px"></span></span><b>AI 이력서 작성</b><span>경력 자료를 연결해 초안을 만들어요.</span></button>
   </div>`;
   p.style.top=`${r.bottom+8}px`;p.style.left=`${Math.max(12,Math.min(r.right-480,window.innerWidth-492))}px`;
   document.body.append(p);jkMark(p.querySelector('.jkm'));regPop=p;t.setAttribute('aria-expanded','true');
