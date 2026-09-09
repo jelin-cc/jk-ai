@@ -3678,7 +3678,8 @@ function svWrap(node,kind,note){
   const m=document.createElement('span'); m.className='rwmark '+cls;
   m.innerHTML=kind==='ai' ? `<span class="jkm jkm--static jkm--noface jkm--mono" style="--s:12px"></span><span>${txt}</span>`
     : kind==='must' ? `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M13.381 5.305 2.249 24.587a3.023 3.023 0 0 0 2.619 4.533h22.264a3.023 3.023 0 0 0 2.619-4.537L18.619 5.305a3.022 3.022 0 0 0-5.238 0Z" fill="currentColor"/><path d="M16 12.482v6.3M16 23.55v.01" stroke="#f04452" stroke-width="2.56" stroke-linecap="round"/></svg><span>${txt}</span>` : txt;
-  if(kind==='ai' && node.classList.contains('rw-sa')){ w.appendChild(m); jkMark(m.querySelector('.jkm')); }
+  w.appendChild(m);
+  if(kind==='ai' && node.classList.contains('rw-sa')) jkMark(m.querySelector('.jkm'));
   w.appendChild(node);
   node.classList.add('rw-f--'+kind);
   if(note){const p=document.createElement('p'); p.className='rwnote'; p.textContent=note; w.appendChild(p);}
