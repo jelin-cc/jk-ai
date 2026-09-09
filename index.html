@@ -222,6 +222,25 @@ img{display:block}
 .resume-menu .resume-menu__ai{height:44px;background:var(--ai-tint);color:var(--ai-dark);font-weight:700}
 .resume-menu .resume-menu__ai:hover{background:#e4edff}.resume-menu .jkm{flex:none}
 .resume-menu__line{height:1px;margin:6px 4px;background:var(--color-border-tertiary)}
+
+/* C안 · 이력서 등록 후 작성 방식을 고르는 화면 */
+.s-register{display:none;min-height:calc(100vh - 180px);background:#f4f5f7;padding:48px 0 88px}
+[data-screen="register"] .s-register{display:block}
+[data-screen="register"] .s-manage,[data-screen="register"] .s-source,[data-screen="register"] .s-proc,
+[data-screen="register"] .s-coach,[data-screen="register"] .s-write,[data-screen="register"] .s-save,
+[data-screen="register"] .s-done,[data-screen="register"] .s-fact,[data-screen="register"] .s-match{display:none}
+.regpage{width:840px;margin:0 auto}.regcrumb{font-size:13px;font-weight:600;color:var(--typography-gray400)}
+.regcard{margin-top:16px;padding:48px;background:#fff;border:1px solid var(--color-border-tertiary);border-radius:20px}
+.regcard h1{font-size:28px;font-weight:700;letter-spacing:-.7px;color:var(--color-text-primary)}
+.regcard>p{margin-top:8px;font-size:15px;color:var(--color-text-secondary)}
+.regchoices{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.regchoice{min-height:170px;padding:24px;border:1px solid var(--color-border-tertiary);border-radius:14px;background:#fff;text-align:left;transition:.16s}
+.regchoice:hover{border-color:#a9bef9;box-shadow:0 5px 16px rgba(18,32,54,.07);transform:translateY(-1px)}
+.regchoice__ico{width:42px;height:42px;border-radius:12px;background:#f3f5f8;display:grid;place-items:center}.regchoice__ico img{width:20px;height:24px}
+.regchoice--ai .regchoice__ico{background:var(--ai-tint)}
+.regchoice b{display:block;margin-top:16px;font-size:17px;font-weight:700;color:var(--color-text-primary)}
+.regchoice span:not(.regchoice__ico){display:block;margin-top:6px;font-size:13px;line-height:20px;color:var(--color-text-secondary)}
+.regback{margin-top:24px;height:36px;padding:0 8px;background:transparent;color:var(--color-text-secondary);font-size:13px;font-weight:600}
 /* ··· = JAMS ButtonIcononly (44×40) */
 .rbtn--dots{width:44px;padding:0;color:var(--color-text-secondary)}
 .rbtn--dots:hover{color:var(--color-text-primary)}
@@ -1621,6 +1640,7 @@ img{display:block}
   <span class="bar__label">SCREEN</span>
   <div class="tabs" id="screenTabs">
     <button class="is-on" data-screen="manage">① 이력서 관리</button>
+    <button data-screen="register">①-1 신규 등록</button>
     <button data-screen="source">② 자료 연결</button>
     <button data-screen="proc">③ 초안 생성</button>
     <button data-screen="fact">③-1 사실 확인</button>
@@ -1730,7 +1750,7 @@ img{display:block}
         <img class="tooltip__tail" src="assets-jk/ico-tip.svg" alt="" width="14" height="9"></div>
       <div class="head__btns">
         <button class="hbtn hbtn--accent">파일로 추가</button>
-        <button class="hbtn">이력서 등록</button>
+        <button class="hbtn" id="resumeRegister">이력서 등록</button>
       </div>
     </div>
 
@@ -1860,6 +1880,28 @@ img{display:block}
   </main>
 </div>
 </div>
+
+<!-- 신규 이력서 등록 · A/B/C 공통 분기 -->
+<section class="s-register"><div class="regpage">
+  <p class="regcrumb">이력서 관리 / 신규 이력서 등록</p>
+  <div class="regcard">
+    <h1>어떻게 이력서를 작성할까요?</h1>
+    <p>원하는 작성 방식을 선택할 수 있어요.</p>
+    <div class="regchoices">
+      <button class="regchoice" id="regDirect">
+        <span class="regchoice__ico"><img src="assets-jk/ico-doc.svg" alt="" width="20" height="24"></span>
+        <b>직접 작성</b>
+        <span>빈 이력서부터 필요한 내용을 직접 입력해요.</span>
+      </button>
+      <button class="regchoice regchoice--ai" id="regAI">
+        <span class="regchoice__ico"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:24px" data-mark></span></span>
+        <b>AI 이력서 작성</b>
+        <span>기존 이력서와 경력 자료를 연결해 초안을 만들어요.</span>
+      </button>
+    </div>
+    <button class="regback" id="regBack">이력서 관리로 돌아가기</button>
+  </div>
+</div></section>
 
 <!-- ═══════════ AgentSubheader · 자료 연결 / 초안 생성 공통 ═══════════ -->
 <div class="agentbar"><div class="agentbar__in">
@@ -3221,6 +3263,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape') closeResumeMenu();}
 aiEntry.addEventListener('keydown',e=>{
   if(e.key==='Enter'||e.key===' '){e.preventDefault();aiEntry.click();}
 });
+document.getElementById('resumeRegister').addEventListener('click',()=>goScreen('register'));
+document.getElementById('regBack').addEventListener('click',()=>goScreen('manage'));
+document.getElementById('regDirect').addEventListener('click',()=>goScreen('write'));
+document.getElementById('regAI').addEventListener('click',()=>openModal());
 document.getElementById('consentX').addEventListener('click',closeModal);
 document.getElementById('consentNo').addEventListener('click',()=>{closeModal();goScreen('write');});
 modal.addEventListener('click',e=>{if(e.target===modal) closeModal();});
