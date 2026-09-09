@@ -1639,6 +1639,12 @@ img{display:block}
 <body data-screen="manage" data-lv="off" data-run="none" data-ds="on" data-entry="a">
 
 <div class="bar">
+  <span class="bar__label">진입점</span>
+  <div class="tabs" id="entryTabs">
+    <button data-entry="a" class="is-on">A · 배너 + 파일 추가</button>
+    <button data-entry="b">B · 기존 배너 + AI 작성</button>
+  </div>
+  <span class="bar__sep"></span>
   <span class="bar__label">SCREEN</span>
   <div class="tabs" id="screenTabs">
     <button class="is-on" data-screen="manage">① 이력서 관리</button>
@@ -1649,7 +1655,6 @@ img{display:block}
     <button data-screen="save">⑤ 저장 전 확인</button>
     <button data-screen="done">⑥ 저장 완료</button>
   </div>
-  <span class="bar__sep"></span>
   <span class="bar__label">XDS</span>
   <div class="tabs" id="dsTabs">
     <button data-ds="on" class="is-on">적용</button>
@@ -1661,13 +1666,6 @@ img{display:block}
     <button data-lv="off" class="is-on">숨김</button>
     <button data-lv="on">레벨 표시</button>
   </div>
-  <span class="bar__sep"></span>
-  <span class="bar__label">진입점</span>
-  <div class="tabs" id="entryTabs">
-    <button data-entry="a" class="is-on">A · 배너 + 파일 추가</button>
-    <button data-entry="b">B · 기존 배너 + AI 작성</button>
-  </div>
-  <span class="bar__sep"></span>
   <span class="bar__label">AI 작업</span>
   <div class="tabs" id="runTabs">
     <button data-run="none" class="is-on">없음</button>
