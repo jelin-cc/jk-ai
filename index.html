@@ -167,8 +167,11 @@ img{display:block}
 .strip__more{display:flex;align-items:center;gap:2px;flex:none;font-size:13px;color:#6a6a6a}
 .strip__more img{width:24px;height:24px;transform:rotate(180deg)}
 
-.banner-img{margin:20px 39px 0;height:100px;overflow:hidden;cursor:pointer}
+.banner-img{display:none;margin:20px 39px 0;height:100px;overflow:hidden;cursor:pointer}
 .banner-img img{width:100%;height:100px;object-fit:cover}
+[data-entry="b"] .banner-img{display:block}
+[data-entry="b"] .aicard,[data-entry="b"] .lvnote{display:none}
+[data-entry="a"] #aiHeaderEntry,[data-entry="b"] #fileAdd{display:none}
 
 .listhead{margin:14px 39px 0;height:40px;background:var(--listhead-bg);
   border-top:1px solid var(--listhead-line);position:relative;
@@ -1633,7 +1636,7 @@ img{display:block}
 #svNav{margin-bottom:12px}
 </style>
 </head>
-<body data-screen="manage" data-lv="off" data-run="none" data-ds="on">
+<body data-screen="manage" data-lv="off" data-run="none" data-ds="on" data-entry="a">
 
 <div class="bar">
   <span class="bar__label">SCREEN</span>
@@ -1657,6 +1660,12 @@ img{display:block}
   <div class="tabs" id="lvTabs">
     <button data-lv="off" class="is-on">숨김</button>
     <button data-lv="on">레벨 표시</button>
+  </div>
+  <span class="bar__sep"></span>
+  <span class="bar__label">진입점</span>
+  <div class="tabs" id="entryTabs">
+    <button data-entry="a" class="is-on">A · 배너 + 파일 추가</button>
+    <button data-entry="b">B · 기존 배너 + AI 작성</button>
   </div>
   <span class="bar__sep"></span>
   <span class="bar__label">AI 작업</span>
@@ -1747,6 +1756,7 @@ img{display:block}
       <div class="tooltip">쉽고 빠른 이력서 등록을 원한다면?
         <img class="tooltip__tail" src="assets-jk/ico-tip.svg" alt="" width="14" height="9"></div>
       <div class="head__btns">
+        <button class="hbtn hbtn--accent" id="fileAdd">파일로 추가</button>
         <button class="hbtn hbtn--accent hbtn--ai" id="aiHeaderEntry"><span class="jkm jkm--static jkm--noface jkm--mono" style="--s:13px" data-mark></span>AI 이력서 작성</button>
         <button class="hbtn" id="resumeRegister" aria-haspopup="dialog" aria-expanded="false">이력서 등록</button>
       </div>
@@ -1760,6 +1770,8 @@ img{display:block}
       <span class="strip__more"><span>상세보기</span>
         <img src="assets-jk/ico-chevron.svg" alt="" width="24" height="24"></span>
     </div>
+
+    <div class="banner-img" id="healthBanner"><img src="assets-jk/banner_health.png" alt="내 모든 경력을 한 번에 모아보고 싶다면? 경력 불러오기"></div>
 
     <!-- L2 Subtle · 진입점. 진행 중에도 같은 시작 카드에서 제약 안내를 연다 -->
     <section class="aicard has-lv" role="button" tabindex="0" id="aiEntry">
@@ -2718,7 +2730,7 @@ function bind(id,attr){
     w.querySelectorAll('button').forEach(x=>x.classList.toggle('is-on',x===b));
   });
 }
-bind('screenTabs','screen'); bind('lvTabs','lv'); bind('runTabs','run'); bind('dsTabs','ds');
+bind('screenTabs','screen'); bind('lvTabs','lv'); bind('runTabs','run'); bind('dsTabs','ds'); bind('entryTabs','entry');
 
 /* AI 작업은 한 번에 한 건. 진행 중에는 라벨로도 이유를 밝힌다 */
 function syncRunLabels(){
@@ -3236,8 +3248,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape') closeResumeMenu();}
 aiEntry.addEventListener('keydown',e=>{
   if(e.key==='Enter'||e.key===' '){e.preventDefault();aiEntry.click();}
 });
-document.getElementById('aiHeaderEntry').addEventListener('click',()=>{document.body.dataset.run==='busy'?openBusy():openModal();});
 document.getElementById('rwAiEntry').addEventListener('click',()=>{document.body.dataset.run==='busy'?openBusy():openModal('1년차의 AI 프로덕트 경험을 갖춘 인재입니다.');});
+document.getElementById('aiHeaderEntry').addEventListener('click',()=>{document.body.dataset.run==='busy'?openBusy():openModal();});
 let regPop=null;
 function closeRegPop(){regPop?.remove();regPop=null;document.getElementById('resumeRegister').setAttribute('aria-expanded','false');}
 function openRegPop(){
