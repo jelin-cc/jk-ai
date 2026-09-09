@@ -906,7 +906,7 @@ img{display:block}
 /* ══════════ 저장 전 확인 · 리포트가 아니라 할 일 폼 ══════════ */
 .svtodo{margin-top:var(--unit-20);background:#fff;border-radius:20px;padding:var(--unit-24);
   border:1px solid #f7c9ce;box-shadow:0 2px 10px rgba(18,32,54,.05)}
-.svtodo.is-clear{border-color:var(--color-border-tertiary)}
+.svtodo.is-clear{border-color:#cdebdd}
 .svtodo__h{display:flex;align-items:center}
 .svtodo__h b{height:36px;padding:0 8px 0 11px;border-radius:8px;background:#fff3e6;color:#c2570a;font-size:13px;
   font-weight:700;letter-spacing:-.2px;display:inline-flex;align-items:center;gap:6px}
@@ -968,6 +968,10 @@ img{display:block}
 .svdock__note{min-width:0;font-size:12.5px;line-height:18px;color:var(--typography-gray400)}
 .svdock__act{flex:none;display:flex;align-items:center;gap:var(--unit-12)}
 .svdock .jbtn--primary{height:48px;padding:0 26px;font-size:15px}
+.svdock .jbtn--primary.is-loading{min-width:146px;gap:8px}
+.svsave-spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.42);border-top-color:#fff;border-radius:50%;
+  animation:svsaveSpin .7s linear infinite}
+@keyframes svsaveSpin{to{transform:rotate(360deg)}}
 .svdock__sub{height:34px;padding:0 4px;background:transparent;font-size:12.5px;font-weight:600;
   color:var(--color-text-secondary);transition:color .15s}
 .svdock__sub:hover{color:var(--color-brand-500)}
@@ -3385,6 +3389,18 @@ const svBadge={must:['svbadge--must','꼭 확인'],chg:['svbadge--ai','AI가 다
                opt:['svbadge--opt','선택 보완'],all:['svbadge--opt','확인 완료']};
 function svChgOn(){ return cwTouched ? cwApplied.slice() : CW_SUG.map(x=>x.field); }
 function svData(){ const on=svChgOn(); return SV.filter(x=>x.kind!=='chg'||on.includes(x.k)); }
+function svValid(x,value=x.v){
+  const v=String(value||'').trim();
+  if(x.k==='email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  if(x.k==='phone') return /^010\d{8}$/.test(v.replace(/\D/g,''));
+  return v!==''&&v!=='입력이 필요해요';
+}
+function svFormatPhone(value){
+  const n=String(value||'').replace(/\D/g,'').slice(0,11);
+  if(n.length<=3) return n;
+  if(n.length<=7) return `${n.slice(0,3)}-${n.slice(3)}`;
+  return `${n.slice(0,3)}-${n.slice(3,7)}-${n.slice(7)}`;
+}
 function svField(x){
   const [cls,txt]=svBadge[x.kind];
   const diff=x.before?`<div class="svdiff"><div class="b4"><span>현재</span>${x.before}</div>
@@ -3397,7 +3413,7 @@ function svField(x){
 }
 function svRender(){
   const D=svData();
-  const required=D.filter(x=>x.kind==='must'), must=required.filter(x=>x.v==='입력이 필요해요'), opt=D.filter(x=>x.kind==='opt'), chg=D.filter(x=>x.kind==='chg');
+  const required=D.filter(x=>x.kind==='must'), must=required.filter(x=>!svValid(x)), opt=D.filter(x=>x.kind==='opt'), chg=D.filter(x=>x.kind==='chg');
 
   /* 할 일: 입력창을 처음부터 열어둔다 */
   document.getElementById('svTodo').classList.toggle('is-clear',must.length===0);
@@ -3410,7 +3426,7 @@ function svRender(){
     e.classList.toggle('is-done', !cnt);};
   document.getElementById('svTodoList').innerHTML = required.map(x=>`<div class="svtodo__f" data-k="${x.k}">
         <label>${x.label}<b>*</b></label>
-        <div class="svinput"><input value="${x.v==='입력이 필요해요'?'':x.v}" placeholder="${x.ph||'입력해 주세요'}"></div>
+        <div class="svinput"><input value="${x.v==='입력이 필요해요'?'':x.v}" placeholder="${x.ph||'입력해 주세요'}" ${x.k==='email'?'type="email" autocomplete="email"':'type="tel" inputmode="numeric" maxlength="13" pattern="010-[0-9]{4}-[0-9]{4}" autocomplete="tel-national"'}></div>
         ${x.note?`<p>${x.note}</p>`:''}
       </div>`).join('') + (must.length===0?`<p class="svtodo__ok">입력한 정보와 AI가 다듬은 내용 <b>${chg.length}개</b>를 함께 저장해요.</p>`:'');
 
@@ -3442,11 +3458,16 @@ document.querySelectorAll('.svfold__h').forEach(h=>h.addEventListener('click',()
 function svSyncInputs(){
   document.querySelectorAll('#svTodoList .svtodo__f').forEach(f=>{
     const it=SV.find(x=>x.k===f.dataset.k), input=f.querySelector('input');
-    if(it&&input) it.v=input.value.trim() || '입력이 필요해요';
+    if(it&&input){
+      if(it.k==='phone') input.value=svFormatPhone(input.value);
+      it.v=input.value.trim() || '입력이 필요해요';
+      input.setAttribute('aria-invalid',String(!svValid(it)));
+    }
   });
-  const left=SV.filter(x=>x.kind==='must'&&x.v==='입력이 필요해요').length;
+  const left=SV.filter(x=>x.kind==='must'&&!svValid(x)).length;
   const b=document.getElementById('svSaveBtn');
   b.disabled=left>0; b.textContent='이력서 저장하기';
+  document.getElementById('svTodo').classList.toggle('is-clear',left===0);
   document.getElementById('svTodoN').textContent=left||'✓';
   document.getElementById('svTodoT').textContent=left?'저장에 필요한 정보':'저장할 준비가 됐어요';
   document.getElementById('svTodoGuide').textContent=left?'아래 이메일과 휴대폰 번호를 입력해 주세요.':'입력한 정보를 확인한 뒤 이력서를 저장해 주세요.';
@@ -3541,6 +3562,15 @@ document.addEventListener('click',e=>{
     svDoSave();
   }
 });
+let svSaving=false;
+function svStartSaving(){
+  if(svSaving) return;
+  svSaving=true;
+  const b=document.getElementById('svSaveBtn');
+  b.disabled=true; b.classList.add('is-loading');
+  b.innerHTML='<span class="svsave-spin" aria-hidden="true"></span>저장하는 중';
+  setTimeout(()=>svDoSave(),650);
+}
 function svTrySave(){
   if(cwCase==='conflict' && !svRetried){ svConflict(true); return; }
   if(cwCase==='saveerr' && !svRetried){
@@ -3549,7 +3579,7 @@ function svTrySave(){
     document.querySelector('.sverr')?.scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
-  svErr(false); svDoSave();
+  svErr(false); svStartSaving();
 }
 document.getElementById('svSaveBtn').addEventListener('click',svTrySave);
 document.getElementById('svLgSave').addEventListener('click',svTrySave);
